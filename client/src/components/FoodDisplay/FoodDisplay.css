@@ -1,0 +1,25 @@
+.food-list {
+    height: 100%;
+    width: 100%;
+    /* left: 50%;
+    right: 50%; */
+    /* margin-left: -50vw;
+    margin-right: -50vw; */
+    margin-top: 10px;
+    text-align: center;
+    font-size: 18px;
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* position: relative; */
+    /* background-color: rgb(80, 114, 126); */
+    /* color: white; */
+    border-style: solid;
+  }
+
+
+
+  @media screen and (max-width: 1400px) {
+    .cal-display {
+        height: auto;
+    }
+  }
