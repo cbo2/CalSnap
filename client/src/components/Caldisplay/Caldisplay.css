@@ -1,0 +1,37 @@
+.cal-display {
+    height: 100px;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    /* margin-left: -50vw;
+    margin-right: -50vw; */
+    margin-top: 100px;
+    text-align: center;
+    font-size: 30px;
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* position: relative; */
+    /* background-color: rgb(80, 114, 126); */
+    /* color: white; */
+    border-style: solid;
+  }
+
+  .cal-goal {
+    color: rgb(30, 74, 194);  
+  }
+
+  .cal-actual {
+    color: rgb(2, 102, 2); 
+  }
+
+  .cal-remaining {
+     color: rgb(165, 0, 0); 
+  }
+
+  @media screen and (max-width: 1400px) {
+    .cal-display {
+        height: auto;
+    }
+  }
+
+  
