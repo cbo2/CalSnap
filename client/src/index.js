@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
+import Auth from "./Auth"
 import * as serviceWorker from './serviceWorker';
+
+const auth = new Auth();
 
 let state = {}
 
@@ -14,7 +17,8 @@ window.setState = (changes) => {
 }
 
 let initialState = {
-     name: "Joshua"
+     name: "Jane",
+     auth
 }
 
 window.setState(initialState);
