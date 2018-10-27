@@ -139,7 +139,7 @@ class VideoModal extends React.Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Touch the image to Snap!</ModalHeader>
           <ModalBody>
-            <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert" playsInline autoPlay />
+            <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
             <img ref={image => { this.image = image }} alt="food pic" />
             <canvas ref={canvas => { this.canvas = canvas }} />
             {/* {this.start} */}
