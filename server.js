@@ -12,23 +12,23 @@ let PORT = process.env.PORT || 3001;
 let app = express();
 
 // Configure middleware
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // axios used as a request
 app.set('axios', axios);
 
 // Use body-parser for handling form submissions
-app.use(bodyParser.urlencoded({ extended: true }));
+// TODO - remove later --> app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+
 
 // Use express.static to serve the public folder as a static directory
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
-// Add routes, both API and view
-app.use(routes);
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/caloriecount"
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/calsnap"
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI);
 

@@ -3,8 +3,8 @@ const foodController = require("../../controllers/foodController");
 
 // Matches with "/api/food"
 router.route("/")
-  .get(foodController.findAll)
-  .post(foodController.create);
+  .post(foodController.identifyFood)
+  // .get(foodController.create);  // we only have a post request to food/watson
 
 // TODO - add a route for /hitwatson
 
