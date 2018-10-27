@@ -9,7 +9,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'calsnap.auth0.com',
     clientID: 'r36PlDF49Kwba8YSed3olsgg2iOgGcdT',
-    redirectUri: 'https://calcountplus.herokuapp.com/callback' || 'http://localhost:3000/callback',
+    redirectUri: 'http://localhost:3000/callback' || 'https://calcountplus.herokuapp.com/callback',
     audience: 'https://calsnap.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid profile'
