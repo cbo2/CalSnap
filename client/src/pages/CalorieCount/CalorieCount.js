@@ -2,27 +2,31 @@ import React, { Component } from "react";
 // import SomeComponent from "../../components/SomeComponent";
 // import API from "../../utils/API";
 import './CalorieCount.css';
+<<<<<<< HEAD
+import {
+    Jumbotron,
+    Modal,
+    Button,
+    Form
+} from "reactstrap";
+import Header from "../../components/Header";
+=======
 // import {Jumbotron, Form } from "reactstrap";
 // import Header from "../../components/Header";
+>>>>>>> f7aaba6e015517a91cb816f0c497a4254bee5070
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
 import FoodDisplay from "../../components/FoodDisplay";
 import SnapFoodBtn from "../../components/SnapFoodButton";
-
-// const jumbotronStyle = {
-//     // background: '#00c2ff',
-//     backgroundImage: `url("/images/newspaper.jpg")`,
-//     color: 'black',
-//     marginLeft: "20%", marginRight: "20%"
-// };
-
+import VideoModal from "../../components/VideoModal";
 
 class CalorieCount extends Component {
     state = {
         dailyGoal: 2200,
         actual: 500,
-        remaining: 0
+        remaining: 0,
+        isVideoModalOpen: false
     };
 
     componentDidMount() {
@@ -30,15 +34,24 @@ class CalorieCount extends Component {
         this.setState({ remaining: this.state.dailyGoal - this.state.actual })
     }
 
+    toggleModal = () => {
+        console.log(`modal state is: ${this.state.isVideoModalOpen}`)
+        this.setState({
+            isVideoModalOpen: !this.state.isVideoModalOpen
+        });
+        console.log(`modal state is: ${this.state.isVideoModalOpen}`)
+    }
+
     snapFood = event => {
         // event.preventDefault();
         console.log("click is working")
+        this.toggleModal()
     }
 
     // handle the form search button to kick off the search to the NYT
     handleSearchSubmit = event => {
         event.preventDefault();
-        
+
         // API.hitapi({
         // })
         //     .then(res => {
@@ -66,39 +79,36 @@ class CalorieCount extends Component {
                         actual={this.state.actual}
                         remaining={this.state.remaining}
                     />
-                    <SnapFoodBtn onClick={() => this.snapFood()}/>
-                    <FoodDisplay> 
-                    {/* will map through DB results when built       */}
-                    {/* {this.state.foodItems.map(food-item => (
+                    {/* <SnapFoodBtn onClick={() => this.snapFood()} /> */}
+                    <VideoModal isOpen={this.state.isVideoModalOpen}
+                        onClose={this.toggleModal} buttonLabel="Snap Food!">
+                        Here's some content for the modal
+                    </VideoModal>
+                    <FoodDisplay>
+                        {/* will map through DB results when built       */}
+                        {/* {this.state.foodItems.map(food-item => (
                                 
                                 ))} */}
                     </FoodDisplay>
                 </Container>
+
+
+
+                {/* <div className="modal fade" id="startSurveyModal" tabIndex={-1} role="dialog" aria-labelledby="startSurveyModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-body">
+                                <div className="wrapper">
+                                    <video id="video-stream" className="videoInsert" playsInline autoPlay />
+                                    <img id="snap" />
+                                </div>
+                                <canvas id="canvas-stream" />
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
             </Wrapper>
-            // <div>
-            //     <div className="mainDiv">
-            //         Hello World
-            //         <div className="modal fade" id="startSurveyModal" tabIndex="-1" role="dialog" aria-labelledby="startSurveyModalLabel" aria-hidden="true">
-            //             <div className="modal-dialog modal-dialog-centered" role="document">
-            //                 <div className="modal-content">
-            //                     <div className="modal-header">
-            //                         <h5 className="modal-title modal-text-color" id="startSurveyModalLabel">Tap the picture of your food item!</h5>
-            //                     </div>
-            //                     <div className="modal-body">
-            //                         <form>
-            //                             <br></br>
-            //                             <h6 className="modal-text-color">Tap the video stream to snap your picture!</h6>
-            //                             <div>
-            //                                 {/* <video id="screenshot-video" className="videostream img-fluid" autoPlay="true" preload="auto" muted="true" playsInline="true"></video> */}
-            //                                 <img id="screenshot-img" source=""></img>
-            //                             </div>
-            //                         </form>
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div>
+
         );
 
     }
