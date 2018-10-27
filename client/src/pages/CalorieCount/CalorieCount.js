@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 // import SomeComponent from "../../components/SomeComponent";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 import './CalorieCount.css';
+<<<<<<< HEAD
 import {
     Jumbotron,
     Modal,
@@ -9,6 +10,10 @@ import {
     Form
 } from "reactstrap";
 import Header from "../../components/Header";
+=======
+// import {Jumbotron, Form } from "reactstrap";
+// import Header from "../../components/Header";
+>>>>>>> f7aaba6e015517a91cb816f0c497a4254bee5070
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -64,11 +69,10 @@ class CalorieCount extends Component {
         });
     };
 
-    render() {
+    render(props) {
         return (
-            <Wrapper>
-
-                <Header></Header>
+            <Wrapper {...props}>
+                <div>Welcome to using Auth0, {this.props.name}</div>
                 <Container>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
