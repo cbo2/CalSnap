@@ -16,8 +16,12 @@ window.setState = (changes) => {
     ReactDOM.render(<App {...state} />, document.getElementById('root'));
 }
 
+let username = auth.getProfile().given_name || "Jane Doe";
+let profileImage = auth.getProfile().picture || "";
+
 let initialState = {
-     name: "Jane",
+     name: username,
+     profileImage,
      auth
 }
 

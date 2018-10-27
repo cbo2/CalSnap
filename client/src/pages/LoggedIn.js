@@ -7,6 +7,7 @@ class LoggedIn extends Component {
         return (
             <Jumbotron {...props}>
                 <div>
+                    <img src={this.props.profileImage} alt={this.props.name}></img>
                     This is the super secret area!  Welcome, {this.props.name}!
                 </div>
             </Jumbotron>

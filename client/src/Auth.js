@@ -1,5 +1,6 @@
 /* eslint no-restricted-globals: 0 */
 import auth0 from 'auth0-js';
+import jwtDecode from 'jwt-decode';
 
 const LOGIN_SUCCESS_PAGE = "/LoggedIn"
 const LOGIN_FAILURE_PAGE = "/"
@@ -11,7 +12,7 @@ export default class Auth {
     redirectUri: 'http://localhost:3000/callback',
     audience: 'https://calsnap.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor() {
@@ -24,6 +25,7 @@ export default class Auth {
 
   handleAuthentication() {
     this.auth0.parseHash((err, authResults) => {
+      console.log(authResults);
       if (authResults && authResults.accessToken && authResults.idToken) {
         let expiresAt = JSON.stringify((authResults.expiresIn) * 1000 + new Date().getTime());
         localStorage.setItem("access_token", authResults.accessToken);
@@ -48,5 +50,13 @@ export default class Auth {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
     location.pathname = LOGIN_FAILURE_PAGE;
+  }
+
+  getProfile() {
+    if (localStorage.getItem("id_token")) {
+      return jwtDecode(localStorage.getItem("id_token"));
+    } else {
+      return {};
+    }
   }
 }
