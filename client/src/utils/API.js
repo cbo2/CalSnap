@@ -2,20 +2,20 @@ import axios from "axios";
 
 export default {
   // Gets all Articles
-  getSavedArticles: function () {
-    return axios.get("/api/articles");
+  getSavedFood: function () {
+    return axios.get("/api/food");
   },
   // Gets the article with the given id
-  getArticle: function (id) {
-    return axios.get("/api/articles/" + id);
+  getFood: function (id) {
+    return axios.get("/api/food/" + id);
   },
   // Deletes the article with the given id
-  deleteArticle: function (id) {
-    return axios.delete("/api/articles/" + id);
+  deleteFood: function (id) {
+    return axios.delete("/api/food/" + id);
   },
   // Saves a article to the database
-  saveArticle: function (articleData) {
-    return axios.post("/api/articles", articleData);
+  saveFood: function (food) {
+    return axios.post("/api/food", food);
   },
   callImageRecognition: (image) => {
     return axios.post("/api/food", { image: image })
