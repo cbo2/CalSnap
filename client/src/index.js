@@ -16,7 +16,7 @@ window.setState = (changes) => {
     ReactDOM.render(<App {...state} />, document.getElementById('root'));
 }
 
-let username = auth.getProfile().given_name || "Jane Doe";
+let username = auth.getProfile().given_name || auth.getProfile().name || "Jane Doe";
 let profileImage = auth.getProfile().picture || "";
 
 let initialState = {
