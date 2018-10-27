@@ -76,7 +76,7 @@ class CalorieCount extends Component {
                     />
                     {/* <SnapFoodBtn onClick={() => this.snapFood()} /> */}
                     <VideoModal isOpen={this.state.isVideoModalOpen}
-                        onClose={this.toggleModal} buttonLabel="Snap Food!">
+                        onClose={this.toggleModal} buttonLabel="Snap Food!!">
                         Here's some content for the modal
                     </VideoModal>
                     <FoodDisplay>
