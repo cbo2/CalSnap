@@ -13,6 +13,8 @@ let app = express();
 
 // Configure middleware
 // app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(express.json());
 
 // axios used as a request
@@ -20,7 +22,6 @@ app.set('axios', axios);
 
 // Use body-parser for handling form submissions
 // TODO - remove later --> app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 
 
 // Use express.static to serve the public folder as a static directory
