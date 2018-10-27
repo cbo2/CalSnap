@@ -1,3 +1,3 @@
 module.exports = {
-    // Article: require("./Article")
+    Calsnap: require("./Calsnap")
 };
