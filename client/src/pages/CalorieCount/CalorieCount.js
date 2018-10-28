@@ -14,6 +14,8 @@ import Container from "../../components/Container";
 import FoodDisplay from "../../components/FoodDisplay";
 import SnapFoodBtn from "../../components/SnapFoodButton";
 import VideoModal from "../../components/VideoModal";
+import BarcodeModal from "../../components/BarcodeModal";
+import TextInputModal from "../../components/TextInputModal";
 
 class CalorieCount extends Component {
     state = {
@@ -74,10 +76,18 @@ class CalorieCount extends Component {
                         remaining={this.state.remaining}
                     />
                     {/* <SnapFoodBtn onClick={() => this.snapFood()} /> */}
+                    <div class="row">
                     <VideoModal isOpen={this.state.isVideoModalOpen}
                         onClose={this.toggleModal} buttonLabel="Snap Food!!">
                         Here's some content for the modal
                     </VideoModal>
+                    <BarcodeModal>
+                        Here's some content for the modal
+                    </BarcodeModal>
+                    <TextInputModal>
+                        Here's some content for the modal
+                    </TextInputModal>
+                    </div>
                     <FoodDisplay>
                         {/* will map through DB results when built       */}
                         {/* {this.state.foodItems.map(food-item => (
@@ -86,21 +96,6 @@ class CalorieCount extends Component {
                     </FoodDisplay>
                 </Container>
 
-
-
-                {/* <div className="modal fade" id="startSurveyModal" tabIndex={-1} role="dialog" aria-labelledby="startSurveyModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered" role="document">
-                        <div className="modal-content">
-                            <div className="modal-body">
-                                <div className="wrapper">
-                                    <video id="video-stream" className="videoInsert" playsInline autoPlay />
-                                    <img id="snap" />
-                                </div>
-                                <canvas id="canvas-stream" />
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
             </Wrapper>
 
         );
