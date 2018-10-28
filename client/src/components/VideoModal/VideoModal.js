@@ -103,7 +103,7 @@ class VideoModal extends React.Component {
     this.image.setAttribute('src', snap);
     this.image.classList.add("visible");
     console.log(`going to hit the watson backend route now.....`)
-    console.log(`about to send image.src of: ${this.image.src}`)
+    // console.log(`about to send image.src of: ${this.image.src}`)
     API.callImageRecognition(this.image.src).then(response => {
       console.log(`the response back from the image recognition is: ${JSON.stringify(response.data)}`)
     })
