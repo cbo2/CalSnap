@@ -47,22 +47,22 @@ module.exports = {
 
     // TODO - begin - refactor later to separate function
     let imageString = req.body.image
-    console.log(`===> the image is: ${imageString}`)
+    // console.log(`===> the image is: ${imageString}`)
 
     let matches = imageString.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
     let resource = {};
-    // if (matches.length !== 3) {
-    //   return null;
-    // }
+    if (matches.length !== 3) {
+      res.send({ data: "ERROR: Bad Image" });
+      return null;
+    }
     resource.type = matches[1] === 'jpeg' ? 'jpg' : matches[1];
     resource.data = new Buffer(matches[2], 'base64');
     // TODO - end - refactor later to separate function
 
-    console.log("=======> os tempdir is: " + __dirname + "/pics")
     let temp = path.join(__dirname + "/pics", uuid.v1() + '.' + resource.type);
     console.log("========> temp file is: " + temp)
     fs.writeFileSync(temp, resource.data, { mode: '664' });
-
+    
     params.image_file = fs.createReadStream(temp);
 
     console.log("====> about to call watson!");
@@ -74,6 +74,10 @@ module.exports = {
         const labelsvr = result.images[0].classifiers[0].classes[0].class;
         console.log("===> " + JSON.stringify(labelsvr));
         res.send({ data: labelsvr });
+        // no longer need the image file so remove it!
+        fs.unlink(temp, (err) => {
+          if (err) console.log(`ERROR:  could not remove file: ${temp}`)
+        })
       }
     })
   },

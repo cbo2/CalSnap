@@ -65,6 +65,10 @@ class CalorieCount extends Component {
         });
     };
 
+    handleIRresponse = response  => {
+        alert(`Item identified as: ${JSON.stringify(response)}`)
+    }
+
     render(props) {
         return (
             <Wrapper {...props}>
@@ -78,7 +82,8 @@ class CalorieCount extends Component {
                     {/* <SnapFoodBtn onClick={() => this.snapFood()} /> */}
                     <div class="row">
                     <VideoModal isOpen={this.state.isVideoModalOpen}
-                        onClose={this.toggleModal} buttonLabel="Snap Food!!">
+                        onResponseFromIR={this.handleIRresponse}
+                        onClose={this.toggleModal} buttonLabel="Snap Food!">
                         Here's some content for the modal
                     </VideoModal>
                     <BarcodeModal>
