@@ -1,11 +1,12 @@
 import React from "react";
-import AuthButton from "../AuthButton"
+import AuthButton from "../AuthButton/AuthButton.js"
+import "./Nav.css";
 
 const Nav = (props) => (
-      <nav className="navbar navbar-expand-lg navbar-light bg-primary">
+      <div className="navbar navbar-expand-lg">
         <a className="navbar-brand" href="/">CalSnap</a>
         <AuthButton {...props}/>
-      </nav>
+      </div>
 )
 
 export default Nav;

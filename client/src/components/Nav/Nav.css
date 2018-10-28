@@ -1,0 +1,22 @@
+.navbar{
+    height: 80px;
+    z-index: 100;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background: rgb(78, 114, 126);
+    position: fixed;
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 30px;
+}
+
+@media screen and (max-width: 1400px) {
+    .scoreboard {
+        height: 100px;
+    }
+  }

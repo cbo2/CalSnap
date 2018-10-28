@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./AuthButton.css";
 
 class AuthButton extends Component {
     render() {
