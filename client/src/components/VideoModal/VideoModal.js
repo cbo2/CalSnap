@@ -6,6 +6,7 @@ import API from "../../utils/API";
 class VideoModal extends React.Component {
   constructor(props) {
     super(props);
+    this.onResponseFromIR = this.onResponseFromIR.bind(this);
     this.state = {
       modal: false,
       constraints: {
@@ -17,6 +18,10 @@ class VideoModal extends React.Component {
 
     this.initMedia()
     this.toggle = this.toggle.bind(this);
+  }
+
+  onResponseFromIR = response => {
+    this.props.onResponseFromIR(response);
   }
 
   initMedia = () => {
@@ -106,6 +111,7 @@ class VideoModal extends React.Component {
     // console.log(`about to send image.src of: ${this.image.src}`)
     API.callImageRecognition(this.image.src).then(response => {
       console.log(`the response back from the image recognition is: ${JSON.stringify(response.data)}`)
+      this.onResponseFromIR(response.data)
     })
     this.video.pause();
   }
