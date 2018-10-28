@@ -80,7 +80,7 @@ class CalorieCount extends Component {
                         remaining={this.state.remaining}
                     />
                     {/* <SnapFoodBtn onClick={() => this.snapFood()} /> */}
-                    <div class="row">
+                    <div className="row">
                     <VideoModal isOpen={this.state.isVideoModalOpen}
                         onResponseFromIR={this.handleIRresponse}
                         onClose={this.toggleModal} buttonLabel="Snap Food!">
