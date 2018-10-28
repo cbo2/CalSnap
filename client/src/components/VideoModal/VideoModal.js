@@ -102,7 +102,6 @@ class VideoModal extends React.Component {
     // Show image. 
     this.image.setAttribute('src', snap);
     this.image.classList.add("visible");
-
     console.log(`going to hit the watson backend route now.....`)
     console.log(`about to send image.src of: ${this.image.src}`)
     API.callImageRecognition(this.image.src).then(response => {
@@ -136,17 +135,14 @@ class VideoModal extends React.Component {
     return (
       <div>
         <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Touch the image to Snap!</ModalHeader>
           <ModalBody>
             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
-            <img ref={image => { this.image = image }} alt="food pic" />
-            <canvas ref={canvas => { this.canvas = canvas }} />
+            <img ref={image => { this.image = image }} alt="food pic" class="d-none" />
+            <canvas ref={canvas => { this.canvas = canvas }} class="d-none"/>
             {/* {this.start} */}
           </ModalBody>
-          <ModalFooter>
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
         </Modal>
       </div>
     );
