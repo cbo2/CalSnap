@@ -8,7 +8,6 @@ import {
     Button,
     Form
 } from "reactstrap";
-import Header from "../../components/Header";
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";

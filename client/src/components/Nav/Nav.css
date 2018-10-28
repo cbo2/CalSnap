@@ -6,8 +6,9 @@
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
+    margin-bottom: 20px;
     background: rgb(78, 114, 126);
-    position: fixed;
+    /* position: fixed; */
 }
 
 .navbar-brand {
