@@ -18,6 +18,19 @@ class BarcodeModal extends React.Component {
         });
     }
 
+    initMedia = () => {
+        console.log(`********* initMedia *******`)
+    
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+          this.gotDevices(devices)
+          this.setState({ constraints: { video: { deviceId: { exact: this.state.preferredDevice.deviceId } } } })
+          console.log(`*** the preferred deviceid now set to: ${this.state.constraints.video.deviceId.exact}`)
+          return devices;
+        }).then(stream => {
+        }).catch(this.handleError);
+    
+      }
+
     render() {
         return (
             <div>
