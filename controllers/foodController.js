@@ -112,18 +112,19 @@ module.exports = {
       },
       decoder: {
         readers: [
-          "ean_reader",
-          "code_128_reader",
-          "code_39_reader",
-          "ean_8_reader",
-          "upc_a_reader",
-          "upc_c_reader",
-          "I2of5_reader",
-          "2of5_reader",
-          "code_93_reader",
-          "codebar_reader",
-          "code_39_vin_reader"
-        ] // List of active readers
+          // "ean_reader",
+          "code_128_reader"
+          // "code_39_reader",
+          // "ean_8_reader",
+          // "upc_a_reader",
+          // "upc_c_reader",
+          // "I2of5_reader",
+          // "2of5_reader",
+          // "code_93_reader",
+          // "codebar_reader",
+          // "code_39_vin_reader"
+        ], // List of active readers
+        locate: true
       },
     }, function (result) {
       if (result.codeResult) {
