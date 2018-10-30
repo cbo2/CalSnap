@@ -10,6 +10,7 @@ const path = require('path');
 const uuid = require('uuid');
 const fs = require("fs");
 const VisualRecognitionV3 = require("watson-developer-cloud/visual-recognition/v3");
+var Quagga = require('quagga').default;
 // TODO - end
 require("dotenv").config({
   silent: true
@@ -62,7 +63,7 @@ module.exports = {
     let temp = path.join(__dirname + "/pics", uuid.v1() + '.' + resource.type);
     console.log("========> temp file is: " + temp)
     fs.writeFileSync(temp, resource.data, { mode: '664' });
-    
+
     params.image_file = fs.createReadStream(temp);
 
     console.log("====> about to call watson!");
@@ -80,6 +81,63 @@ module.exports = {
         })
       }
     })
+  },
+  scanBarcode: function (req, res) {
+    console.log(`===> hit the /api/food/scanner "scanBarcode" route`);
+    let imageString = req.body.image
+    // console.log(`===> the image is: ${imageString}`)
+
+    let matches = imageString.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
+    let resource = {};
+    if (matches.length !== 3) {
+      res.send({ data: "ERROR: Bad Image" });
+      return null;
+    }
+    resource.type = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+    resource.data = new Buffer(matches[2], 'base64');
+    // TODO - end - refactor later to separate function
+
+    let temp = path.join(__dirname + "/pics", uuid.v1() + '.' + resource.type);
+    console.log("========> temp file is: " + temp)
+    fs.writeFileSync(temp, resource.data, { mode: '664' });
+
+    console.log("====> about to call quagga!");
+
+    Quagga.decodeSingle({
+      // src: "/Users/cbo/FullStack/GroupProject3/CalSnap/controllers/pics/barcode.JPG",
+      src: temp,
+      numOfWorkers: 0,  // Needs to be 0 when used within node
+      inputStream: {
+        size: 800  // restrict input-size to be 800px in width (long-side)
+      },
+      decoder: {
+        readers: [
+          "code_128_reader",
+          "ean_reader",
+          "ean_8_reader",
+          "code_39_reader",
+          "code_39_vin_reader"
+        ] // List of active readers
+      },
+    }, function (result) {
+      if (result.codeResult) {
+        console.log(`=========> quagga result is: ${result.codeResult.code}`)
+        res.send({ data: result.codeResult.code });
+      } else {
+        console.log(`***** ERROR: quagga not detected!  Result is: ${JSON.stringify(result)}`);
+        res.send({ data: "ERROR: quagga not detected!" });
+      }
+      fs.unlink(temp, (err) => {
+        if (err) console.log(`ERROR:  could not remove file: ${temp}`)
+      })
+    })
+    // .catch(err => {
+    //   console.log(`Error communicating with quagga barcode scanner.  Now removing file: ${temp}`)
+    //   fs.unlink(temp, (err) => {
+    //     if (err) console.log(`ERROR:  could not remove file: ${temp}`)
+    //   })
+    // })
+
   },
   findAll: function (req, res) {
     db.Food
