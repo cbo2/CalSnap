@@ -41,7 +41,7 @@ class CalorieCount extends Component {
         API.nutritionixInstantSearch({
             searchItem: this.state.searchItem
         })
-        // API.nutritionixBarcodeSearch({})
+        API.nutritionixBarcodeSearch({})
 
     }
 

@@ -7,14 +7,13 @@ console.log("key test: " + process.env.REACT_APP_NUTRITION_KEY)
 
 const appKey = process.env.REACT_APP_NUTRITION_KEY
 const appID = process.env.REACT_APP_NUTRITION_APP_ID
-const searchItem = "pineapple"
+// const searchItem = "pineapple"
 const searchBarcode ="0038622624472"
 
 module.exports = {
     nutritionixInstantSearch: function (req, res) {
-
         
-        axios.get("https://trackapi.nutritionix.com/v2/search/instant?query=" + searchItem, {
+        axios.get("https://trackapi.nutritionix.com/v2/search/instant?query=" + JSON.stringify(req.body.searchItem), {
             headers: {
                 "x-app-id": appID,
                 "x-app-key": appKey,
