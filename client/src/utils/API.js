@@ -18,11 +18,17 @@ export default {
     return axios.post("/api/food", food);
   },
   callImageRecognition: (image) => {
-    return axios.post("/api/food", { image: image })
+    return axios.post("/api/food/identify", { image: image })
   },
   nutritionixInstantSearch: (searchItem) => {
-    return axios.post("api/food/nutritionix", searchItem)
+    return axios.post("api/food/nutritionix/instant", searchItem)
+  
+  },
+  nutritionixBarcodeSearch: () => {
+    return axios.post("api/food/nutritionix/barcode")
+  
+  },
+  callScanBarcode: (image) => {
+    return axios.post("/api/food/scanBarcode", { image: image })
   }
-
-
 };

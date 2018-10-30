@@ -41,6 +41,8 @@ class CalorieCount extends Component {
         API.nutritionixInstantSearch({
             searchItem: this.state.searchItem
         })
+        // API.nutritionixBarcodeSearch({})
+
     }
 
     toggleModal = () => {
@@ -82,7 +84,9 @@ class CalorieCount extends Component {
         alert(`Item identified as: ${JSON.stringify(response)}`)
     }
 
-
+    handleBarcodeResponse  = response => {
+        alert(`Item identified with barcode: ${JSON.stringify(response)}`)
+    }
 
 
     render(props) {
@@ -102,8 +106,9 @@ class CalorieCount extends Component {
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                             Here's some content for the modal
                     </VideoModal>
-                        <BarcodeModal>
-                            Here's some content for the modal
+                        <BarcodeModal 
+                            onResponseFromBarcode={this.handleBarcodeResponse}
+                            buttonLabel="Scan Barcode!!">
                     </BarcodeModal>
                         <TextInputModal>
                             Here's some content for the modal

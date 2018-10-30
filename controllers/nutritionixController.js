@@ -7,26 +7,29 @@ console.log("key test: " + process.env.REACT_APP_NUTRITION_KEY)
 
 const appKey = process.env.REACT_APP_NUTRITION_KEY
 const appID = process.env.REACT_APP_NUTRITION_APP_ID
+const searchItem = "pineapple"
+const searchBarcode ="0038622624472"
 
 module.exports = {
     nutritionixInstantSearch: function (req, res) {
 
-        // const searchItem = "pineapple"
-        axios.get("https://trackapi.nutritionix.com/v2/search/instant?query=" + res, {
+        
+        axios.get("https://trackapi.nutritionix.com/v2/search/instant?query=" + searchItem, {
             headers: {
                 "x-app-id": appID,
                 "x-app-key": appKey,
             }
 
 
-        }).then(response => { console.log(`got this from nutrionix: ${JSON.stringify(response.data.common[0])}`) })
+        }).then(response => { console.log(`got this from nutritionix: ${JSON.stringify(response.data.common[0])}`) })
 
-            .catch(err => { console.log(`got this error from nutrionix: ${err}`) })
+            .catch(err => { console.log(`got this error from nutritionix: ${err}`) })
 
     },
 
 
     // Nutritionix call for item search
+    // not working yet
     nutritionixNutritionSearch: function (response) {
 
         axios.get("https://trackapi.nutritionix.com/v2/natural/nutrients", {
@@ -40,25 +43,26 @@ module.exports = {
             }
 
 
-        }).then(response => { console.log(`got this from nutrionix: ${JSON.stringify(response.data.common[0])}`) })
+        }).then(response => { console.log(`got this from nutritionix: ${JSON.stringify(response.data.common[0])}`) })
 
-            .catch(err => { console.log(`got this error from nutrionix: ${err}`) })
+            .catch(err => { console.log(`got this error from nutritionix: ${err}`) })
 
     },
 
     // Nutritionix call for barcode scanning
+    // *******Currently getting error TypeError: Converting circular structure to JSON.... need to fix**********
     nutritionixBarcode: function (response) {
 
-        axios.get("https://trackapi.nutritionix.com/v2/search/item?nix_item_id=513fc9e73fe3ffd40300109f", {
+        axios.get("https://trackapi.nutritionix.com/v2/search/item?upc=" + searchBarcode, {
             headers: {
                 "x-app-id": appID,
                 "x-app-key": appKey
             }
 
 
-        }).then(response => { console.log(`got this from nutrionix: ${JSON.stringify(response)}`) })
+        }).then(response => { console.log(`got this from nutritionix: ${JSON.stringify(response)}`) })
 
-            .catch(err => { console.log(`got this error from nutrionix: ${err}`) })
+            .catch(err => { console.log(`got this error from nutritionix: ${err}`) })
 
     }
 
