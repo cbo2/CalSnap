@@ -19,6 +19,9 @@ export default {
   },
   callImageRecognition: (image) => {
     return axios.post("/api/food", { image: image })
+  },
+  nutritionixInstantSearch: (searchItem) => {
+    return axios.post("api/food/nutritionix", searchItem)
   }
 
 
