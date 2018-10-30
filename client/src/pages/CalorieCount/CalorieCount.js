@@ -37,7 +37,7 @@ class CalorieCount extends Component {
         // this.nutritionixNutritionSearch()
         // this.nutritionixInstantSearch()
         // this.nutritionixBarcode()
-    
+
     }
 
     toggleModal = () => {
@@ -79,11 +79,14 @@ class CalorieCount extends Component {
         alert(`Item identified as: ${JSON.stringify(response)}`)
     }
 
+    handleBarcodeResponse  = response => {
+        alert(`Item identified with barcode: ${JSON.stringify(response)}`)
+    }
 
     nutritionixInstantSearch = response => {
         const appKey = process.env.REACT_APP_NUTRITION_KEY
         const appID = process.env.REACT_APP_NUTRITION_APP_ID
-        
+
         axios.get("https://trackapi.nutritionix.com/v2/search/instant?query=" + this.state.searchItem, {
             headers: {
                 "x-app-id": appID,
@@ -94,7 +97,7 @@ class CalorieCount extends Component {
         }).then(response => { console.log(`got this from nutrionix: ${JSON.stringify(response.data.common[0])}`) })
 
             .catch(err => { console.log(`got this error from nutrionix: ${err}`) })
-           
+
     }
 
 
@@ -156,8 +159,9 @@ class CalorieCount extends Component {
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                             Here's some content for the modal
                     </VideoModal>
-                        <BarcodeModal>
-                            Here's some content for the modal
+                        <BarcodeModal 
+                            onResponseFromBarcode={this.handleBarcodeResponse}
+                            buttonLabel="Scan Barcode!!">
                     </BarcodeModal>
                         <TextInputModal>
                             Here's some content for the modal
