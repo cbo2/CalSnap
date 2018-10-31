@@ -35,13 +35,13 @@ class CalorieCount extends Component {
         this.setState({ remaining: this.state.dailyGoal - this.state.actual })
 
         // temporary location to call nutritionix API
-        // this.nutritionixNutritionSearch()
+        // API.nutritionixNutritionSearch({})
         // this.nutritionixInstantSearch()
         // this.nutritionixBarcode()
-        API.nutritionixInstantSearch({
-            searchItem: this.state.searchItem
-        })
-        API.nutritionixBarcodeSearch({})
+        // API.nutritionixInstantSearch({
+        //     searchItem: this.state.searchItem
+        // })
+        // API.nutritionixBarcodeSearch({})
 
     }
 

@@ -11,6 +11,8 @@ const uuid = require('uuid');
 const fs = require("fs");
 const VisualRecognitionV3 = require("watson-developer-cloud/visual-recognition/v3");
 var Quagga = require('quagga').default;
+const nutritionixController = require("./nutritionixController");
+
 // TODO - end
 require("dotenv").config({
   silent: true
@@ -74,7 +76,15 @@ module.exports = {
         console.log("====> " + JSON.stringify(result));
         const labelsvr = result.images[0].classifiers[0].classes[0].class;
         console.log("===> " + JSON.stringify(labelsvr));
-        res.send({ data: labelsvr });
+        if (labelsvr === "non-food") {
+          console.log(`going to respond back to the front end that the item could not be identified`)
+          nutritionixController.nutritionixInstantSearchDirect("banana")
+          res.send( { data: "ERR-100: Could not identify item!" } )
+        } else {
+          console.log(`now going to call nutrionix with the data.....`);
+          nutritionixController.nutritionixInstantSearchDirect(labelsvr)
+          res.send({ data: labelsvr });
+        }
         // no longer need the image file so remove it!
         fs.unlink(temp, (err) => {
           if (err) console.log(`ERROR:  could not remove file: ${temp}`)
