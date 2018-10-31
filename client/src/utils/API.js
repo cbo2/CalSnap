@@ -20,6 +20,14 @@ export default {
   callImageRecognition: (image) => {
     return axios.post("/api/food/identify", { image: image })
   },
+  nutritionixInstantSearch: (searchItem) => {
+    return axios.post("api/food/nutritionix/instant", searchItem)
+  
+  },
+  nutritionixBarcodeSearch: () => {
+    return axios.post("api/food/nutritionix/barcode")
+  
+  },
   callScanBarcode: (image) => {
     return axios.post("/api/food/scanBarcode", { image: image })
   }
