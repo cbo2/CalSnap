@@ -90,8 +90,9 @@ class CalorieCount extends Component {
 
 
     render(props) {
-        return (
-            <Wrapper {...props}>
+        const loggedIn = this.props.auth.isAuthenticated();
+        if (loggedIn) {
+            return (<Wrapper {...props}>
                 <div>Welcome to using Auth0, {this.props.name}</div>
                 <Container>
                     <Caldisplay
@@ -124,8 +125,10 @@ class CalorieCount extends Component {
 
             </Wrapper>
 
-        );
-
+        )
+        } else {
+            return (<div>You need to log in to see how fat you are getting!</div>)
+        }
     }
 
 };
