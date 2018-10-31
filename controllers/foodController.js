@@ -82,7 +82,7 @@ module.exports = {
           res.send( { data: "ERR-100: Could not identify item!" } )
         } else {
           console.log(`now going to call nutrionix with the data.....`);
-          res.send(nutritionixController.nutritionixInstantSearchDirect(labelsvr))
+          res.send( {data: nutritionixController.nutritionixInstantSearchDirect(labelsvr) })
         }
         // no longer need the image file so remove it!
         fs.unlink(temp, (err) => {
