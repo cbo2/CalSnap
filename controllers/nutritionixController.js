@@ -39,7 +39,16 @@ module.exports = {
         })
     },
     nutritionixInstantSearch: function (req, res) {
-        res.send(module.exports.nutritionixInstantSearchDirect(req.body.searchItem));
+        console.log(`** inside nutritionixInstantSearch and will search for: ${JSON.stringify(req.body.searchItem)}`)
+        module.exports.nutritionixInstantSearchDirect(req.body.searchItem)
+        .then(response => {
+            console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
+            res.send( { code: "000", data: response } )
+        })
+        .catch(err => {
+            console.log(`--> got an error back from nutritionix: ${err}`)
+            res.send( { code: "200", data: "Error getting data from nutrionix"} )
+        })
     },
     // Nutritionix call for item search
     // not working yet

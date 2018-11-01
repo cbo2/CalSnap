@@ -23,7 +23,7 @@ export default {
     return axios.post("/api/food/identify", { image: image })
   },
   nutritionixInstantSearch: (searchItem) => {
-    return axios.post("api/food/nutritionix/instant", searchItem) 
+    return axios.post("api/food/nutritionix/instant", { searchItem : searchItem }) 
   },
   nutritionixBarcodeSearch: () => {
     return axios.post("api/food/nutritionix/barcode")

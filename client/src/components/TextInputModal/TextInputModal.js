@@ -1,17 +1,23 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
-
+import API from "../../utils/API";
 
 class TextInputModal extends React.Component {
     constructor(props) {
         super(props);
-        // this.handleSearch = this.handleSearch.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.onResponseFromSearch = this.onResponseFromSearch.bind(this);
         this.state = {
             modal: false,
             searchedFood: ""
         };
 
         this.toggle = this.toggle.bind(this);
+    }
+
+    // when the response comes back from the backend need to hit the callback on our parent component (CalorieCount)
+    onResponseFromSearch = response => {
+        this.props.onResponseFromSearch(response);
     }
 
     toggle() {
@@ -26,6 +32,10 @@ class TextInputModal extends React.Component {
         console.log("this was submitted: " + this.state.searchedFood)
         this.toggle();
         event.preventDefault();
+        API.nutritionixInstantSearch(this.state.searchedFood).then(response => {
+            console.log(`the response back from the search is: ${JSON.stringify(response.data)}`)
+            this.onResponseFromSearch(response.data)
+        })
     }
 
     // handles form input change
@@ -45,7 +55,7 @@ class TextInputModal extends React.Component {
                     <ModalBody>
                         <Form>
                             <FormGroup>
-                                <Input type="textarea" name="text" id="foodText" value={this.state.searchedFood} onChange={e => this.setState({ searchedFood: e.target.value })}/>
+                                <Input type="textarea" name="text" id="foodText" value={this.state.searchedFood} onChange={e => this.setState({ searchedFood: e.target.value })} />
                             </FormGroup>
                             <Button color="primary" onClick={this.handleSearch} className="foodSearch">Search</Button>
                         </Form>

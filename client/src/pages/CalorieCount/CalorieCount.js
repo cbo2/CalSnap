@@ -17,7 +17,7 @@ import SnapFoodBtn from "../../components/SnapFoodButton";
 import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
-import LaunchPage from "../../components/LaunchPage" ;
+import LaunchPage from "../../components/LaunchPage";
 import API from "../../utils/API";
 
 
@@ -98,10 +98,20 @@ class CalorieCount extends Component {
         alert(`Item identified with barcode: ${JSON.stringify(response)}`)
     }
 
+    handleSearchResponse = response => {
+        if (response.code != "000") {
+            alert(`something went wrong with the search.  Try again!`)
+        } else {
+            // destructure the response 
+            // for now, backend is returning the top 5 responses in an array of hits
+            const { item_name, nf_calories } = response.data.hits[0].fields
+            alert(`Item identified as: ${item_name}  ${nf_calories}`)
+        }
+    }
 
     render(props) {
         const loggedIn = this.props.auth.isAuthenticated();
-        
+
         if (loggedIn) {
             return (<Wrapper {...props}>
                 <div>Welcome to CalSnap, {this.props.name}</div>
@@ -117,14 +127,13 @@ class CalorieCount extends Component {
                             onResponseFromIR={this.handleIRresponse}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                             Here's some content for the modal
-                    </VideoModal>
+                        </VideoModal>
                         <BarcodeModal
                             onResponseFromBarcode={this.handleBarcodeResponse}
                             buttonLabel="Scan Barcode!!">
                         </BarcodeModal>
-                        <TextInputModal>
-                            Here's some content for the modal
-                    </TextInputModal>
+                        <TextInputModal onResponseFromSearch={this.handleSearchResponse}>
+                        </TextInputModal>
                     </div>
                     <FoodDisplay>
                         {/* will map through DB results when built       */}
@@ -136,7 +145,7 @@ class CalorieCount extends Component {
 
             </Wrapper>
 
-        )
+            )
         } else {
             return (<LaunchPage></LaunchPage>)
         }
