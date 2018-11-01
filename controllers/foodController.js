@@ -159,7 +159,7 @@ module.exports = {
       if (result.codeResult) {
         console.log(`=========> quagga result is: ${result.codeResult.code}`)
 
-        nutritionixController.nutritionixInstantSearchDirect("result.codeResult.code")
+        nutritionixController.nutritionixBarcodeDirect("result.codeResult.code")
           .then(nutritionresponse => {
             console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
             res.send({ code: "000", data: nutritionresponse })
