@@ -90,7 +90,7 @@ module.exports = {
           // let retval = await nutritionixController.nutritionixInstantSearchDirect("banana")
           // console.log(`====> came back from nutritionix: ${retval}`)
           // res.send({ data: retval })
-          res.send({ data: "ERR-100: Could not identify item!" })
+          res.send({ code: "ERR-100: Could not identify item!" })
           throw new Error('abort promise chain after call to Watson: non-food');
           return null
         } else {
@@ -105,7 +105,7 @@ module.exports = {
         nutritionixController.nutritionixInstantSearchDirect(response)
           .then(nutritionresponse => {
             console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
-            res.send({ data: nutritionresponse })
+            res.send({ code: "000", data: nutritionresponse })
           })
       })
       .catch(error => {
