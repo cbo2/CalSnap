@@ -9,12 +9,12 @@ const LaunchPage = props => (
             <Container>
                 <Row>
                     <Col xs="12">
-                    <h1>Welcome to CalSnap!</h1>
+                    <h1>Welcome to CalSnap</h1>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="12">
-                    <h2>Click login to get started</h2>
+                    <h2>Log in to get started</h2>
                     </Col>     
                 </Row>
             </Container>
