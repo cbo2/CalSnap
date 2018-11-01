@@ -17,6 +17,7 @@ import SnapFoodBtn from "../../components/SnapFoodButton";
 import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
+import LaunchPage from "../../components/LaunchPage" ;
 import API from "../../utils/API";
 
 
@@ -38,10 +39,10 @@ class CalorieCount extends Component {
         // this.nutritionixNutritionSearch()
         // this.nutritionixInstantSearch()
         // this.nutritionixBarcode()
-        API.nutritionixInstantSearch({
-            searchItem: this.state.searchItem
-        })
-        API.nutritionixBarcodeSearch({})
+        // API.nutritionixInstantSearch({
+        //     searchItem: this.state.searchItem
+        // })
+        // API.nutritionixBarcodeSearch({})
 
     }
 
@@ -91,6 +92,7 @@ class CalorieCount extends Component {
 
     render(props) {
         const loggedIn = this.props.auth.isAuthenticated();
+        
         if (loggedIn) {
             return (<Wrapper {...props}>
                 <div>Welcome to using Auth0, {this.props.name}</div>
@@ -127,7 +129,7 @@ class CalorieCount extends Component {
 
         )
         } else {
-            return (<div>You need to log in to see how fat you are getting!</div>)
+            return (<LaunchPage></LaunchPage>)
         }
     }
 

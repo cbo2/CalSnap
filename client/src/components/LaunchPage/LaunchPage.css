@@ -1,0 +1,9 @@
+.jumbotron {
+    background-image: url("https://cdn.pixabay.com/photo/2014/06/11/17/00/cook-366875_1280.jpg");
+    background-size: cover;
+    height: 600px;
+    /* position: absolute; */
+    clip: rect(100px,100px,100px,100px);
+    color: white;
+    text-align: center;
+}
