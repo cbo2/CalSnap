@@ -1,4 +1,6 @@
 import axios from "axios";
+const myKeys = process.env.REACT_APP_MyKey;
+console.log(`**********=====> myKeys = ${myKeys}`)
 
 export default {
   // Gets all Articles
@@ -21,12 +23,13 @@ export default {
     return axios.post("/api/food/identify", { image: image })
   },
   nutritionixInstantSearch: (searchItem) => {
-    return axios.post("api/food/nutritionix/instant", searchItem)
-  
+    return axios.post("api/food/nutritionix/instant", searchItem) 
   },
   nutritionixBarcodeSearch: () => {
     return axios.post("api/food/nutritionix/barcode")
-  
+  },
+  nutritionixNutritionSearch: () => {
+    return axios.post("api/food/nutritionix/nutrition")
   },
   callScanBarcode: (image) => {
     return axios.post("/api/food/scanBarcode", { image: image })
