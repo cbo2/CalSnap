@@ -1,0 +1,12 @@
+.jumbotron {
+    background-image: url("launch-back.jpg");
+    background-size: cover;
+    height: 450px;
+    /* position: absolute; */
+    /* clip: rect(100px,100px,100px,100px); */
+    -ms-background-position-x: center;
+    -ms-background-position-y: top;
+    background-position: center top;
+    color: white;
+    text-align: center;
+}
