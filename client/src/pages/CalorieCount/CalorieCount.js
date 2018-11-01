@@ -83,7 +83,7 @@ class CalorieCount extends Component {
 
     handleIRresponse = response => {
         // TODO - first check for an error ERR-100
-        if (response.data.startsWith("ERR-100")) {
+        if (response.code.startsWith("ERR-100")) {
             alert(`Image is not identifyable!`)
         } else {
             // destructure the response 
