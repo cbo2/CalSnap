@@ -105,11 +105,7 @@ module.exports = {
         nutritionixController.nutritionixInstantSearchDirect(response)
           .then(nutritionresponse => {
             console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
-            res.send({ data: nutritionresponse })
-            // no longer need the image file so remove it!
-            fs.unlink(temp, (err) => {
-              if (err) console.log(`ERROR:  could not remove file: ${temp}`)
-            })
+            res.send({ data: nutritionresponse })          
           })
       })
       .catch(error => {
