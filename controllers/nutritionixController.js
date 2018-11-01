@@ -19,24 +19,24 @@ const searchBarcode = "0038622624472"
 
 
 module.exports = {
-    
-    nutritionixInstantSearchDirect: function(searchTerm) {
-        let returnVal = ""
-        const fields = "?results=0%3A5" + // 5 items in the result
-            "&cal_min=0&cal_max=50000" + // min and max calories
-            "&fields=item_name%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_serving_size_unit"
-        const id = `&appId=${appID}`
-        const key = `&appKey=${appKey}`
-        axios.get(`https://api.nutritionix.com/v1_1/search/${searchTerm}${fields}${id}${key}`
-        ).then(response => { 
-            console.log(`got this from nutritionix: ${JSON.stringify(response.data)}`) 
-            returnVal = response.data
+
+    nutritionixInstantSearchDirect: function (searchTerm) {
+        return new Promise(function (resolve, reject) {
+            const fields = "?results=0%3A5" + // 5 items in the result
+                "&cal_min=0&cal_max=50000" + // min and max calories
+                "&fields=item_name%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_serving_size_unit"
+            const id = `&appId=${appID}`
+            const key = `&appKey=${appKey}`
+            return axios.get(`https://api.nutritionix.com/v1_1/search/${searchTerm}${fields}${id}${key}`
+            ).then(response => {
+                console.log(`got this from nutritionix: ${JSON.stringify(response.data)}`)
+                return resolve(response.data)
+            })
+                .catch(err => {
+                    console.log(`nutritionixInstantSearch:  got this error from nutritionix: ${err}`)
+                    return reject("ERR-200: Bad response from Nutrionix")
+                })
         })
-        .catch(err => { 
-            console.log(`nutritionixInstantSearch:  got this error from nutritionix: ${err}`) 
-            returnVal = "ERR-200: Bad response from Nutrionix"
-        })
-        return returnVal
     },
     nutritionixInstantSearch: function (req, res) {
         res.send(module.exports.nutritionixInstantSearchDirect(req.body.searchItem));

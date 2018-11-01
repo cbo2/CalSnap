@@ -12,6 +12,8 @@ const fs = require("fs");
 const VisualRecognitionV3 = require("watson-developer-cloud/visual-recognition/v3");
 var Quagga = require('quagga').default;
 const nutritionixController = require("./nutritionixController");
+const Promise = require("bluebird");
+
 
 // TODO - end
 require("dotenv").config({
@@ -37,7 +39,7 @@ module.exports = {
     return resource;
   },
   // we will use identifyFood to call to watson
-  identifyFood: function (req, res) {
+  identifyFood: async function (req, res) {
 
     console.log(`===> hit the /api/food "watson" route`);
 
@@ -68,28 +70,76 @@ module.exports = {
 
     params.image_file = fs.createReadStream(temp);
 
+
+    // Promisify the call to watson
+    visual_recognition.classify = Promise.promisify(visual_recognition.classify);
+    // nutritionixController.nutritionixInstantSearchDirect = Promise.promisify(nutritionixController.nutritionixInstantSearchDirect)
+
     console.log("====> about to call watson!");
-    visual_recognition.classify(params, function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("====> " + JSON.stringify(result));
-        const labelsvr = result.images[0].classifiers[0].classes[0].class;
-        console.log("===> " + JSON.stringify(labelsvr));
+    visual_recognition.classify(params)
+      .then(response => {
+        const labelsvr = response.images[0].classifiers[0].classes[0].class;
+        console.log("===> got this from watson: " + JSON.stringify(labelsvr));
         if (labelsvr === "non-food") {
           console.log(`going to respond back to the front end that the item could not be identified`)
-          nutritionixController.nutritionixInstantSearchDirect("banana")
-          res.send( { data: "ERR-100: Could not identify item!" } )
+          // return "banana"
+          // let retval = await nutritionixController.nutritionixInstantSearchDirect("banana")
+          // console.log(`====> came back from nutritionix: ${retval}`)
+          // res.send({ data: retval })
+          res.send({ data: "ERR-100: Could not identify item!" })
+          throw new Error('abort promise chain after call to Watson: non-food');
+          return null
         } else {
           console.log(`now going to call nutrionix with the data.....`);
-          res.send( {data: nutritionixController.nutritionixInstantSearchDirect(labelsvr) })
+
+          // res.send({ data: nutritionixController.nutritionixInstantSearchDirect(labelsvr) })
+          return response.images[0].classifiers[0].classes[0].class
         }
+      })
+      .then(response => {
         // no longer need the image file so remove it!
         fs.unlink(temp, (err) => {
           if (err) console.log(`ERROR:  could not remove file: ${temp}`)
         })
-      }
-    })
+        console.log(`....going to call nutritionix now....`)
+        nutritionixController.nutritionixInstantSearchDirect(response)
+          .then(nutritionresponse => {
+            console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
+            res.send({ data: nutritionresponse })
+            // no longer need the image file so remove it!
+            fs.unlink(temp, (err) => {
+              if (err) console.log(`ERROR:  could not remove file: ${temp}`)
+            })
+          })
+      })
+      .catch(error => {
+        console.log(`watson error is: ${error}`)
+      })
+
+    // visual_recognition.classify(params, function (err, result) {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     console.log("====> " + JSON.stringify(result));
+    //     const labelsvr = result.images[0].classifiers[0].classes[0].class;
+    //     console.log("===> " + JSON.stringify(labelsvr));
+    //     if (labelsvr === "non-food") {
+    //       console.log(`going to respond back to the front end that the item could not be identified`)
+    //       let retval = await nutritionixController.nutritionixInstantSearchDirect("banana")
+    //       console.log(`====> came back from nutritionix: ${retval}`)
+    //       res.send( { data: retval } )
+    //       // res.send( { data: "ERR-100: Could not identify item!" } )
+    //     } else {
+    //       console.log(`now going to call nutrionix with the data.....`);
+
+    //       res.send( {data: nutritionixController.nutritionixInstantSearchDirect(labelsvr) })
+    //     }
+    //     // no longer need the image file so remove it!
+    //     fs.unlink(temp, (err) => {
+    //       if (err) console.log(`ERROR:  could not remove file: ${temp}`)
+    //     })
+    //   }
+    // })
   },
   scanBarcode: function (req, res) {
     console.log(`===> hit the /api/food/scanner "scanBarcode" route`);
