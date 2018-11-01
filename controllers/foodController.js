@@ -166,7 +166,7 @@ module.exports = {
           })
           .catch(error => {
             console.log(`nutrionix error in combination with barcode reader is: ${error}`)
-            rs.send( { code: "200", data: "nutritionix error with barcode"} )
+            res.send( { code: "200", data: "nutritionix error with barcode"} )
           })
       } else {
         console.log(`***** ERROR: quagga not detected!  Result is: ${JSON.stringify(result)}`);
