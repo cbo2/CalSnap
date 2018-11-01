@@ -95,13 +95,14 @@ class CalorieCount extends Component {
     }
 
     handleBarcodeResponse = response => {
-        if (response.code != "000") {
+        console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
+        if (response.code !== "000") {
             alert(`something went wrong with the barcode reader.  Try again!`)
         } else {
             // destructure the response 
             // for now, backend is returning the top 5 responses in an array of hits
-            const { item_name, nf_calories } = response.data.hits[0].fields
-            alert(`Item identified as: ${item_name}  ${nf_calories}`)
+            const { food_name, nf_calories } = response.data
+            alert(`Item identified as: ${food_name}  ${nf_calories}`)
         }
     }
 
