@@ -66,6 +66,7 @@ module.exports = {
     },
     nutritionixBarcodeDirect: function (barCode) {
         return new Promise(function (resolve, reject) {
+            console.log(`--> going to call nutritionix barcode at: https://trackapi.nutritionix.com/v2/search/item?upc=${barCode} with ${appID}`)
             return axios.get(`https://trackapi.nutritionix.com/v2/search/item?upc=${barCode}`, {
                 headers: {
                     "x-app-id": appID,
