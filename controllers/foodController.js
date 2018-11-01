@@ -78,6 +78,10 @@ module.exports = {
     console.log("====> about to call watson!");
     visual_recognition.classify(params)
       .then(response => {
+        // no longer need the image file so remove it!
+        fs.unlink(temp, (err) => {
+          if (err) console.log(`ERROR:  could not remove file: ${temp}`)
+        })
         const labelsvr = response.images[0].classifiers[0].classes[0].class;
         console.log("===> got this from watson: " + JSON.stringify(labelsvr));
         if (labelsvr === "non-food") {
@@ -97,15 +101,11 @@ module.exports = {
         }
       })
       .then(response => {
-        // no longer need the image file so remove it!
-        fs.unlink(temp, (err) => {
-          if (err) console.log(`ERROR:  could not remove file: ${temp}`)
-        })
         console.log(`....going to call nutritionix now....`)
         nutritionixController.nutritionixInstantSearchDirect(response)
           .then(nutritionresponse => {
             console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
-            res.send({ data: nutritionresponse })          
+            res.send({ data: nutritionresponse })
           })
       })
       .catch(error => {

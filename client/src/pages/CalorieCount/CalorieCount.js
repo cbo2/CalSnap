@@ -82,13 +82,18 @@ class CalorieCount extends Component {
 
     handleIRresponse = response => {
         // TODO - first check for an error ERR-100
-        // destructure the response 
-        const { item_name, nf_calories } = response.data.hits[0].fields
-        alert(`Item identified as: ${item_name}  ${nf_calories}`)
-        // alert(`Item identified as: ${JSON.stringify(response)}`)
+        if (response.data.startsWith("ERR-100")) {
+            alert(`Image is not identifyable!`)
+        } else {
+            // destructure the response 
+            // for now, backend is returning the top 5 responses in an array of hits
+            const { item_name, nf_calories } = response.data.hits[0].fields
+            alert(`Item identified as: ${item_name}  ${nf_calories}`)
+            // alert(`Item identified as: ${JSON.stringify(response)}`)
+        }
     }
 
-    handleBarcodeResponse  = response => {
+    handleBarcodeResponse = response => {
         alert(`Item identified with barcode: ${JSON.stringify(response)}`)
     }
 
@@ -111,10 +116,10 @@ class CalorieCount extends Component {
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                             Here's some content for the modal
                     </VideoModal>
-                        <BarcodeModal 
+                        <BarcodeModal
                             onResponseFromBarcode={this.handleBarcodeResponse}
                             buttonLabel="Scan Barcode!!">
-                    </BarcodeModal>
+                        </BarcodeModal>
                         <TextInputModal>
                             Here's some content for the modal
                     </TextInputModal>
