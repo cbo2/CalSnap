@@ -36,7 +36,7 @@ class CalorieCount extends Component {
         this.setState({ remaining: this.state.dailyGoal - this.state.actual })
 
         // temporary location to call nutritionix API
-        // this.nutritionixNutritionSearch()
+        // API.nutritionixNutritionSearch({})
         // this.nutritionixInstantSearch()
         // this.nutritionixBarcode()
         // API.nutritionixInstantSearch({
@@ -82,7 +82,11 @@ class CalorieCount extends Component {
     };
 
     handleIRresponse = response => {
-        alert(`Item identified as: ${JSON.stringify(response)}`)
+        // TODO - first check for an error ERR-100
+        // destructure the response 
+        const { item_name, nf_calories } = response.data.hits[0].fields
+        alert(`Item identified as: ${item_name}  ${nf_calories}`)
+        // alert(`Item identified as: ${JSON.stringify(response)}`)
     }
 
     handleBarcodeResponse  = response => {

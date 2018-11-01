@@ -23,4 +23,7 @@ router.route("/nutritionix/instant")
 router.route("/nutritionix/barcode")
   .post(nutritionixController.nutritionixBarcode)
 
+router.route("/nutritionix/nutrition")
+  .post(nutritionixController.nutritionixNutritionSearch)
+
 module.exports = router;
