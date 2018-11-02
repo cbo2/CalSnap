@@ -87,20 +87,22 @@ class CalorieCount extends Component {
             alert(`Image is not identifyable!`)
         } else {
             // destructure the response 
-            // for now, backend is returning the top 5 responses in an array of hits
-            const { item_name, nf_calories } = response.data.hits[0].fields
-            alert(`Item identified as: ${item_name}  ${nf_calories}`)
-            // alert(`Item identified as: ${JSON.stringify(response)}`)
+            let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
+                let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
+                return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
+            }).join('')         // use join with null to avoid commas in-between each item
+            alert(`<ul>${all}</ul`)
         }
     }
 
     handleBarcodeResponse = response => {
+        // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
         console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
         if (response.code !== "000") {
             alert(`something went wrong with the barcode reader.  Try again!`)
         } else {
             // destructure the response 
-            // for now, backend is returning the top 5 responses in an array of hits
+            // for now, backend is returning ONLY 1 response 
             const { food_name, nf_calories } = response.data
             alert(`Item identified as: ${food_name}  ${nf_calories}`)
         }
@@ -112,8 +114,12 @@ class CalorieCount extends Component {
         } else {
             // destructure the response 
             // for now, backend is returning the top 5 responses in an array of hits
-            const { item_name, nf_calories } = response.data.hits[0].fields
-            alert(`Item identified as: ${item_name}  ${nf_calories}`)
+            let all = response.data.hits.map((oneitem, index) => {
+                let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
+                return (`${index + 1}: ${item_name} ${nf_calories}\n`)
+            }).join('')         // use join with null to avoid commas in-between each item
+            console.log(`the value for all is ${all}`)
+            alert(`${all}`)
         }
     }
 
