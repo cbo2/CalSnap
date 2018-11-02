@@ -18,6 +18,7 @@ import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
+// import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
 
 
@@ -112,8 +113,9 @@ class CalorieCount extends Component {
         } else {
             // destructure the response 
             // for now, backend is returning the top 5 responses in an array of hits
-            const { item_name, nf_calories } = response.data.hits[0].fields
-            alert(`Item identified as: ${item_name}  ${nf_calories}`)
+            // const { item_name, nf_calories } = response.data.hits[0].fields
+            // alert(`Item identified as: ${item_name}  ${nf_calories}`)
+           
         }
     }
 
@@ -142,6 +144,7 @@ class CalorieCount extends Component {
                         </BarcodeModal>
                         <TextInputModal onResponseFromSearch={this.handleSearchResponse}>
                         </TextInputModal>
+                        {/* <ResultsModal></ResultsModal> */}
                     </div>
                     <FoodDisplay>
                         {/* will map through DB results when built       */}
