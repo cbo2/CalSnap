@@ -1,3 +1,7 @@
+// Exporting an object containing all of our models
+
 module.exports = {
-    Calsnap: require("./calsnap")
-};
+    User: require("./User"),
+    Food: require("./Food")
+  };
+  
