@@ -96,7 +96,7 @@ class CalorieCount extends Component {
     }
 
     handleBarcodeResponse = response => {
-        console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
+        alert(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
         if (response.code !== "000") {
             alert(`something went wrong with the barcode reader.  Try again!`)
         } else {
