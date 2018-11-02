@@ -86,16 +86,11 @@ module.exports = {
         console.log("===> got this from watson: " + JSON.stringify(labelsvr));
         if (labelsvr === "non-food") {
           console.log(`going to respond back to the front end that the item could not be identified`)
-          // return "banana"
-          // let retval = await nutritionixController.nutritionixInstantSearchDirect("banana")
-          // console.log(`====> came back from nutritionix: ${retval}`)
-          // res.send({ data: retval })
           res.send({ code: "ERR-100: Could not identify item!" })
           throw new Error('abort promise chain after call to Watson: non-food');
           return null
         } else {
           console.log(`now going to call nutrionix with the data.....`);
-
           // res.send({ data: nutritionixController.nutritionixInstantSearchDirect(labelsvr) })
           return response.images[0].classifiers[0].classes[0].class
         }
@@ -111,31 +106,6 @@ module.exports = {
       .catch(error => {
         console.log(`watson error is: ${error}`)
       })
-
-    // visual_recognition.classify(params, function (err, result) {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     console.log("====> " + JSON.stringify(result));
-    //     const labelsvr = result.images[0].classifiers[0].classes[0].class;
-    //     console.log("===> " + JSON.stringify(labelsvr));
-    //     if (labelsvr === "non-food") {
-    //       console.log(`going to respond back to the front end that the item could not be identified`)
-    //       let retval = await nutritionixController.nutritionixInstantSearchDirect("banana")
-    //       console.log(`====> came back from nutritionix: ${retval}`)
-    //       res.send( { data: retval } )
-    //       // res.send( { data: "ERR-100: Could not identify item!" } )
-    //     } else {
-    //       console.log(`now going to call nutrionix with the data.....`);
-
-    //       res.send( {data: nutritionixController.nutritionixInstantSearchDirect(labelsvr) })
-    //     }
-    //     // no longer need the image file so remove it!
-    //     fs.unlink(temp, (err) => {
-    //       if (err) console.log(`ERROR:  could not remove file: ${temp}`)
-    //     })
-    //   }
-    // })
   },
   scanBarcode: function (req, res) {
     console.log(`===> hit the /api/food/scanner "scanBarcode" route`);
@@ -182,24 +152,28 @@ module.exports = {
         locate: true
       },
     }, function (result) {
-      if (result.codeResult) {
-        console.log(`=========> quagga result is: ${result.codeResult.code}`)
-        res.send({ data: result.codeResult.code });
-      } else {
-        console.log(`***** ERROR: quagga not detected!  Result is: ${JSON.stringify(result)}`);
-        res.send({ data: "ERROR: quagga not detected!" });
-      }
+      // no longer need the image file
       fs.unlink(temp, (err) => {
         if (err) console.log(`ERROR:  could not remove file: ${temp}`)
       })
-    })
-    // .catch(err => {
-    //   console.log(`Error communicating with quagga barcode scanner.  Now removing file: ${temp}`)
-    //   fs.unlink(temp, (err) => {
-    //     if (err) console.log(`ERROR:  could not remove file: ${temp}`)
-    //   })
-    // })
+      if (result.codeResult) {
+        console.log(`=========> quagga result is: ${result.codeResult.code}`)
 
+        nutritionixController.nutritionixBarcodeDirect(result.codeResult.code)
+          .then(nutritionresponse => {
+            console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
+            res.send({ code: "000", data: nutritionresponse })
+          })
+          .catch(error => {
+            console.log(`nutrionix error in combination with barcode reader is: ${error}`)
+            res.send( { code: "200", data: "nutritionix error with barcode"} )
+          })
+      } else {
+        console.log(`***** ERROR: quagga not detected!  Result is: ${JSON.stringify(result)}`);
+        res.send( { code: "201", data: "ERROR: barcode not detected!" } );
+      }
+
+    })
   },
   findAll: function (req, res) {
     db.Food

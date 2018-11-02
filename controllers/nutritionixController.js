@@ -3,20 +3,13 @@ require("dotenv").config({
 });
 const axios = require("axios")
 
-console.log("key test: " + process.env.REACT_APP_NUTRITION_KEY)
-
 const appKey = process.env.REACT_APP_NUTRITION_KEY
 const appID = process.env.REACT_APP_NUTRITION_APP_ID
-// const searchItem = "pineapple"
-const searchBarcode = "0038622624472"
 
 // References used:
 // docs:      https://developer.nutritionix.com/docs/v1_1
 // fields:    https://docs.google.com/spreadsheets/d/1jZSa039OfpQOiRzaS980nPKCvVe2TRKRPZk7ZbaH7kE/edit#gid=0
 // jsontool:  http://jsonviewer.stack.hu
-
-
-
 
 module.exports = {
 
@@ -41,14 +34,14 @@ module.exports = {
     nutritionixInstantSearch: function (req, res) {
         console.log(`** inside nutritionixInstantSearch and will search for: ${JSON.stringify(req.body.searchItem)}`)
         module.exports.nutritionixInstantSearchDirect(req.body.searchItem)
-        .then(response => {
-            console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
-            res.send( { code: "000", data: response } )
-        })
-        .catch(err => {
-            console.log(`--> got an error back from nutritionix: ${err}`)
-            res.send( { code: "200", data: "Error getting data from nutrionix"} )
-        })
+            .then(response => {
+                console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
+                res.send({ code: "000", data: response })
+            })
+            .catch(err => {
+                console.log(`--> got an error back from nutritionix: ${err}`)
+                res.send({ code: "200", data: "Error getting data from nutrionix" })
+            })
     },
     // Nutritionix call for item search
     // not working yet
@@ -71,21 +64,36 @@ module.exports = {
             .catch(err => { console.log(`nutritionixNutritionSearch:  got this error from nutritionix: ${err}`) })
 
     },
-
+    nutritionixBarcodeDirect: function (barCode) {
+        return new Promise(function (resolve, reject) {
+            console.log(`--> going to call nutritionix barcode at: https://trackapi.nutritionix.com/v2/search/item?upc=${barCode} with ${appID}`)
+            return axios.get(`https://trackapi.nutritionix.com/v2/search/item?upc=${barCode}`, {
+                headers: {
+                    "x-app-id": appID,
+                    "x-app-key": appKey
+                }
+            }).then(response => {
+                console.log(`got this from nutritionix barcode.  Item is: ${response.data.foods[0].food_name} and calories are: ${response.data.foods[0].nf_calories}  ${JSON.stringify(response.data)}`)
+                return resolve(response.data.foods[0])
+            })
+                .catch(err => {
+                    console.log(`nutritionixBarcode:  got this error from nutritionix: ${err}`)
+                    return reject("ERR-202: Bad response from Nutrionix")
+                })
+        })
+    },
     // Nutritionix call for barcode scanning
     // *******Currently getting error TypeError: Converting circular structure to JSON.... need to fix**********
     nutritionixBarcode: function (req, response) {
-
-        axios.get(`https://trackapi.nutritionix.com/v2/search/item?upc=${searchBarcode}`, {
-            headers: {
-                "x-app-id": appID,
-                "x-app-key": appKey
-            }
-
-
-        }).then(response => { console.log(`got this from nutritionix.  Item is: ${response.data.foods[0].food_name} and calories are: ${response.data.foods[0].nf_calories}  ${JSON.stringify(response.data)}`) })
-
-            .catch(err => { console.log(`nutritionixBarcode:  got this error from nutritionix: ${err}`) })
-
+        console.log(`** inside nutritionixBarcode and will search for: ${JSON.stringify(req.body.searchItem)}`)
+        module.exports.nutritionixBarcodeDirect(req.body.searchItem)
+            .then(response => {
+                console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
+                res.send({ code: "000", data: response })
+            })
+            .catch(err => {
+                console.log(`--> got an error back from nutritionix: ${err}`)
+                res.send({ code: "200", data: "Error getting data from nutrionix" })
+            })
     }
 }
