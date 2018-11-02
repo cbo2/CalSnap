@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/calsnap"
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/CalSnap"
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI);
 
