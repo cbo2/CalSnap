@@ -96,17 +96,15 @@ class CalorieCount extends Component {
     }
 
     handleBarcodeResponse = response => {
-        // alert(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
+        // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
+        console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
         if (response.code !== "000") {
             alert(`something went wrong with the barcode reader.  Try again!`)
         } else {
             // destructure the response 
-            // for now, backend is returning the top 5 responses in an array of hits
-            let all = response.data.map((oneitem, index) => {   // map over the 5 responses
-                let { food_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
-                return (`${index + 1}: ${food_name} ${nf_calories}\n`)
-            }).join('')         // use join with null to avoid commas in-between each item
-            alert(`${all}`)
+            // for now, backend is returning ONLY 1 response 
+            const { food_name, nf_calories } = response.data
+            alert(`Item identified as: ${food_name}  ${nf_calories}`)
         }
     }
 
