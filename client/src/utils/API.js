@@ -1,6 +1,4 @@
 import axios from "axios";
-const myKeys = process.env.REACT_APP_MyKey;
-console.log(`**********=====> myKeys = ${myKeys}`)
 
 export default {
   // Gets all Articles
