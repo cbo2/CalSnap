@@ -3,14 +3,19 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 import API from "../../utils/API";
 
 class TextInputModal extends React.Component {
+   
     constructor(props) {
         super(props);
         this.handleSearch = this.handleSearch.bind(this);
         this.onResponseFromSearch = this.onResponseFromSearch.bind(this);
         this.state = {
             modal: false,
-            searchedFood: ""
+            searchedFood: "",
+            firstDisplay: "reveal",
+            secondDisplay: "d-none"
         };
+
+        
 
         this.toggle = this.toggle.bind(this);
     }
@@ -30,11 +35,17 @@ class TextInputModal extends React.Component {
     handleSearch = (event) => {
         // this.setState({  })
         console.log("this was submitted: " + this.state.searchedFood)
-        this.toggle();
+        // this.toggle();
         event.preventDefault();
         API.nutritionixInstantSearch(this.state.searchedFood).then(response => {
             console.log(`the response back from the search is: ${JSON.stringify(response.data)}`)
+            
             this.onResponseFromSearch(response.data)
+            // const { item_name, nf_calories } = response.data.hits[0].fields
+            // console.log({ item_name, nf_calories } = response.data.hits[0].fields) 
+            this.setState ({ firstDisplay: "d-none"})
+            this.setState ({ secondDisplay: "reveal"})
+                
         })
     }
 
@@ -53,12 +64,16 @@ class TextInputModal extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Search for a specific item!</ModalHeader>
                     <ModalBody>
-                        <Form>
+                        <Form className={this.state.firstDisplay}>
                             <FormGroup>
                                 <Input type="textarea" name="text" id="foodText" value={this.state.searchedFood} onChange={e => this.setState({ searchedFood: e.target.value })} />
                             </FormGroup>
-                            <Button color="primary" onClick={this.handleSearch} className="foodSearch">Search</Button>
+                            <Button color="primary" onClick={this.handleSearch} className="foodSearch">Search</Button>    
                         </Form>
+                        <div className={this.state.secondDisplay}>
+                            
+                        </div>
+
                     </ModalBody>
                 </Modal>
 
