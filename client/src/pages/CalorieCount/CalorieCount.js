@@ -88,8 +88,13 @@ class CalorieCount extends Component {
         } else {
             // destructure the response 
             // for now, backend is returning the top 5 responses in an array of hits
-            const { item_name, nf_calories } = response.data.hits[0].fields
-            alert(`Item identified as: ${item_name}  ${nf_calories}`)
+            // const { item_name, nf_calories } = response.data.hits[0].fields
+            const all = response.data.hits.map((oneitem, index) => {
+                let { item_name, nf_calories } = oneitem
+                return (`${item_name} ${nf_calories}`)
+            })
+            alert(`Item identified as: ${all}`)
+            
             // alert(`Item identified as: ${JSON.stringify(response)}`)
         }
     }
