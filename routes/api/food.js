@@ -2,6 +2,18 @@ const router = require("express").Router();
 const foodController = require("../../controllers/foodController");
 const nutritionixController = require("../../controllers/nutritionixController");
 
+// Matches with "/api/books"
+router.route("/")
+  .get(foodController.findAll)
+  .post(foodController.create);
+
+// Matches with "/api/books/:id"
+router
+  .route("/:id")
+  .get(foodController.findById)
+  // .put(foodController.update)
+  .delete(foodController.remove);
+
 // Matches with "/api/food/identify"
 router.route("/identify")
   .post(foodController.identifyFood)
@@ -9,12 +21,6 @@ router.route("/identify")
 
 router.route("/scanBarcode")
   .post(foodController.scanBarcode)
-
-// Matches with "/api/food/:id"
-router
-  .route("/:id")
-  .get(foodController.findById)
-  .delete(foodController.remove);
 
 // nutritionix routes
 router.route("/nutritionix/instant")

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./TextInputModal.css";
-import { isThisWeek } from 'date-fns';
-import { format } from 'path';
+// import { isThisWeek } from 'date-fns';
+// import { format } from 'path';
 
 class TextInputModal extends React.Component {
 
@@ -22,8 +22,6 @@ class TextInputModal extends React.Component {
             quantity: 1
 
         };
-
-
 
         this.toggle = this.toggle.bind(this);
     }
@@ -66,8 +64,6 @@ class TextInputModal extends React.Component {
             // const { item_name, nf_calories } = response.data.hits[0].fields
             // console.log({ item_name, nf_calories } = response.data.hits[0].fields) 
             this.setState({ firstDisplay: "d-none" })
-
-
         })
     }
 
@@ -82,20 +78,26 @@ class TextInputModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
         this.selectQuantity();
     }
-
     //initializes quantity form    
     selectQuantity = (index, event) => {
         this.setState({ thirdDisplay: "reveal" })
     }
-
     // handles quantity capture    
     handleQuantity = (event) => {
         event.preventDefault();
         console.log("quantity: " + this.state.quantity)
         this.toggle()
         this.setState({ thirdDisplay: "d-none" })
+        console.log(this)
         this.setState({ firstDisplay: "reveal" })
         // TO DO: clear out forms after quantity entered
+        this.toggle()
+        this.setState({ secondDisplay: "d-none" })
+        API.createUser({
+            username: "Jane Doe"
+        })
+            .then(res => console.log("User created"))
+            .catch(err => console.log(err));
     }
 
     // handles form input change
@@ -141,8 +143,9 @@ class TextInputModal extends React.Component {
                 </Modal>
 
             </div>
-        );
+        )
     }
 }
+
 
 export default TextInputModal;
