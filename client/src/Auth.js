@@ -12,7 +12,7 @@ export default class Auth {
     redirectUri: `${window.location.origin}/callback`,
     audience: 'https://calsnap.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile user_metadata'
   });
 
   constructor() {

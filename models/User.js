@@ -7,7 +7,6 @@ const UserSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Food"
     }]
-
 });
 
 const User = mongoose.model("User", UserSchema);
