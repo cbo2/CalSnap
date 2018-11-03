@@ -16,14 +16,18 @@ window.setState = (changes) => {
     ReactDOM.render(<App {...state} />, document.getElementById('root'));
 }
 
-let username = auth.getProfile().given_name || auth.getProfile()["https://calsnap.herokuapp.com/user_metadata"].given_name || "friend";
-let profileImage = auth.getProfile().picture || "";
-let profile = auth.getProfile();
+let username = "friend";
+let profileImage = "";
+
+if (auth.isAuthenticated()) {
+    username = auth.getProfile().given_name || auth.getProfile()["https://calsnap.herokuapp.com/user_metadata"].given_name || "friend";
+    profileImage = auth.getProfile().picture || "";
+}
 
 let initialState = {
-     name: username,
-     profileImage,
-     auth
+    name: username,
+    profileImage,
+    auth
 }
 
 window.setState(initialState);
