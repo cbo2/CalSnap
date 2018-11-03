@@ -66,9 +66,9 @@ class TextInputModal extends React.Component {
     }
 
     // selects item from results
-    selectItem = () => {
+    selectItem = (index, event) => {
         // event.preventDefault();
-        console.log(this)
+        console.log(this.state.results[index])
         this.setState ({ firstDisplay: "reveal"})
         this.toggle()
         this.setState ({ secondDisplay: "d-none"})
@@ -100,7 +100,7 @@ class TextInputModal extends React.Component {
                             <div>
                                 {this.state.results.map((oneitem, index) => (
                                     <p>
-                                    <button onClick={() => this.selectItem()} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
+                                    <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
                                     </p>
                                 ))}
                             </div>
