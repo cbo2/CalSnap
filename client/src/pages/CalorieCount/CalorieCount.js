@@ -129,7 +129,7 @@ class CalorieCount extends Component {
 
         if (loggedIn) {
             return (<Wrapper>
-                <div>Welcome to CalSnap, {this.props.nickname}</div>
+                <div>Welcome to CalSnap, {this.props.name}</div>
                 <Container>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}

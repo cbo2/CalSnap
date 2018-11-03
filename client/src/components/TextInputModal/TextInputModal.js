@@ -1,12 +1,9 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
-// import Auth from "../../Auth";
 import "./TextInputModal.css";
 // import { isThisWeek } from 'date-fns';
 // import { format } from 'path';
-
-// const auth = new Auth();
 
 class TextInputModal extends React.Component {
 
