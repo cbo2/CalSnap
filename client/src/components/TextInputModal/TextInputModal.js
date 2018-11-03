@@ -64,16 +64,33 @@ class TextInputModal extends React.Component {
             // const { item_name, nf_calories } = response.data.hits[0].fields
             // console.log({ item_name, nf_calories } = response.data.hits[0].fields) 
             this.setState({ firstDisplay: "d-none" })
-
-
         })
     }
 
     // selects item from results
     selectItem = (index, event) => {
         // event.preventDefault();
+        console.log(this.state.results[index])
+        this.setState({ selectedItem: this.state.results[index] })
+        console.log(this.state.selectedItem)
+        // this.setState ({ firstDisplay: "reveal"})
+        // this.toggle()
+        this.setState({ secondDisplay: "d-none" })
+        this.selectQuantity();
+    }
+    //initializes quantity form    
+    selectQuantity = (index, event) => {
+        this.setState({ thirdDisplay: "reveal" })
+    }
+    // handles quantity capture    
+    handleQuantity = (event) => {
+        event.preventDefault();
+        console.log("quantity: " + this.state.quantity)
+        this.toggle()
+        this.setState({ thirdDisplay: "d-none" })
         console.log(this)
         this.setState({ firstDisplay: "reveal" })
+        // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
         API.createUser({
