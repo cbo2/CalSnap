@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 import API from "../../utils/API";
-import ReactDOM from 'react-dom'
+import "./TextInputModal.css";
 
 class TextInputModal extends React.Component {
    
@@ -66,9 +66,12 @@ class TextInputModal extends React.Component {
     }
 
     // selects item from results
-    selectItem = (event) => {
-        event.preventDefault();
-        console.log("this was selected: ")
+    selectItem = () => {
+        // event.preventDefault();
+        console.log(this)
+        this.setState ({ firstDisplay: "reveal"})
+        this.toggle()
+        this.setState ({ secondDisplay: "d-none"})
     }
 
     // handles form input change
@@ -84,7 +87,8 @@ class TextInputModal extends React.Component {
             <div>
                 <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}Search Item!!</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Search for a specific item!</ModalHeader>
+                    <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Search for a specific item!</ModalHeader>
+                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>
                     <ModalBody>
                         <Form className={this.state.firstDisplay}>
                             <FormGroup>
@@ -96,7 +100,7 @@ class TextInputModal extends React.Component {
                             <div>
                                 {this.state.results.map((oneitem, index) => (
                                     <p>
-                                    <button key={index}>{oneitem.fields.item_name}  {oneitem.fields.nf_calories}</button>
+                                    <button onClick={() => this.selectItem()} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
                                     </p>
                                 ))}
                             </div>
