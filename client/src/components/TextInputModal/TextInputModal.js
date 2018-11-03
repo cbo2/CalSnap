@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./TextInputModal.css";
+// import { isThisWeek } from 'date-fns';
+// import { format } from 'path';
 
 class TextInputModal extends React.Component {
 
@@ -14,7 +16,11 @@ class TextInputModal extends React.Component {
             searchedFood: "",
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            results: []
+            thirdDisplay: "d-none",
+            results: [],
+            selectedItem: [],
+            quantity: 1
+
         };
 
 
@@ -66,7 +72,7 @@ class TextInputModal extends React.Component {
     }
 
     // selects item from results
-    selectItem = () => {
+    selectItem = (index, event) => {
         // event.preventDefault();
         console.log(this)
         this.setState({ firstDisplay: "reveal" })
@@ -94,6 +100,7 @@ class TextInputModal extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Search for a specific item!</ModalHeader>
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>
+                    <ModalHeader className={this.state.thirdDisplay} toggle={this.toggle}>Enter a Quantity:</ModalHeader>
                     <ModalBody>
                         <Form className={this.state.firstDisplay}>
                             <FormGroup>
@@ -110,6 +117,12 @@ class TextInputModal extends React.Component {
                                 ))}
                             </div>
                         </div>
+                        <Form className={this.state.thirdDisplay}>
+                            <FormGroup>
+                                <Input type="textarea" name="text" id="quantityText" value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} />
+                            </FormGroup>
+                            <Button color="primary" onClick={this.handleQuantity} className="select-quantity">Enter</Button>
+                        </Form>
 
                     </ModalBody>
                 </Modal>

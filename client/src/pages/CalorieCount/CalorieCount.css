@@ -10,3 +10,12 @@ Input::placeholder {
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
+.btn {
+  float: right;
+  /* color: #e74944; */
+  background-color: rgb(78, 114, 126);
+  margin-top:20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
