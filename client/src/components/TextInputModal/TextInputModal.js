@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 import API from "../../utils/API";
+import ReactDOM from 'react-dom'
 
 class TextInputModal extends React.Component {
    
@@ -12,7 +13,8 @@ class TextInputModal extends React.Component {
             modal: false,
             searchedFood: "",
             firstDisplay: "reveal",
-            secondDisplay: "d-none"
+            secondDisplay: "d-none",
+            results: ''
         };
 
         
@@ -22,7 +24,22 @@ class TextInputModal extends React.Component {
 
     // when the response comes back from the backend need to hit the callback on our parent component (CalorieCount)
     onResponseFromSearch = response => {
+        this.setState ({ secondDisplay: "reveal"})
         this.props.onResponseFromSearch(response);
+        if (response.code != "000") {
+            alert(`something went wrong with the search.  Try again!`)
+        } else {
+            // destructure the response 
+            // for now, backend is returning the top 5 responses in an array of hits
+            let all = response.data.hits.map((oneitem, index) => {
+                let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
+            return (`<button>${index + 1}: ${item_name} ${nf_calories}</button>`)
+            }).join('')         // use join with null to avoid commas in-between each item
+            console.log(`the value for all is ${all}`)
+            // alert(`${all}`)
+            // ReactDOM.render(all, document.getElementById('root'));
+            this.setState ({results: all})
+        } 
     }
 
     toggle() {
@@ -44,9 +61,15 @@ class TextInputModal extends React.Component {
             // const { item_name, nf_calories } = response.data.hits[0].fields
             // console.log({ item_name, nf_calories } = response.data.hits[0].fields) 
             this.setState ({ firstDisplay: "d-none"})
-            this.setState ({ secondDisplay: "reveal"})
-                
+            
+              
         })
+    }
+
+    // selects item from results
+    selectItem = (event) => {
+        event.preventDefault();
+        console.log("this was selected: ")
     }
 
     // handles form input change
@@ -71,7 +94,11 @@ class TextInputModal extends React.Component {
                             <Button color="primary" onClick={this.handleSearch} className="foodSearch">Search</Button>    
                         </Form>
                         <div className={this.state.secondDisplay}>
-                            
+                            <div>
+                             
+                                {this.state.results}
+                                
+                            </div>
                         </div>
 
                     </ModalBody>
