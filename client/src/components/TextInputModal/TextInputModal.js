@@ -14,7 +14,7 @@ class TextInputModal extends React.Component {
             searchedFood: "",
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            results: ''
+            results: []
         };
 
         
@@ -31,14 +31,13 @@ class TextInputModal extends React.Component {
         } else {
             // destructure the response 
             // for now, backend is returning the top 5 responses in an array of hits
-            let all = response.data.hits.map((oneitem, index) => {
-                let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
-            return (`<button>${index + 1}: ${item_name} ${nf_calories}</button>`)
-            }).join('')         // use join with null to avoid commas in-between each item
-            console.log(`the value for all is ${all}`)
-            // alert(`${all}`)
-            // ReactDOM.render(all, document.getElementById('root'));
-            this.setState ({results: all})
+            // let all = response.data.hits.map((oneitem, index) => {
+            //     let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
+            // return (`<button>${index + 1}: ${item_name} ${nf_calories}</button>`)
+            // }).join('')         // use join with null to avoid commas in-between each item
+            // console.log(`the value for all is ${all}`)
+            // this.setState ({results: all})
+            this.setState( { results: response.data.hits })
         } 
     }
 
@@ -95,9 +94,9 @@ class TextInputModal extends React.Component {
                         </Form>
                         <div className={this.state.secondDisplay}>
                             <div>
-                             
-                                {this.state.results}
-                                
+                                {this.state.results.map((oneitem, index) => (
+                                    <button>oneitem.fields.item_name  oneitem.fields.nf_calories</button>
+                                ))}
                             </div>
                         </div>
 
