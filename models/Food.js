@@ -3,7 +3,12 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var FoodSchema = new Schema({
-  body: String,
+  item_name: String,
+  quantity: Number,
+  nf_calories: Number,
+  nf_protein: Number,
+  nf_serving_size_unit: String,
+  nf_total_carbohydrate: String,
   user: {
     type: Schema.Types.ObjectId,
     ref: "User"

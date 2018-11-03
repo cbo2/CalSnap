@@ -1,6 +1,6 @@
 import React from "react";
 import AuthButton from "../AuthButton/AuthButton.js"
-import CalPal from "../CalPal/CalPal.js"
+// import CalPal from "../CalPal/CalPal.js"
 import "./Nav.css";
 
 const Nav = (props) => (

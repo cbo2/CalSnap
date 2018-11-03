@@ -18,15 +18,18 @@ window.setState = (changes) => {
 
 let username = "friend";
 let profileImage = "";
+let nickname = "";
 
 if (auth.isAuthenticated()) {
     username = auth.getProfile().given_name || auth.getProfile()["https://calsnap.herokuapp.com/user_metadata"].given_name || "friend";
     profileImage = auth.getProfile().picture || "";
+    nickname = auth.getProfile().nickname || "";
 }
 
 let initialState = {
     name: username,
     profileImage,
+    nickname,
     auth
 }
 
