@@ -1,9 +1,12 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
+// import Auth from "../../Auth";
 import "./TextInputModal.css";
 // import { isThisWeek } from 'date-fns';
 // import { format } from 'path';
+
+// const auth = new Auth();
 
 class TextInputModal extends React.Component {
 
@@ -127,7 +130,7 @@ class TextInputModal extends React.Component {
                             <div>
                                 {this.state.results.map((oneitem, index) => (
                                     <p>
-                                        <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
+                                        <button data-id={this.props.nickname} onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
                                     </p>
                                 ))}
                             </div>

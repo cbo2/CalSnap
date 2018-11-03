@@ -124,17 +124,18 @@ class CalorieCount extends Component {
         // }
     }
 
-    render(props) {
+    render() {
         const loggedIn = this.props.auth.isAuthenticated();
 
         if (loggedIn) {
-            return (<Wrapper {...props}>
-                <div>Welcome to CalSnap, {this.props.name}</div>
+            return (<Wrapper>
+                <div>Welcome to CalSnap, {this.props.nickname}</div>
                 <Container>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
                         actual={this.state.actual}
                         remaining={this.state.remaining}
+
                     />
                     <div className="row">
                         <VideoModal isOpen={this.state.isVideoModalOpen}
@@ -145,7 +146,7 @@ class CalorieCount extends Component {
                             onResponseFromBarcode={this.handleBarcodeResponse}
                             buttonLabel="Scan Barcode!!">
                         </BarcodeModal>
-                        <TextInputModal onResponseFromSearch={this.handleSearchResponse}>
+                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
                         </TextInputModal>
                     </div>
                     <FoodDisplay>
