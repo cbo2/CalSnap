@@ -7,7 +7,7 @@ const Nav = (props) => (
       <div className="navbar navbar-expand-lg">
         <a className="navbar-brand" href="/">CalSnap</a>
         <AuthButton {...props}/>
-        <CalPal {...props}>CalBud</CalPal>
+        {/* <CalPal {...props}>CalBud</CalPal> */}
       </div>
 )
 
