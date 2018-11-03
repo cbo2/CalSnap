@@ -23,8 +23,6 @@ class TextInputModal extends React.Component {
 
         };
 
-
-
         this.toggle = this.toggle.bind(this);
     }
 
