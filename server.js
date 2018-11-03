@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const routes = require("./routes");
 const mongoose = require("mongoose");
 const axios = require("axios");
+// const socket = require("socket.io");
 
 
 let PORT = process.env.PORT || 3001;
@@ -40,5 +41,20 @@ app.use(routes);
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
+
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+io.on('connection', function(){ /* … */ });
+server.listen(4000);
+
+// const io = socket(server);
+io.on('connection', socket => {
+    console.log(`***** made a connection with ${socket.id}`)
+    socket.on('calpal', data => {
+        console.log(`*** received this message [${data.handle}]: ${data.message}`)
+        io.sockets.emit('calpal', data)  // emit now from server out to the clients!
+    })
+})
+
 
 module.exports = app;

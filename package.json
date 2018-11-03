@@ -29,6 +29,7 @@
     "mongoose": "^5.0.17",
     "path": "^0.12.7",
     "quagga": "^0.12.1",
+    "socket.io": "^2.1.1",
     "uuid": "^3.3.2",
     "watson-developer-cloud": "^3.12.0"
   }
