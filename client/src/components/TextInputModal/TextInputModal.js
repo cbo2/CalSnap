@@ -95,7 +95,9 @@ class TextInputModal extends React.Component {
                         <div className={this.state.secondDisplay}>
                             <div>
                                 {this.state.results.map((oneitem, index) => (
-                                    <button>oneitem.fields.item_name  oneitem.fields.nf_calories</button>
+                                    <p>
+                                    <button key={index}>{oneitem.fields.item_name}  {oneitem.fields.nf_calories}</button>
+                                    </p>
                                 ))}
                             </div>
                         </div>
