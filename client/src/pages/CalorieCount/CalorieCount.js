@@ -110,18 +110,18 @@ class CalorieCount extends Component {
     }
 
     handleSearchResponse = response => {
-        if (response.code != "000") {
-            alert(`something went wrong with the search.  Try again!`)
-        } else {
-            // destructure the response 
-            // for now, backend is returning the top 5 responses in an array of hits
-            let all = response.data.hits.map((oneitem, index) => {
-                let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
-                return (`${index + 1}: ${item_name} ${nf_calories}\n`)
-            }).join('')         // use join with null to avoid commas in-between each item
-            console.log(`the value for all is ${all}`)
-            alert(`${all}`)
-        }
+        // if (response.code != "000") {
+        //     // alert(`something went wrong with the search.  Try again!`)
+        // } else {
+        //     // destructure the response 
+        //     // for now, backend is returning the top 5 responses in an array of hits
+        //     let all = response.data.hits.map((oneitem, index) => {
+        //         let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
+        //         return (`${index + 1}: ${item_name} ${nf_calories}\n`)
+        //     }).join('')         // use join with null to avoid commas in-between each item
+        //     // console.log(`the value for all is ${all}`)
+        //     // alert(`${all}`)
+        // }
     }
 
     render(props) {
