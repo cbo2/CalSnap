@@ -7,7 +7,6 @@ const Caldisplay = props => (
       <div className="col-12 col-md-4 cal-actual">Today's Actual: <br></br><b>{props.actual}</b></div>  
       <div className="col-12 col-md-4 cal-remaining">Remaining: <br></br><b>{props.remaining}</b></div>  
     </div>
-  
 );
 
 export default Caldisplay;
