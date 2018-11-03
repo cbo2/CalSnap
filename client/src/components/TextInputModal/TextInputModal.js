@@ -127,7 +127,7 @@ class TextInputModal extends React.Component {
                             <div>
                                 {this.state.results.map((oneitem, index) => (
                                     <p>
-                                        <button onClick={() => this.selectItem()} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
+                                        <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
                                     </p>
                                 ))}
                             </div>
