@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 // import SomeComponent from "../../components/SomeComponent";
 // import API from "../../utils/API";
-import axios from "axios";
+// import axios from "axios";
 import './CalorieCount.css';
-import {
-    Jumbotron,
-    Modal,
-    Button,
-    Form
-} from "reactstrap";
+// import {
+//     Jumbotron,
+//     Modal,
+//     Button,
+//     Form
+// } from "reactstrap";
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
 import FoodDisplay from "../../components/FoodDisplay";
-import SnapFoodBtn from "../../components/SnapFoodButton";
+// import SnapFoodBtn from "../../components/SnapFoodButton";
 import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
 // import ResultsModal from "../../components/ResultsModal";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 
 
 
@@ -136,12 +136,10 @@ class CalorieCount extends Component {
                         actual={this.state.actual}
                         remaining={this.state.remaining}
                     />
-                    {/* <SnapFoodBtn onClick={() => this.snapFood()} /> */}
                     <div className="row">
                         <VideoModal isOpen={this.state.isVideoModalOpen}
                             onResponseFromIR={this.handleIRresponse}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
-                            Here's some content for the modal
                         </VideoModal>
                         <BarcodeModal
                             onResponseFromBarcode={this.handleBarcodeResponse}
@@ -149,7 +147,6 @@ class CalorieCount extends Component {
                         </BarcodeModal>
                         <TextInputModal onResponseFromSearch={this.handleSearchResponse}>
                         </TextInputModal>
-                        {/* <ResultsModal></ResultsModal> */}
                     </div>
                     <FoodDisplay>
                         {/* will map through DB results when built       */}
@@ -158,15 +155,12 @@ class CalorieCount extends Component {
                                 ))} */}
                     </FoodDisplay>
                 </Container>
-
             </Wrapper>
-
             )
         } else {
             return (<LaunchPage></LaunchPage>)
         }
     }
-
 };
 
 
