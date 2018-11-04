@@ -9,10 +9,7 @@ var FoodSchema = new Schema({
   nf_protein: Number,
   nf_serving_size_unit: String,
   nf_total_carbohydrate: Number,
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+  user: String
 });
 
 // This creates our model from the above schema, using mongoose's model method

@@ -191,7 +191,9 @@ module.exports = {
   create: function (req, res) {
     db.Food
       .create(req.body)
-      .then(dbFood => {return db.User.findOneAndUpdate({ user: req.params.user }, { $push: { food: dbFood._id } }) })
+      .then(dbFood => {
+        return db.User.findOneAndUpdate({ user: req.body.user }, { $push: { food: dbFood._id }})
+      })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
   },
@@ -201,11 +203,15 @@ module.exports = {
   //       .then(dbModel => res.json(dbModel))
   //       .catch(err => res.status(422).json(err));
   //   },
+  // Remove Food from User
   remove: function (req, res) {
     db.Food
-      .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
-      .then(dbModel => res.json(dbModel))
+      .findOneAndRemove({ _id: req.params.id })
+      .then(dbFood => {
+        console.log("This food was deleted:", dbFood);
+        return db.User.findOneAndUpdate({ user: db.Food.user }, { $pull: { food: dbFood._id }})
+      })
+      .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
   }
 };
