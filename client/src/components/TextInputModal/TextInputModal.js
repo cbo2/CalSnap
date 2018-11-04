@@ -26,10 +26,13 @@ class TextInputModal extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
+    onResponseFromSearch = () => {
+        this.props.onResponseFromSearch();  // callback to our parent so it can reload state from Mongo
+    }
+
     // when the response comes back from the backend need to hit the callback on our parent component (CalorieCount)
-    onResponseFromSearch = response => {
+    onResponseFromNutritionix = response => {
         this.setState({ secondDisplay: "reveal" })
-        this.props.onResponseFromSearch(response);
         if (response.code != "000") {
             alert(`something went wrong with the search.  Try again!`)
         } else {
@@ -60,7 +63,7 @@ class TextInputModal extends React.Component {
         API.nutritionixInstantSearch(this.state.searchedFood).then(response => {
             console.log(`the response back from the search is: ${JSON.stringify(response.data)}`)
 
-            this.onResponseFromSearch(response.data)
+            this.onResponseFromNutritionix(response.data)
             // const { item_name, nf_calories } = response.data.hits[0].fields
             // console.log({ item_name, nf_calories } = response.data.hits[0].fields) 
             this.setState({ firstDisplay: "d-none" })
@@ -109,7 +112,7 @@ class TextInputModal extends React.Component {
             date: new Date()
         })
             // .then(res => console.log("Food created: ", res.data))
-            .then(res => CalorieCount.loadFood())
+            .then(res => this.onResponseFromSearch())
             .catch(err => console.log(err));
     }
 
