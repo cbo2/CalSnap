@@ -112,7 +112,7 @@ class TextInputModal extends React.Component {
             date: new Date()
         })
             // .then(res => console.log("Food created: ", res.data))
-            .then(this.onResponseFromSearch())
+            .then(this.onResponseFromSearch)
             .catch(err => console.log(err));
     }
 

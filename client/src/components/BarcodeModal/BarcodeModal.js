@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
+import "./BarcodeModal.css";
 
 class BarcodeModal extends React.Component {
     constructor(props) {
@@ -12,7 +13,13 @@ class BarcodeModal extends React.Component {
                 video: { deviceId: { exact: undefined } }
             },
             deviceNames: [],
-            preferredDevice: null
+            preferredDevice: null,
+            searchedFood: "",
+            firstDisplay: "reveal",
+            secondDisplay: "d-none",
+            results: [],
+            selectedItem: [],
+            quantity: 1
         };
 
         this.initMedia()
@@ -20,7 +27,17 @@ class BarcodeModal extends React.Component {
     }
 
     onResponseFromBarcode = response => {
-        this.props.onResponseFromBarcode(response);
+        // this.props.onResponseFromBarcode(response);
+        console.log("this is the responseFromIR: ", response.data)
+        this.setState({ secondDisplay: "reveal" })
+        if (response.code != "000") {
+            alert(`Image is not identifyable!`)
+            this.initMedia();
+        } else {
+            this.setState({ results: response.data })
+            console.log("this is from nutritionix: ", this.state.results)
+            this.setState({ firstDisplay: "d-none" })
+        }
     }
 
     initMedia = () => {
@@ -136,16 +153,81 @@ class BarcodeModal extends React.Component {
         }
     }
 
+    // selects item from results
+    selectItem = (index, event) => {
+        // event.preventDefault();
+        console.log(this.state.results[index])
+        this.setState({ selectedItem: this.state.results[index] })
+        console.log(this.state.selectedItem)
+        // this.setState ({ firstDisplay: "reveal"})
+        // this.toggle()
+        this.setState({ secondDisplay: "d-none" })
+        this.selectQuantity();
+    }
+   
+    handleQuantity = (event) => {
+        event.preventDefault();
+        console.log("quantity: " + this.state.quantity)
+        this.toggle()
+        this.setState({ firstDisplay: "reveal" })
+        // TO DO: clear out forms after quantity entered
+        this.toggle()
+        this.setState({ secondDisplay: "d-none" })
+        API.createUser({
+            username: this.props.username
+        })
+            .then(res => console.log("User created: ", res.data))
+            .catch(err => console.log(err));
+        API.createFood({
+            item_name: this.state.results.food_name,
+            quantity: this.state.quantity,
+            nf_calories: this.state.results.nf_calories * this.state.quantity,
+            nf_protein: this.state.results.nf_protein * this.state.quantity,
+            nf_serving_size_unit: this.state.results.serving_qty,
+            nf_total_carbohydrate: this.state.results.nf_total_carbohydrate * this.state.quantity,
+            username: this.props.username,
+            date: new Date()
+        })
+            // .then(res => console.log("Food created: ", res.data))
+            .then(this.onResponseFromSearch)
+            .catch(err => console.log(err));
+    }
+
+    onResponseFromSearch = () => {
+        this.props.onResponseFromSearch();  // callback to our parent so it can reload state from Mongo
+    }
+
     render() {
         return (
             <div>
                 <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
                 <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
+                    <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
+                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
                     <ModalBody>
-                        <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
-                        <img ref={image => { this.image = image }} alt="food pic" className="d-none" />
-                        <canvas ref={canvas => { this.canvas = canvas }} className="d-none" />
+                        <div className={this.state.firstDisplay}>
+                            <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
+                            <img ref={image => { this.image = image }} alt="food pic" className="d-none" />
+                            <canvas ref={canvas => { this.canvas = canvas }} className="d-none" />
+                        </div>
+                        <div className={this.state.secondDisplay}>
+                            <div>
+                                <Row>
+                                    <Col>
+                                        {this.state.results.food_name} | Calories: {this.state.results.nf_calories}
+                                        <hr></hr>
+                                    </Col>
+                                </Row>
+                                <Form>
+                                    <FormGroup>
+                                        <Input type="textarea" name="text" id="quantityText" value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} />
+                                    </FormGroup>
+                                    <Button color="primary" onClick={this.handleQuantity} className="select-quantity">Enter</Button>
+                                </Form>
+                            </div>
+                        </div>
+
+
                     </ModalBody>
                 </Modal>
             </div>
