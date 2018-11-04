@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./TextInputModal.css";
-// import { isThisWeek } from 'date-fns';
-// import { format } from 'path';
+
 
 class TextInputModal extends React.Component {
 
@@ -107,8 +106,8 @@ class TextInputModal extends React.Component {
             nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate,
             user: this.props.nickname
         })
-        .then(res => console.log("Food created: ", res.data))
-        .catch(err => console.log(err));
+            .then(res => console.log("Food created: ", res.data))
+            .catch(err => console.log(err));
     }
 
     // handles form input change
@@ -137,9 +136,13 @@ class TextInputModal extends React.Component {
                         <div className={this.state.secondDisplay}>
                             <div>
                                 {this.state.results.map((oneitem, index) => (
-                                    <p>
-                                        <button data-id={this.props.nickname} onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>{oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}</button>
-                                    </p>
+                                    <Row key={index + 1000}>
+                                        <Col>
+                                            {oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}
+                                            <button data-id={this.props.nickname} onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Select</button>
+                                            <hr></hr>
+                                        </Col>
+                                    </Row>
                                 ))}
                             </div>
                         </div>
