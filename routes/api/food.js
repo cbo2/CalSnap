@@ -5,6 +5,8 @@ const nutritionixController = require("../../controllers/nutritionixController")
 // Matches with "/api/books"
 router.route("/")
   .get(foodController.findAll)
+
+  router.route("/:user")
   .post(foodController.create);
 
 // Matches with "/api/books/:id"
