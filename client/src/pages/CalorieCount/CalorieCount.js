@@ -7,7 +7,7 @@ import { Button, Modal, Row, Col, Table, ModalHeader, ModalBody, Form, FormGroup
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
-import { FoodDisplay, FoodItem } from "../../components/FoodDisplay";
+// import { FoodDisplay, FoodItem } from "../../components/FoodDisplay";
 // import SnapFoodBtn from "../../components/SnapFoodButton";
 import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
@@ -95,19 +95,19 @@ class CalorieCount extends Component {
         });
     };
 
-    handleIRresponse = response => {
-        // TODO - first check for an error ERR-100
-        if (response.code.startsWith("ERR-100")) {
-            alert(`Image is not identifyable!`)
-        } else {
-            // destructure the response 
-            let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
-                let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
-                return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
-            }).join('')         // use join with null to avoid commas in-between each item
-            alert(`<ul>${all}</ul`)
-        }
-    }
+    // handleIRresponse = response => {
+    //     // TODO - first check for an error ERR-100
+    //     if (response.code.startsWith("ERR-100")) {
+    //         alert(`Image is not identifyable!`)
+    //     } else {
+    //         // destructure the response 
+    //         let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
+    //             let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
+    //             return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
+    //         }).join('')         // use join with null to avoid commas in-between each item
+    //         // alert(`<ul>${all}</ul`)
+    //     }
+    // }
 
     handleBarcodeResponse = response => {
         // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
@@ -143,7 +143,7 @@ class CalorieCount extends Component {
                     <div className="row button-row">
                         {/* <div className="col" > */}
                         <VideoModal isOpen={this.state.isVideoModalOpen}
-                            onResponseFromIR={this.handleIRresponse}
+                            onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                         </VideoModal>
 
