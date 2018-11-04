@@ -189,18 +189,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function (req, res) {
-    console.log("This is req.body: ", JSON.stringify(req.body));
-    console.log("This req.params.user", req.params.user);
     db.Food
-      .create({
-        item_name: req.body.item_name,
-        quantity: req.body.quantity,
-        nf_calories: req.body.nf_calories,
-        nf_protein: req.body.nf_protein,
-        nf_serving_size_unit: req.body.nf_serving_size_unit,
-        nf_total_carbohydrate: req.body.nf_total_carbohydrate
-      })
-      .then(dbFood => { console.log("This is dbFood: ", dbFood); return db.User.findOneAndUpdate({ user: req.params.user }, { $push: { food: dbFood._id } }) })
+      .create(req.body)
+      .then(dbFood => {return db.User.findOneAndUpdate({ user: req.params.user }, { $push: { food: dbFood._id } }) })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
   },

@@ -14,10 +14,8 @@ export default {
     return axios.delete("/api/food/" + id);
   },
   // Saves a food to the database
-  createFood: function (food) {
-    console.log("This is food: ", JSON.stringify(food));
-    console.log("This food.user: ", food.user);
-    return axios.post("/api/food/" + food.user, food);
+  createFood: function (food, param) {
+    return axios.post("/api/food/" + param.user, food);
   },
   createUser: function (user) {
     return axios.post("/api/user", user);
