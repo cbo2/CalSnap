@@ -10,9 +10,9 @@ export default {
   //   return axios.get("/api/food/" + id);
   // },
   // Gets all food
-  getFood: function (food) {
-    return axios.get("/api/food", food);
-  },
+  // getFood: function (food) {
+  //   return axios.get("/api/food", food);
+  // },
   // Deletes the food with the given id
   deleteFood: function (id) {
     return axios.delete("/api/food/" + id);

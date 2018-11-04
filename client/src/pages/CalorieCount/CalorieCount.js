@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+// import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -13,7 +13,7 @@ import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
 
@@ -48,7 +48,11 @@ class CalorieCount extends Component {
     }
 
     loadFood = () => {
-        API.getFood()
+        let today = new Date();
+        let dd = today.getDate();
+        var mm = today.getMonth()+1
+        console.log("This is the date: ", mm + "/" + dd)
+        API.getSavedFoods({ username: this.props.username})
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
             )
