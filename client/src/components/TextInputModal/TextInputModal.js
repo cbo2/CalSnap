@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./TextInputModal.css";
-import CalorieCount from "../../pages/CalorieCount";
+// import CalorieCount from "../../pages/CalorieCount";
 
 
 class TextInputModal extends React.Component {
@@ -112,7 +112,7 @@ class TextInputModal extends React.Component {
             date: new Date()
         })
             // .then(res => console.log("Food created: ", res.data))
-            .then(res => this.onResponseFromSearch())
+            .then(this.onResponseFromSearch())
             .catch(err => console.log(err));
     }
 
@@ -144,7 +144,7 @@ class TextInputModal extends React.Component {
                                 {this.state.results.map((oneitem, index) => (
                                     <Row key={index + 1000}>
                                         <Col>
-                                            {oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}
+                                            {oneitem.fields.item_name} | Calories: {oneitem.fields.nf_calories}
                                             <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Select</button>
                                             <hr></hr>
                                         </Col>
