@@ -104,8 +104,7 @@ class TextInputModal extends React.Component {
             nf_calories: this.state.selectedItem.fields.nf_calories,
             nf_protein: this.state.selectedItem.fields.nf_protein,
             nf_serving_size_unit: this.state.selectedItem.fields.nf_serving_size_unit,
-            nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate
-        }, {
+            nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate,
             user: this.props.nickname
         })
         .then(res => console.log("Food created: ", res.data))

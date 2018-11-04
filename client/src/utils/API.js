@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default {
-  // Gets all foods
-  getSavedFood: function () {
-    return axios.get("/api/food");
+  // Gets all foods for user
+  getSavedFoods: function (user) {
+    return axios.get("/api/food", user);
   },
   // Gets the food with the given id
   getFood: function (id) {
@@ -14,8 +14,8 @@ export default {
     return axios.delete("/api/food/" + id);
   },
   // Saves a food to the database
-  createFood: function (food, param) {
-    return axios.post("/api/food/" + param.user, food);
+  createFood: function (food) {
+    return axios.post("/api/food/", food);
   },
   createUser: function (user) {
     return axios.post("/api/user", user);
