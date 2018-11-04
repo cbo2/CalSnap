@@ -32,13 +32,20 @@ class BarcodeModal extends React.Component {
         this.setState({ secondDisplay: "reveal" })
         if (response.code != "000") {
             alert(`Image is not identifyable!`)
-            this.initMedia();
+            this.resetModal();
         } else {
             this.setState({ results: response.data })
             console.log("this is from nutritionix: ", this.state.results)
             this.setState({ firstDisplay: "d-none" })
         }
     }
+
+    resetModal = () => {
+        this.toggle();
+        this.setState({ firstDisplay: "reveal" });
+        this.setState({ secondDisplay: "d-none" });
+        this.toggle();
+      }
 
     initMedia = () => {
         console.log(`********* initMedia *******`)

@@ -32,15 +32,23 @@ class VideoModal extends React.Component {
 
   onResponseFromIR = response => {
     // this.props.onResponseFromIR(response);
-    console.log("this is the responseFromIR: ", response.data.hits)
     this.setState({ secondDisplay: "reveal" })
-    if (response.code != "000") {
+    if (response.code !== "000") {
       alert(`Image is not identifyable!`)
+      this.resetModal();
     } else {
       this.setState({ results: response.data.hits })
       console.log("this is from nutritionix: ", this.state.results)
       this.setState({ firstDisplay: "d-none" })
     }
+  }
+
+  resetModal = () => {
+    this.toggle();
+    this.setState({ firstDisplay: "reveal" });
+    this.setState({ secondDisplay: "d-none" });
+    this.setState({ thirdDisplay: "d-none" });
+    this.toggle();
   }
 
   initMedia = () => {
