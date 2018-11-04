@@ -95,19 +95,19 @@ class CalorieCount extends Component {
         });
     };
 
-    // handleIRresponse = response => {
-    //     // TODO - first check for an error ERR-100
-    //     if (response.code.startsWith("ERR-100")) {
-    //         alert(`Image is not identifyable!`)
-    //     } else {
-    //         // destructure the response 
-    //         let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
-    //             let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
-    //             return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
-    //         }).join('')         // use join with null to avoid commas in-between each item
-    //         // alert(`<ul>${all}</ul`)
-    //     }
-    // }
+    handleIRresponse = response => {
+        // TODO - first check for an error ERR-100
+        if (response.code.startsWith("ERR-100")) {
+            alert(`Image is not identifyable!`)
+        } else {
+            // destructure the response 
+            let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
+                let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
+                return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
+            }).join('')         // use join with null to avoid commas in-between each item
+            // alert(`<ul>${all}</ul`)
+        }
+    }
 
     handleBarcodeResponse = response => {
         // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
@@ -148,7 +148,7 @@ class CalorieCount extends Component {
                         </VideoModal>
 
                         <BarcodeModal
-                            onResponseFromBarcode={this.handleBarcodeResponse}
+                            onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             buttonLabel="Scan Barcode!!">
                         </BarcodeModal>
 
@@ -180,7 +180,7 @@ class CalorieCount extends Component {
 
                         </Table>
                     ) : (
-                            <h3>Start Snapping!</h3>
+                            <h3>Start Snapping to see results!</h3>
                         )}
 
 
