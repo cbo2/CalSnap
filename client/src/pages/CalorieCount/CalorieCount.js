@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-// import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Modal, Row, Col, Table, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -50,9 +50,9 @@ class CalorieCount extends Component {
     loadFood = () => {
         let today = new Date();
         let dd = today.getDate();
-        var mm = today.getMonth()+1
+        var mm = today.getMonth() + 1
         console.log("This is the date: ", mm + "/" + dd)
-        API.getSavedFoods({ username: this.props.username})
+        API.getSavedFoods({ username: this.props.username })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
             )
@@ -152,39 +152,48 @@ class CalorieCount extends Component {
                     />
                     <div className="row button-row">
                         {/* <div className="col" > */}
-                            <VideoModal isOpen={this.state.isVideoModalOpen}
-                                onResponseFromIR={this.handleIRresponse}
-                                onClose={this.toggleModal} buttonLabel="Snap Food!">
-                            </VideoModal>
-                         
-                            <BarcodeModal
-                                onResponseFromBarcode={this.handleBarcodeResponse}
-                                buttonLabel="Scan Barcode!!">
-                            </BarcodeModal>
-                         
-                            <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
-                            </TextInputModal>   
+                        <VideoModal isOpen={this.state.isVideoModalOpen}
+                            onResponseFromIR={this.handleIRresponse}
+                            onClose={this.toggleModal} buttonLabel="Snap Food!">
+                        </VideoModal>
+
+                        <BarcodeModal
+                            onResponseFromBarcode={this.handleBarcodeResponse}
+                            buttonLabel="Scan Barcode!!">
+                        </BarcodeModal>
+
+                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
+                        </TextInputModal>
                         {/* </div> */}
                     </div>
-                    <div className="row">
-                        <div className="col">
-                        {this.state.food.length ? (
-                            <FoodDisplay>
+                    {this.state.food.length ? (
+                        <Table>
+
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Calories</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 {this.state.food.map(food => (
-                                    <FoodItem key={food._id}>
-                                      
-                                          {food.item_name}
-                                          {food.nf_calories}
-                                          {food.quantity}
-                                            
-                                    </FoodItem>
+                                    <tr key={food._id}>
+
+                                        <td>{food.item_name}</td>
+                                        <td>{food.nf_calories}</td>
+                                        <td>{food.quantity}</td>
+
+                                    </tr>
                                 ))}
-                            </FoodDisplay>
-                        ) : (
+                            </tbody>
+
+                        </Table>
+                    ) : (
                             <h3>Start Snapping!</h3>
-                          )}
-                        </div>
-                    </div>
+                        )}
+
+
                 </Container>
             </Wrapper>
             )
