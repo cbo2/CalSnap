@@ -94,10 +94,22 @@ class TextInputModal extends React.Component {
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
         API.createUser({
-            username: "Jane Doe"
+            user: this.props.nickname
         })
             .then(res => console.log("User created"))
             .catch(err => console.log(err));
+        console.log("Made it just before the API for Food")
+        API.createFood({
+            item_name: this.state.selectedItem.fields.item_name,
+            quantity: this.state.quantity,
+            nf_calories: this.state.selectedItem.fields.nf_calories,
+            nf_protein: this.state.selectedItem.fields.nf_protein,
+            nf_serving_size_unit: this.state.selectedItem.fields.nf_serving_size_unit,
+            nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate,
+            user: this.props.nickname
+        })
+        .then(res => console.log("Food created"))
+        .catch(err => console.log(err));
     }
 
     // handles form input change

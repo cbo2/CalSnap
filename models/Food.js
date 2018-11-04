@@ -8,7 +8,7 @@ var FoodSchema = new Schema({
   nf_calories: Number,
   nf_protein: Number,
   nf_serving_size_unit: String,
-  nf_total_carbohydrate: String,
+  nf_total_carbohydrate: Number,
   user: {
     type: Schema.Types.ObjectId,
     ref: "User"
