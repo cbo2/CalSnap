@@ -177,11 +177,26 @@ module.exports = {
   },
   findAll: function (req, res) {
     db.Food
-      .find(req.query)
-      .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
+      .find({ user: req.body.user })
+      // .sort({ date: -1 })
+      .then(dbFood => {
+        console.log(dbFood); 
+        return res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
+      // Route for getting all notes related to an article
+    //   app.get("/api/notes/:id", function (req, res) {
+    //     db.Note.find({ article: req.params.id })
+    //         .then(function (dbArticle) {
+    //             console.log(dbArticle);
+    //             return res.json(dbArticle);
+    //         })
+    //         .catch(function (err) {
+    //             // If an error occurred, send it to the client
+    //             return res.json(err);
+    //         });
+    // });
   findById: function (req, res) {
     db.Food
       .findById(req.params.id)

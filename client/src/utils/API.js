@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default {
-  // Gets all foods
-  getSavedFood: function () {
-    return axios.get("/api/food");
+  // Gets all foods for user
+  getSavedFoods: function (user) {
+    return axios.get("/api/food", user);
   },
   // Gets the food with the given id
   getFood: function (id) {
