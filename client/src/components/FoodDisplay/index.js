@@ -1,1 +1,2 @@
-export { default } from "./FoodDisplay";
+export * from "./FoodDisplay";
+export * from "./FoodItem";
