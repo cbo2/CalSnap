@@ -3,23 +3,19 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-// import {
-//     Jumbotron,
-//     Modal,
-//     Button,
-//     Form
-// } from "reactstrap";
+import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
-import FoodDisplay from "../../components/FoodDisplay";
+import { FoodDisplay, FoodItem } from "../../components/FoodDisplay";
 // import SnapFoodBtn from "../../components/SnapFoodButton";
 import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
+import { Link } from "react-router-dom";
 // import ResultsModal from "../../components/ResultsModal";
-// import API from "../../utils/API";
+import API from "../../utils/API";
 
 
 
@@ -29,13 +25,17 @@ class CalorieCount extends Component {
         actual: 500,
         remaining: 0,
         isVideoModalOpen: false,
-        searchItem: "orange"
+        searchItem: "orange",
+        food: [],
+        item_name: "",
+        nf_calories: 0,
+        quantity: 0
     };
 
     componentDidMount() {
         // calculates remaining calories for day
         this.setState({ remaining: this.state.dailyGoal - this.state.actual })
-
+        this.loadFood()
         // temporary location to call nutritionix API
         // API.nutritionixNutritionSearch({})
         // this.nutritionixInstantSearch()
@@ -46,6 +46,15 @@ class CalorieCount extends Component {
         // API.nutritionixBarcodeSearch({})
 
     }
+
+    loadFood = () => {
+        API.getFood()
+            .then(res =>
+                this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
+            )
+            .catch(err => console.log(err));
+        console.log("here are the foods: " + this.state.food)
+    };
 
     toggleModal = () => {
         console.log(`modal state is: ${this.state.isVideoModalOpen}`)
@@ -137,24 +146,41 @@ class CalorieCount extends Component {
                         remaining={this.state.remaining}
 
                     />
-                    <div className="row">
-                        <VideoModal isOpen={this.state.isVideoModalOpen}
-                            onResponseFromIR={this.handleIRresponse}
-                            onClose={this.toggleModal} buttonLabel="Snap Food!">
-                        </VideoModal>
-                        <BarcodeModal
-                            onResponseFromBarcode={this.handleBarcodeResponse}
-                            buttonLabel="Scan Barcode!!">
-                        </BarcodeModal>
-                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
-                        </TextInputModal>
+                    <div className="row button-row">
+                        {/* <div className="col" > */}
+                            <VideoModal isOpen={this.state.isVideoModalOpen}
+                                onResponseFromIR={this.handleIRresponse}
+                                onClose={this.toggleModal} buttonLabel="Snap Food!">
+                            </VideoModal>
+                         
+                            <BarcodeModal
+                                onResponseFromBarcode={this.handleBarcodeResponse}
+                                buttonLabel="Scan Barcode!!">
+                            </BarcodeModal>
+                         
+                            <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
+                            </TextInputModal>   
+                        {/* </div> */}
                     </div>
-                    <FoodDisplay>
-                        {/* will map through DB results when built       */}
-                        {/* {this.state.foodItems.map(food-item => (
-                                
-                                ))} */}
-                    </FoodDisplay>
+                    <div className="row">
+                        <div className="col">
+                        {this.state.food.length ? (
+                            <FoodDisplay>
+                                {this.state.food.map(food => (
+                                    <FoodItem key={food._id}>
+                                      
+                                          {food.item_name}
+                                          {food.nf_calories}
+                                          {food.quantity}
+                                            
+                                    </FoodItem>
+                                ))}
+                            </FoodDisplay>
+                        ) : (
+                            <h3>Start Snapping!</h3>
+                          )}
+                        </div>
+                    </div>
                 </Container>
             </Wrapper>
             )

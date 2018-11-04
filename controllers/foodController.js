@@ -175,14 +175,21 @@ module.exports = {
 
     })
   },
-  findAll: function (req, res) {
+  // findAll: function (req, res) {
+  //   db.Food
+  //     .find({ user: req.body.user })
+  //     // .sort({ date: -1 })
+  //     .then(dbFood => {
+  //       console.log("this is the food on foodController: " + dbFood); 
+  //       return res.json(dbModel)
+  //     })
+  //     .catch(err => res.status(422).json(err));
+  // },
+  findAll: function(req, res) {
     db.Food
-      .find({ user: req.body.user })
+      .find(req.query)
       // .sort({ date: -1 })
-      .then(dbFood => {
-        console.log(dbFood); 
-        return res.json(dbModel)
-      })
+      .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: function (req, res) {

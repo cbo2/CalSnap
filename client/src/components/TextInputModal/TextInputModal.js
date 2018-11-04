@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./TextInputModal.css";
+import CalorieCount from "../../pages/CalorieCount";
 
 
 class TextInputModal extends React.Component {
@@ -106,7 +107,8 @@ class TextInputModal extends React.Component {
             nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate,
             user: this.props.nickname
         })
-            .then(res => console.log("Food created: ", res.data))
+            // .then(res => console.log("Food created: ", res.data))
+            .then(res => CalorieCount.loadFood())
             .catch(err => console.log(err));
     }
 

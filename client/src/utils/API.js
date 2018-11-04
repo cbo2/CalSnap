@@ -6,8 +6,12 @@ export default {
     return axios.get("/api/food", user);
   },
   // Gets the food with the given id
-  getFood: function (id) {
-    return axios.get("/api/food/" + id);
+  // getFood: function (id) {
+  //   return axios.get("/api/food/" + id);
+  // },
+  // Gets all food
+  getFood: function (food) {
+    return axios.get("/api/food", food);
   },
   // Deletes the food with the given id
   deleteFood: function (id) {
@@ -24,7 +28,7 @@ export default {
     return axios.post("/api/food/identify", { image: image })
   },
   nutritionixInstantSearch: (searchItem) => {
-    return axios.post("api/food/nutritionix/instant", { searchItem : searchItem }) 
+    return axios.post("api/food/nutritionix/instant", { searchItem: searchItem })
   },
   nutritionixBarcodeSearch: () => {
     return axios.post("api/food/nutritionix/barcode")
