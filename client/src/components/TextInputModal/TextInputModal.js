@@ -94,18 +94,19 @@ class TextInputModal extends React.Component {
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
         API.createUser({
-            user: this.props.nickname
+            username: this.props.username
         })
             .then(res => console.log("User created: ", res.data))
             .catch(err => console.log(err));
         API.createFood({
             item_name: this.state.selectedItem.fields.item_name,
             quantity: this.state.quantity,
-            nf_calories: this.state.selectedItem.fields.nf_calories,
-            nf_protein: this.state.selectedItem.fields.nf_protein,
+            nf_calories: this.state.selectedItem.fields.nf_calories * this.state.quantity,
+            nf_protein: this.state.selectedItem.fields.nf_protein * this.state.quantity,
             nf_serving_size_unit: this.state.selectedItem.fields.nf_serving_size_unit,
-            nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate,
-            user: this.props.nickname
+            nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate * this.state.quantity,
+            username: this.props.username,
+            date: new Date()
         })
             // .then(res => console.log("Food created: ", res.data))
             .then(res => CalorieCount.loadFood())
@@ -141,7 +142,7 @@ class TextInputModal extends React.Component {
                                     <Row key={index + 1000}>
                                         <Col>
                                             {oneitem.fields.item_name} ||| Calories: {oneitem.fields.nf_calories}
-                                            <button data-id={this.props.nickname} onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Select</button>
+                                            <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Select</button>
                                             <hr></hr>
                                         </Col>
                                     </Row>

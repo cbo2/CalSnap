@@ -175,21 +175,14 @@ module.exports = {
 
     })
   },
-  // findAll: function (req, res) {
-  //   db.Food
-  //     .find({ user: req.body.user })
-  //     // .sort({ date: -1 })
-  //     .then(dbFood => {
-  //       console.log("this is the food on foodController: " + dbFood); 
-  //       return res.json(dbModel)
-  //     })
-  //     .catch(err => res.status(422).json(err));
-  // },
-  findAll: function(req, res) {
+  findAll: function (req, res) {
+    console.log("This is req.body: ", req.body)
     db.Food
-      .find(req.query)
+      .find(req.body)
       // .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
+      .then(dbModel => {
+        return res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
   findById: function (req, res) {
@@ -202,13 +195,13 @@ module.exports = {
     db.Food
       .create(req.body)
       .then(dbFood => {
-        return db.User.findOneAndUpdate({ user: req.body.user }, { $push: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: req.body.username }, { $push: { food: dbFood._id }})
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
   },
   //   update: function(req, res) {
-  //     db.Article
+  //     db.Food
   //       .findOneAndUpdate({ _id: req.params.id }, req.body)
   //       .then(dbModel => res.json(dbModel))
   //       .catch(err => res.status(422).json(err));
@@ -219,7 +212,7 @@ module.exports = {
       .findOneAndRemove({ _id: req.params.id })
       .then(dbFood => {
         console.log("This food was deleted:", dbFood);
-        return db.User.findOneAndUpdate({ user: db.Food.user }, { $pull: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: db.Food.username }, { $pull: { food: dbFood._id }})
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
