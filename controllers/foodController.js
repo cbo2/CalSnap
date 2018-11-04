@@ -179,7 +179,7 @@ module.exports = {
     console.log("This is req.body: ", req.body)
     db.Food
       .find(req.body)
-      // .sort({ date: -1 })
+      .sort({ date: -1 })
       .then(dbModel => {
         return res.json(dbModel)
       })
@@ -212,7 +212,7 @@ module.exports = {
       .findOneAndRemove({ _id: req.params.id })
       .then(dbFood => {
         console.log("This food was deleted:", dbFood);
-        return db.User.findOneAndUpdate({ username: db.Food.username }, { $pull: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id }})
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));

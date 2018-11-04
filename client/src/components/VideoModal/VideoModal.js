@@ -217,7 +217,7 @@ class VideoModal extends React.Component {
   render() {
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
           <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch the image to Snap!</ModalHeader>
           <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>

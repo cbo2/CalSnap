@@ -51,7 +51,8 @@ class CalorieCount extends Component {
         let today = new Date();
         let dd = today.getDate();
         var mm = today.getMonth() + 1
-        console.log("This is the date: ", mm + "/" + dd)
+        console.log("This is the date: ", mm + "/" + dd);
+        console.log("This is username: ", this.props.username);
         API.getSavedFoods({ username: this.props.username })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
@@ -59,6 +60,12 @@ class CalorieCount extends Component {
             .catch(err => console.log(err));
         console.log("here are the foods: " + this.state.food)
     };
+
+    deleteFood = id => {
+        API.deleteFood(id)
+          .then(res => this.loadFood())
+          .catch(err => console.log(err));
+      };
 
     toggleModal = () => {
         console.log(`modal state is: ${this.state.isVideoModalOpen}`)
@@ -129,10 +136,8 @@ class CalorieCount extends Component {
 
     render() {
         const loggedIn = this.props.auth.isAuthenticated();
-
         if (loggedIn) {
             return (<Wrapper>
-                <div>Welcome to CalSnap, {this.props.name}</div>
                 <Container>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
@@ -164,6 +169,8 @@ class CalorieCount extends Component {
                                     <th>Item</th>
                                     <th>Calories</th>
                                     <th>Quantity</th>
+                                    <th>Update</th>
+                                    <th>Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -173,6 +180,8 @@ class CalorieCount extends Component {
                                         <td>{food.item_name}</td>
                                         <td>{food.nf_calories}</td>
                                         <td>{food.quantity}</td>
+                                        <td><button className="btn">U</button></td>
+                                        <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger" data-id={food._id}>X</button></td>
 
                                     </tr>
                                 ))}
