@@ -3,11 +3,9 @@ import axios from "axios";
 export default {
   // Gets all food for user
   getFoodsbyUser: function (params) {
-    console.log(JSON.stringify(params));
     return axios.get(`/api/food/${params.username}`);
   },
   // getFoodsbyUserAndDate: function (params) {
-  //   console.log(`This is params for getFoodsbyUsernameAndDate: ${JSON.stringify(params)}`);
   //   return axios.get(`/api/user/${params.username}/${params.bYYYY}/${params.bMM}/${params.bDD}/${params.eYYYY}/${params.eMM}/${params.eDD}`)
   // },
   // Gets user

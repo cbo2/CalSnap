@@ -175,7 +175,7 @@ module.exports = {
 
     })
   },
-  findAllbyUsername: function (req, res) {
+  findAllbyUser: function (req, res) {
     db.Food
       .find({ username: req.params.username })
       .sort({ date: -1 })
@@ -185,6 +185,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   // findAllbyUserAndDate: function (req, res) {
+  //   console.log(`This is req.params for findAllbyUserAndDate: ${req.params}`);
   //   db.Food
   //     .find({ username: req.params.username, date: { "$gte": new Date(req.params.bYYYY, req.params.bMM, req.params.bDD), "$lt": new Date(req.params.eYYYY, req.param.eMM, req.param.eDD) } })
   //     .sort({ date: -1 })

@@ -16,7 +16,6 @@ router.route("/:username")
 
 // Matches with "/api/food/:id"
 router.route("/:id")
-  .get(foodController.findById)
   // .put(foodController.update)
   .delete(foodController.remove)
 
