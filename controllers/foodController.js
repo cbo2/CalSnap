@@ -176,9 +176,8 @@ module.exports = {
     })
   },
   findAll: function (req, res) {
-    console.log("This is req.body: ", req.body)
     db.Food
-      .find(req.body)
+      .find({ username: req.params.username })
       .sort({ date: -1 })
       .then(dbModel => {
         return res.json(dbModel)

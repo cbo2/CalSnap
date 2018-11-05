@@ -2,14 +2,16 @@ const router = require("express").Router();
 const foodController = require("../../controllers/foodController");
 const nutritionixController = require("../../controllers/nutritionixController");
 
-// Matches with "/api/foods"
+// Matches with "/api/food"
 router.route("/")
-  .get(foodController.findAll)
   .post(foodController.create)
 
+// Matches with "/api/food/:username"
+router.route("/:username")
+  .get(foodController.findAll)
+
 // Matches with "/api/food/:id"
-router
-  .route("/:id")
+router.route("/:id")
   .get(foodController.findById)
   // .put(foodController.update)
   .delete(foodController.remove);
