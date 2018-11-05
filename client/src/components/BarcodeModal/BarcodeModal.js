@@ -169,7 +169,7 @@ class BarcodeModal extends React.Component {
                     halfSample: true
                 },
                 numOfWorkers: 2,
-                frequency: 5,
+                frequency: 10,
                 decoder: {
                     readers : [{
                         format: "ean_reader",
@@ -325,9 +325,8 @@ class BarcodeModal extends React.Component {
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
                     <ModalBody>
-                        <div className={this.state.firstDisplay}>
-                            <div ref={viewport => { this.viewport = viewport }}></div>
-                            <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
+                        <div id="videoimage"  className={this.state.firstDisplay} >
+                            <video ref={video => { this.video = video }}  onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
                             <img ref={image => { this.image = image }} alt="food pic" className="d-none" />
                             <canvas ref={canvas => { this.canvas = canvas }} className="d-none" />
                         </div>
