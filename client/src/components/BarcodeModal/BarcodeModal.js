@@ -155,31 +155,29 @@ class BarcodeModal extends React.Component {
             console.log(`====================== init'ng quagga  ========${this.state.preferredDevice.deviceId}=================`)
             Quagga.init({
                 inputStream: {
-                    name: "Live",
-                    type: "LiveStream",
+                    type : "LiveStream",
                     target: this.video,
                     constraints: {
-                        width: 640,
-                        height: 480,
+                        width: {min: 640},
+                        height: {min: 480},
                         facingMode: "environment",
-                        deviceId: this.state.preferredDevice.deviceId
-                    },
-                    area: { // defines rectangle of the detection/localization area
-                        top: "0%",    // top offset
-                        right: "0%",  // right offset
-                        left: "0%",   // left offset
-                        bottom: "0%"  // bottom offset
-                    },
-                    singleChannel: false // true: only the red color-channel is read
+                        aspectRatio: {min: 1, max: 2}
+                    }
                 },
+                locator: {
+                    patchSize: "medium",
+                    halfSample: true
+                },
+                numOfWorkers: 2,
+                frequency: 5,
                 decoder: {
-                    // readers: ["ean_reader", "code_128_reader"]
-                    readers: ["ean_reader"],
-                    debug: {
-                        drawBoundingBox: true
-                    },
+                    readers : [{
+                        format: "ean_reader",
+                        config: {}
+                    }],
                     multiple: false
-                }
+                },
+                locate: true
             }, function (err) {
                 if (err) {
                     console.log(`**** Quagga Error: ${err}`);
