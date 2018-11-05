@@ -152,34 +152,34 @@ class BarcodeModal extends React.Component {
         })
 
         console.log(`====================== init'ng quagga  ========${this.state.preferredDevice.deviceId}=================`)
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: this.canvas    // Or '#yourElement' (optional)
-                // constraints: {
-                //     width: 640,
-                //     height: 480,
-                //     facingMode: "environment"
-                //     // deviceId: this.state.preferredDevice.deviceId
-                // }
-            },
-            decoder: {
-                readers: ["ean_reader", "code_128_reader"]
-            }
-        }, function (err) {
-            if (err) {
-                console.log(`**** Quagga Error: ${err}`);
-                return
-            }
-            console.log("Initialization finished. Ready to start");
-            // let track = Quagga.CameraAccess.getActiveTrack();
-            // let capabilities = {};
-            // if (typeof track.getCapabilities === 'function') {
-            //     capabilities = track.getCapabilities();
-            // }
-            Quagga.start();
-        });
+        // Quagga.init({
+        //     inputStream: {
+        //         name: "Live",
+        //         type: "LiveStream",
+        //         target: this.canvas    // Or '#yourElement' (optional)
+        //         // constraints: {
+        //         //     width: 640,
+        //         //     height: 480,
+        //         //     facingMode: "environment"
+        //         //     // deviceId: this.state.preferredDevice.deviceId
+        //         // }
+        //     },
+        //     decoder: {
+        //         readers: ["ean_reader", "code_128_reader"]
+        //     }
+        // }, function (err) {
+        //     if (err) {
+        //         console.log(`**** Quagga Error: ${err}`);
+        //         return
+        //     }
+        //     console.log("Initialization finished. Ready to start");
+        //     // let track = Quagga.CameraAccess.getActiveTrack();
+        //     // let capabilities = {};
+        //     // if (typeof track.getCapabilities === 'function') {
+        //     //     capabilities = track.getCapabilities();
+        //     // }
+        //     Quagga.start();
+        // });
     }
 
     checkCapabilities = () => {
