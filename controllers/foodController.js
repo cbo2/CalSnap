@@ -175,7 +175,7 @@ module.exports = {
 
     })
   },
-  findAll: function (req, res) {
+  findAllbyUsername: function (req, res) {
     db.Food
       .find({ username: req.params.username })
       .sort({ date: -1 })
@@ -184,17 +184,20 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
-  findById: function (req, res) {
-    db.Food
-      .findById(req.params.id)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
+  // findAllbyUserAndDate: function (req, res) {
+  //   db.Food
+  //     .find({ username: req.params.username, date: { "$gte": new Date(req.params.bYYYY, req.params.bMM, req.params.bDD), "$lt": new Date(req.params.eYYYY, req.param.eMM, req.param.eDD) } })
+  //     .sort({ date: -1 })
+  //     .then(dbModel => {
+  //       return res.json(dbModel)
+  //     })
+  //     .catch(err => res.status(422).json(err));
+  // },
   create: function (req, res) {
     db.Food
       .create(req.body)
       .then(dbFood => {
-        return db.User.findOneAndUpdate({ username: req.body.username }, { $push: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: req.body.username }, { $push: { food: dbFood._id } })
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
@@ -210,7 +213,7 @@ module.exports = {
     db.Food
       .findOneAndRemove({ _id: req.params.id })
       .then(dbFood => {
-        return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id } })
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));

@@ -62,10 +62,19 @@ class CalorieCount extends Component {
     loadFood = () => {
         let today = new Date();
         let dd = today.getDate();
-        var mm = today.getMonth() + 1
-        console.log("This is the date: ", mm + "/" + dd);
-        console.log("This is username: ", this.props.username);
-        API.getSavedFoods({ username: this.props.username })
+        let mm = today.getMonth();
+        let yyyy = today.getYear() + 1900;
+        console.log(`This is the date: ${mm}/${dd}/${yyyy}`);
+        console.log(`This is username: ${this.props.username}`);
+        API.getFoodsbyUser({
+            username: this.props.username,
+            // bYYYY: yyyy,
+            // bMM: mm,
+            // bDD: dd,
+            // eYYYY: yyyy,
+            // eMM: mm,
+            // eDD: dd + 1
+        })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
             )
@@ -75,9 +84,9 @@ class CalorieCount extends Component {
 
     deleteFood = id => {
         API.deleteFood(id)
-          .then(res => this.loadFood())
-          .catch(err => console.log(err));
-      };
+            .then(res => this.loadFood())
+            .catch(err => console.log(err));
+    };
 
     toggleModal = () => {
         console.log(`modal state is: ${this.state.isVideoModalOpen}`)
