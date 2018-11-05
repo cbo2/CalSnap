@@ -176,9 +176,8 @@ module.exports = {
     })
   },
   findAll: function (req, res) {
-    console.log("This is req.body: ", req.body)
     db.Food
-      .find(req.body)
+      .find({ username: req.params.username })
       .sort({ date: -1 })
       .then(dbModel => {
         return res.json(dbModel)
@@ -192,6 +191,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function (req, res) {
+    console.log("This is req.body for CreateFood: ", req.body);
     db.Food
       .create(req.body)
       .then(dbFood => {
@@ -199,6 +199,7 @@ module.exports = {
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
+      console.log("This is req.body for CreateFood: ", req.body);
   },
   //   update: function(req, res) {
   //     db.Food
