@@ -120,7 +120,7 @@ class BarcodeModal extends React.Component {
 
         console.log(`====================== setting callback for quagga onDetected =========================`)
         Quagga.onDetected(detected => {
-            console.log(`*** we got this barcode detected:  ${detected.codeResult.code}`)
+            console.log(`*** we got this barcode detected:  [${detected.codeResult.code}]`)
         })
 
         Quagga.onProcessed(result => {
@@ -133,7 +133,7 @@ class BarcodeModal extends React.Component {
                 if (result.boxes) {
                     drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
                     result.boxes.filter(function (box) {
-                        console.log(`========> inside onProcessed return box != result.box <============`)
+                        // console.log(`========> inside onProcessed return box != result.box <============`)
                         return box !== result.box;
                     }).forEach(function (box) {
                         console.log(`========> inside onProcessed should be drawing green box now!!!!! <============`)
@@ -151,35 +151,38 @@ class BarcodeModal extends React.Component {
             }
         })
 
-        console.log(`====================== init'ng quagga  ========${this.state.preferredDevice.deviceId}=================`)
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: this.canvas    // Or '#yourElement' (optional)
-                // constraints: {
-                //     width: 640,
-                //     height: 480,
-                //     facingMode: "environment"
-                //     // deviceId: this.state.preferredDevice.deviceId
+        new Promise(resolve => setTimeout(resolve, 3000)).then(respons => {
+            console.log(`====================== init'ng quagga  ========${this.state.preferredDevice.deviceId}=================`)
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: this.video    // Or '#yourElement' (optional)
+                    // constraints: {
+                    //     width: 640,
+                    //     height: 480,
+                    //     facingMode: "environment"
+                    //     // deviceId: this.state.preferredDevice.deviceId
+                    // }
+                },
+                decoder: {
+                    // readers: ["ean_reader", "code_128_reader"]
+                    readers: ["ean_reader"]
+                }
+            }, function (err) {
+                if (err) {
+                    console.log(`**** Quagga Error: ${err}`);
+                    return
+                }
+                console.log("Initialization finished. Ready to start");
+                // let track = Quagga.CameraAccess.getActiveTrack();
+                // let capabilities = {};
+                // if (typeof track.getCapabilities === 'function') {
+                //     capabilities = track.getCapabilities();
                 // }
-            },
-            decoder: {
-                readers: ["ean_reader", "code_128_reader"]
-            }
-        }, function (err) {
-            if (err) {
-                console.log(`**** Quagga Error: ${err}`);
-                return
-            }
-            console.log("Initialization finished. Ready to start");
-            // let track = Quagga.CameraAccess.getActiveTrack();
-            // let capabilities = {};
-            // if (typeof track.getCapabilities === 'function') {
-            //     capabilities = track.getCapabilities();
-            // }
-            Quagga.start();
-        });
+                Quagga.start();
+            })
+        })
     }
 
     checkCapabilities = () => {
