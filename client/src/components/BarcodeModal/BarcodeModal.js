@@ -112,9 +112,9 @@ class BarcodeModal extends React.Component {
             console.log(`the preferred Device id is: ${this.state.preferredDevice.deviceId}`)
         }
         console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
+        console.log(`====================== before fakemethod  ======== ${this.state.preferredDevice.deviceId} =================`)
         navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).then(this.searchBarcode).catch(this.handleError)
     }
-
 
     searchBarcode = (target) => {
 
@@ -151,12 +151,18 @@ class BarcodeModal extends React.Component {
             }
         })
 
-        console.log(`====================== init'ng quagga  =========================`)
+        console.log(`====================== init'ng quagga  ========${this.state.preferredDevice.deviceId}=================`)
         Quagga.init({
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
                 target: this.canvas    // Or '#yourElement' (optional)
+                // constraints: {
+                //     width: 640,
+                //     height: 480,
+                //     facingMode: "environment"
+                //     // deviceId: this.state.preferredDevice.deviceId
+                // }
             },
             decoder: {
                 readers: ["ean_reader", "code_128_reader"]
@@ -167,11 +173,11 @@ class BarcodeModal extends React.Component {
                 return
             }
             console.log("Initialization finished. Ready to start");
-            let track = Quagga.CameraAccess.getActiveTrack();
-            let capabilities = {};
-            if (typeof track.getCapabilities === 'function') {
-                capabilities = track.getCapabilities();
-            }
+            // let track = Quagga.CameraAccess.getActiveTrack();
+            // let capabilities = {};
+            // if (typeof track.getCapabilities === 'function') {
+            //     capabilities = track.getCapabilities();
+            // }
             Quagga.start();
         });
     }
