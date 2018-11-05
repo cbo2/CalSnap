@@ -2,11 +2,15 @@ import React from 'react';
 import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./BarcodeModal.css";
+import Quagga from 'quagga';
+
 
 class BarcodeModal extends React.Component {
     constructor(props) {
         super(props);
         this.onResponseFromBarcode = this.onResponseFromBarcode.bind(this);
+        this.checkCapabilities = this.checkCapabilities.bind(this);
+        this.searchBarcode = this.searchBarcode.bind(this);
         this.state = {
             modal: false,
             constraints: {
@@ -45,7 +49,7 @@ class BarcodeModal extends React.Component {
         this.setState({ firstDisplay: "reveal" });
         this.setState({ secondDisplay: "d-none" });
         this.toggle();
-      }
+    }
 
     initMedia = () => {
         console.log(`********* initMedia *******`)
@@ -108,7 +112,98 @@ class BarcodeModal extends React.Component {
             console.log(`the preferred Device id is: ${this.state.preferredDevice.deviceId}`)
         }
         console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
-        navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).catch(this.handleError)
+        navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).then(this.searchBarcode).catch(this.handleError)
+    }
+
+
+    searchBarcode = (target) => {
+
+        console.log(`====================== setting callback for quagga onDetected =========================`)
+        Quagga.onDetected(detected => {
+            console.log(`*** we got this barcode detected:  ${detected.codeResult.code}`)
+        })
+
+        Quagga.onProcessed(result => {
+            // console.log(`========> inside onProcessed with result: ${result} <============`)
+            let drawingCtx = Quagga.canvas.ctx.overlay,
+                drawingCanvas = Quagga.canvas.dom.overlay;
+
+            if (result) {
+                // console.log(`========> inside onProcessed with result.boxes: ${result.boxes} <============`)
+                if (result.boxes) {
+                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                    result.boxes.filter(function (box) {
+                        console.log(`========> inside onProcessed return box != result.box <============`)
+                        return box !== result.box;
+                    }).forEach(function (box) {
+                        console.log(`========> inside onProcessed should be drawing green box now!!!!! <============`)
+                        Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
+                    });
+                }
+
+                if (result.box) {
+                    Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
+                }
+
+                if (result.codeResult && result.codeResult.code) {
+                    Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
+                }
+            }
+        })
+
+        console.log(`====================== init'ng quagga  =========================`)
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: this.canvas    // Or '#yourElement' (optional)
+            },
+            decoder: {
+                readers: ["ean_reader", "code_128_reader"]
+            }
+        }, function (err) {
+            if (err) {
+                console.log(`**** Quagga Error: ${err}`);
+                return
+            }
+            console.log("Initialization finished. Ready to start");
+            let track = Quagga.CameraAccess.getActiveTrack();
+            let capabilities = {};
+            if (typeof track.getCapabilities === 'function') {
+                capabilities = track.getCapabilities();
+            }
+            Quagga.start();
+        });
+    }
+
+    checkCapabilities = () => {
+        let track = Quagga.CameraAccess.getActiveTrack();
+        let capabilities = {};
+        if (typeof track.getCapabilities === 'function') {
+            capabilities = track.getCapabilities();
+        }
+        this.applySettingsVisibility('zoom', capabilities.zoom);
+        this.applySettingsVisibility('torch', capabilities.torch);
+    }
+
+
+    applySettingsVisibility = (setting, capability) => {
+        // depending on type of capability
+        if (typeof capability === 'boolean') {
+            let node = document.querySelector('input[name="settings_' + setting + '"]');
+            if (node) {
+                node.parentNode.style.display = capability ? 'block' : 'none';
+            }
+            return;
+        }
+        if (window.MediaSettingsRange && capability instanceof window.MediaSettingsRange) {
+            let node = document.querySelector('select[name="settings_' + setting + '"]');
+            if (node) {
+                this.updateOptionsForMediaRange(node, capability);
+                node.parentNode.style.display = 'block';
+            }
+            return;
+        }
     }
 
     handleError = (error) => {
@@ -171,7 +266,7 @@ class BarcodeModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
         this.selectQuantity();
     }
-   
+
     handleQuantity = (event) => {
         event.preventDefault();
         console.log("quantity: " + this.state.quantity)
