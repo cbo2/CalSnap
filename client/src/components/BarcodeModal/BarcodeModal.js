@@ -157,7 +157,7 @@ class BarcodeModal extends React.Component {
                 inputStream: {
                     name: "Live",
                     type: "LiveStream",
-                    target: this.video    // Or '#yourElement' (optional)
+                    target: this.image    // Or '#yourElement' (optional)
                     // constraints: {
                     //     width: 640,
                     //     height: 480,
