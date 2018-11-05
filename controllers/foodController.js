@@ -133,14 +133,14 @@ module.exports = {
       src: temp,
       numOfWorkers: 0,  // Needs to be 0 when used within node
       inputStream: {
-        size: 500  // restrict input-size to be 800px in width (long-side)
+        size: 800  // restrict input-size to be 800px in width (long-side)
       },
       decoder: {
         readers: [
+          // "code_128_reader",
           "ean_reader",
-          "code_128_reader"
           // "code_39_reader",
-          // "ean_8_reader"
+          "ean_8_reader"
           // "upc_a_reader",
           // "upc_c_reader",
           // "I2of5_reader",
@@ -156,23 +156,27 @@ module.exports = {
       fs.unlink(temp, (err) => {
         if (err) console.log(`ERROR:  could not remove file: ${temp}`)
       })
-      if (result.codeResult) {
-        console.log(`=========> quagga result is: ${result.codeResult.code}`)
-
-        nutritionixController.nutritionixBarcodeDirect(result.codeResult.code)
-          .then(nutritionresponse => {
-            console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
-            res.send({ code: "000", data: nutritionresponse })
-          })
-          .catch(error => {
-            console.log(`nutrionix error in combination with barcode reader is: ${error}`)
-            res.send({ code: "200", data: "nutritionix error with barcode" })
-          })
+      if (!result) {
+        console.log(`*** no result from quagga.  Bailing!`)
+        res.send({ code: "201", data: "ERROR: quagga blew up!" });
       } else {
-        console.log(`***** ERROR: quagga not detected!  Result is: ${JSON.stringify(result)}`);
-        res.send({ code: "201", data: "ERROR: barcode not detected!" });
-      }
+        if (result.codeResult) {
+          console.log(`=========> quagga result is: ${result.codeResult.code}`)
 
+          nutritionixController.nutritionixBarcodeDirect(result.codeResult.code)
+            .then(nutritionresponse => {
+              console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
+              res.send({ code: "000", data: nutritionresponse })
+            })
+            .catch(error => {
+              console.log(`nutrionix error in combination with barcode reader is: ${error}`)
+              res.send({ code: "200", data: "nutritionix error with barcode" })
+            })
+        } else {
+          console.log(`***** ERROR: quagga not detected!  Result is: ${JSON.stringify(result)}`);
+          res.send({ code: "201", data: "ERROR: barcode not detected!" });
+        }
+      }
     })
   },
   findAll: function (req, res) {
@@ -194,7 +198,7 @@ module.exports = {
     db.Food
       .create(req.body)
       .then(dbFood => {
-        return db.User.findOneAndUpdate({ username: req.body.username }, { $push: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: req.body.username }, { $push: { food: dbFood._id } })
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
@@ -210,7 +214,7 @@ module.exports = {
     db.Food
       .findOneAndRemove({ _id: req.params.id })
       .then(dbFood => {
-        return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id }})
+        return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id } })
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
