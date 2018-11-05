@@ -34,8 +34,23 @@ class CalorieCount extends Component {
 
     componentDidMount() {
         // calculates remaining calories for day
-        this.setState({ remaining: this.state.dailyGoal - this.state.actual })
-        this.loadFood()
+        this.setState({ remaining: this.state.dailyGoal - this.state.actual });
+        this.loadFood();
+        API.getUser({
+            username: this.props.username
+        })
+            .then(res => {
+                console.log("This user already exists?: ", res)
+                if (!res.data) {
+                    console.log("The username inside of the if statement: ", this.props.username)
+                    API.createUser({
+                        username: this.props.username
+                    })
+                        .then(res => console.log("User created: ", res.data))
+                        .catch(err => console.log(err));
+                }
+            })
+            .catch(err => console.log(err));
         // temporary location to call nutritionix API
         // API.nutritionixNutritionSearch({})
         // this.nutritionixInstantSearch()
@@ -44,7 +59,6 @@ class CalorieCount extends Component {
         //     searchItem: this.state.searchItem
         // })
         // API.nutritionixBarcodeSearch({})
-
     }
 
     loadFood = () => {
@@ -58,7 +72,7 @@ class CalorieCount extends Component {
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
             )
             .catch(err => console.log(err));
-        console.log("here are the foods: " + this.state.food)
+        console.log("here are the foods: " + JSON.stringify(this.state.food));
     };
 
     deleteFood = id => {

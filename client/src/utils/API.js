@@ -2,13 +2,16 @@ import axios from "axios";
 
 export default {
   // Gets all foods for user
-  getSavedFoods: function (food) {
-    return axios.get("/api/food/" + food.username);
+  getSavedFoods: function (params) {
+    return axios.get("/api/food/" + params.username);
   },
   // Gets the food with the given id
   // getFood: function (id) {
   //   return axios.get("/api/food/" + id);
   // },
+  getUser: function (params) {
+    return axios.get("/api/user/" + params.username)
+  },
   // Gets all food
   // getFood: function (food) {
   //   return axios.get("/api/food", food);

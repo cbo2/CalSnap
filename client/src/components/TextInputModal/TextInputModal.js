@@ -96,11 +96,6 @@ class TextInputModal extends React.Component {
         // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
-        API.createUser({
-            username: this.props.username
-        })
-            .then(res => console.log("User created: ", res.data))
-            .catch(err => console.log(err));
         API.createFood({
             item_name: this.state.selectedItem.fields.item_name,
             quantity: this.state.quantity,
@@ -111,7 +106,6 @@ class TextInputModal extends React.Component {
             username: this.props.username,
             date: new Date()
         })
-            // .then(res => console.log("Food created: ", res.data))
             .then(this.onResponseFromSearch)
             .catch(err => console.log(err));
     }
