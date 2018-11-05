@@ -133,14 +133,14 @@ module.exports = {
       src: temp,
       numOfWorkers: 0,  // Needs to be 0 when used within node
       inputStream: {
-        size: 800  // restrict input-size to be 800px in width (long-side)
+        size: 500  // restrict input-size to be 800px in width (long-side)
       },
       decoder: {
         readers: [
           "ean_reader",
-          // "code_128_reader"
+          "code_128_reader"
           // "code_39_reader",
-          "ean_8_reader"
+          // "ean_8_reader"
           // "upc_a_reader",
           // "upc_c_reader",
           // "I2of5_reader",
