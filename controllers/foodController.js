@@ -198,7 +198,6 @@ module.exports = {
       })
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
-      console.log("This is req.body for CreateFood: ", req.body);
   },
   //   update: function(req, res) {
   //     db.Food
