@@ -210,7 +210,6 @@ module.exports = {
     db.Food
       .findOneAndRemove({ _id: req.params.id })
       .then(dbFood => {
-        console.log("This food was deleted:", dbFood);
         return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id }})
       })
       .then(dbUser => res.json(dbUser))
