@@ -157,13 +157,13 @@ class BarcodeModal extends React.Component {
                 inputStream: {
                     name: "Live",
                     type: "LiveStream",
-                    target: this.image    // Or '#yourElement' (optional)
-                    // constraints: {
-                    //     width: 640,
-                    //     height: 480,
-                    //     facingMode: "environment"
-                    //     // deviceId: this.state.preferredDevice.deviceId
-                    // }
+                    target: this.video,    // Or '#yourElement' (optional)
+                    constraints: {
+                        width: 640,
+                        height: 480,
+                        facingMode: "environment",
+                        deviceId: this.state.preferredDevice.deviceId
+                    }
                 },
                 decoder: {
                     // readers: ["ean_reader", "code_128_reader"]
@@ -317,6 +317,7 @@ class BarcodeModal extends React.Component {
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
                     <ModalBody>
                         <div className={this.state.firstDisplay}>
+                            <div ref={viewport => { this.viewport = viewport}}></div>
                             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
                             <img ref={image => { this.image = image }} alt="food pic" className="d-none" />
                             <canvas ref={canvas => { this.canvas = canvas }} className="d-none" />
