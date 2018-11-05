@@ -40,9 +40,7 @@ class CalorieCount extends Component {
             username: this.props.username
         })
             .then(res => {
-                console.log("This user already exists?: ", res)
                 if (!res.data) {
-                    console.log("The username inside of the if statement: ", this.props.username)
                     API.createUser({
                         username: this.props.username
                     })
