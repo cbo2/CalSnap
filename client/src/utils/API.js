@@ -1,18 +1,14 @@
 import axios from "axios";
 
 export default {
-  // Gets all foods for user
-  getSavedFoods: function (user) {
-    return axios.get("/api/food", user);
+  // Gets all food for user
+  getSavedFoods: function (params) {
+    return axios.get("/api/food/" + params.username);
   },
-  // Gets the food with the given id
-  // getFood: function (id) {
-  //   return axios.get("/api/food/" + id);
-  // },
-  // Gets all food
-  // getFood: function (food) {
-  //   return axios.get("/api/food", food);
-  // },
+  // Gets user
+  getUser: function (params) {
+    return axios.get("/api/user/" + params.username)
+  },
   // Deletes the food with the given id
   deleteFood: function (id) {
     return axios.delete("/api/food/" + id);
@@ -21,6 +17,7 @@ export default {
   createFood: function (food) {
     return axios.post("/api/food/", food);
   },
+  // Saves a new user to the database
   createUser: function (user) {
     return axios.post("/api/user", user);
   },

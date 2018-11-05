@@ -189,11 +189,6 @@ class VideoModal extends React.Component {
     // TO DO: clear out forms after quantity entered
     this.toggle()
     this.setState({ secondDisplay: "d-none" })
-    API.createUser({
-      username: this.props.username
-    })
-      .then(res => console.log("User created: ", res.data))
-      .catch(err => console.log(err));
     API.createFood({
       item_name: this.state.selectedItem.fields.item_name,
       quantity: this.state.quantity,
@@ -204,7 +199,6 @@ class VideoModal extends React.Component {
       username: this.props.username,
       date: new Date()
     })
-      // .then(res => console.log("Food created: ", res.data))
       .then(this.onResponseFromSearch)
       .catch(err => console.log(err));
   }
@@ -217,7 +211,7 @@ class VideoModal extends React.Component {
   render() {
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
           <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch the image to Snap!</ModalHeader>
           <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>

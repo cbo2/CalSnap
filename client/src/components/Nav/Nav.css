@@ -16,6 +16,17 @@
     font-size: 30px;
 }
 
+.navbar .btn {
+    /* float: right; */
+    /* color: #e74944; */
+    background-color: rgb(78, 114, 126);
+    /* margin-top:20px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 5px; */
+    /* font-size: 11px; */
+  }
+
 @media screen and (max-width: 1400px) {
     .scoreboard {
         height: 100px;

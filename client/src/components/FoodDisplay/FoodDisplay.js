@@ -9,6 +9,8 @@ export const FoodDisplay = ({ children }) => {
                     <th scope="col">Item</th>
                     <th scope="col">Calories</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Remove</th>
                 </tr>
             </thead>
             <tbody>
