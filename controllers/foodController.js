@@ -137,10 +137,10 @@ module.exports = {
       },
       decoder: {
         readers: [
-          // "code_128_reader",
           "ean_reader",
           // "code_39_reader",
-          "ean_8_reader"
+          "ean_8_reader",
+          "code_128_reader"
           // "upc_a_reader",
           // "upc_c_reader",
           // "I2of5_reader",
