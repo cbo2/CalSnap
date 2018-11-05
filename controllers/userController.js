@@ -12,7 +12,7 @@ module.exports = {
   findOne: function (req, res) {
     db.User
       .findOne({ username: req.params.username }, "username" )
-      .then(dbModel => {console.log(dbModel); res.json(dbModel);})
+      .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   create: function (req, res) {
