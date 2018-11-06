@@ -76,7 +76,6 @@ class CalorieCount extends Component {
 
     // finds sum of total calories in food array and subtracts from daily goal
     doDashboardCalculation = () => {
-        console.log("this is the foods: ", this.state.food)
         this.setState({ calValues: []})
         this.setState({ actual: 0})
         this.setState({ remaining: this.state.dailyGoal})

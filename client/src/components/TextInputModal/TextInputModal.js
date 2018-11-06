@@ -50,8 +50,15 @@ class TextInputModal extends React.Component {
 
     toggle() {
         this.setState({
-            modal: !this.state.modal
+            modal: !this.state.modal,
+            firstDisplay: "reveal",
+            secondDisplay: "d-none",
+            thirdDisplay: "d-none",
+            searchedFood: "",
+            quantity: 1
         });
+
+
     }
 
     // handles search button on modal
