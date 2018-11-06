@@ -10,7 +10,8 @@ class BarcodeModal extends React.Component {
         this.state = {
             modal: false,
             constraints: {
-                video: { deviceId: { exact: undefined } }
+                video: { deviceId: { exact: undefined } },
+                advanced: [{torch: true}]
             },
             deviceNames: [],
             preferredDevice: null,
@@ -77,6 +78,7 @@ class BarcodeModal extends React.Component {
                 device_names.push(deviceInfo.label);
                 if (!this.state.preferredDevice) {
                     console.log(`now setting the preffered device to: ${JSON.stringify(deviceInfo)}`)
+                    console.log(`\n\n supported tracks are: ${JSON.stringify(navigator.mediaDevices.getSupportedConstraints())}`)
                     preferred_device = deviceInfo    // take a camera of some kind
                 } else {
                     // if (deviceInfo.label === "Back Camera") {
@@ -91,11 +93,53 @@ class BarcodeModal extends React.Component {
     }
 
     gotStream = (stream) => {
+        this.experiment()
         window.stream = stream; // make stream available to console
         console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
+        console.log(`=== now getting the stream tracks: ${JSON.stringify(stream.getVideoTracks())}`)
         this.video.srcObject = stream;
         // Refresh button list in case labels have become available
         return navigator.mediaDevices.enumerateDevices();
+    }
+
+    experiment = () => {
+        console.log(`-------- starting experiment`)
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+
+            const cameras = devices.filter((device) => device.kind === 'videoinput');
+
+            if (cameras.length === 0) {
+                throw 'No camera found on this device.';
+            }
+            const camera = cameras[cameras.length - 1];
+
+            // Create stream and get video track
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    deviceId: camera.deviceId,
+                    facingMode: ['user', 'environment'],
+                    height: { ideal: 1080 },
+                    width: { ideal: 1920 }
+                }
+            }).then(stream => {
+                const track = stream.getVideoTracks()[0];
+
+                //Create image capture object and get camera capabilities
+                const imageCapture = new ImageCapture(track)
+                imageCapture.getPhotoCapabilities().then(() => {
+
+                    //todo: check if camera has a torch
+
+                    //let there be light!
+                    console.log(`-------- adding light in experiment now! ------`)
+                    track.applyConstraints({
+                        advanced: [{ torch: true }]
+                    });
+                });
+            });
+        });
+        console.log(`-------- finishing experiment`)
+
     }
 
     start = () => {
@@ -113,6 +157,14 @@ class BarcodeModal extends React.Component {
         }
         console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
         navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).catch(this.handleError)
+    
+        navigator.mediaDevices.getUserMedia(this.state.constraints).then(localMediaStream => {
+            console.log(localMediaStream)
+            let track = localMediaStream.getVideoTracks()[0]
+            track.applyConstraints({
+                advanced: [{torch: true}]
+              });
+        })
     }
 
     handleError = (error) => {
