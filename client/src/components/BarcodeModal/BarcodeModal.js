@@ -19,6 +19,7 @@ class BarcodeModal extends React.Component {
             firstDisplay: "reveal",
             secondDisplay: "d-none",
             results: [],
+            torch: "N/A",
             selectedItem: [],
             quantity: 1
         };
@@ -93,7 +94,7 @@ class BarcodeModal extends React.Component {
     }
 
     gotStream = (stream) => {
-        this.experiment()
+        // this.experiment()
         window.stream = stream; // make stream available to console
         console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
         console.log(`=== now getting the stream tracks: ${JSON.stringify(stream.getVideoTracks())}`)
@@ -147,10 +148,10 @@ class BarcodeModal extends React.Component {
             window.stream.getTracks().forEach(track => {
                 track.stop();
             });
-            console.log(`************* [now trying to turn on the flashlight/torch] **************`)
-            window.stream.getVideoTracks()[0].applyConstraints({
-                advanced: [{ torch: true }]
-            });
+            // console.log(`************* [now trying to turn on the flashlight/torch] **************`)
+            // window.stream.getVideoTracks()[0].applyConstraints({
+            //     advanced: [{ torch: true }]
+            // });
         }
         if (this.state.preferredDevice) {
             console.log(`the preferred Device id is: ${this.state.preferredDevice.deviceId}`)
@@ -160,10 +161,19 @@ class BarcodeModal extends React.Component {
     
         navigator.mediaDevices.getUserMedia(this.state.constraints).then(localMediaStream => {
             console.log(localMediaStream)
+            console.log(localMediaStream.getVideoTracks()[0])
             let track = localMediaStream.getVideoTracks()[0]
-            track.applyConstraints({
-                advanced: [{torch: true}]
-              });
+            let supportedContraints = navigator.mediaDevices.getSupportedConstraints()
+            let trackCapabilities = track.getCapabilities()
+            if (trackCapabilities["torch"]) {
+                // we are good to go
+                console.log(`now going to set torch to true!!`)
+                track.applyConstraints({advanced: [{torch: true}]})
+                this.setState({torch: "true"})
+            } else {
+                console.log(`no torch capability!!`)
+                this.setState({torch: "false"})
+            }
         })
     }
 
@@ -266,6 +276,7 @@ class BarcodeModal extends React.Component {
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
                     <ModalBody>
                         <div id="videoimage" className={this.state.firstDisplay}>
+                            <div>TORCH:  {this.state.torch}</div>
                             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
                             <img ref={image => { this.image = image }} alt="food pic" className="d-none" />
                             <canvas ref={canvas => { this.canvas = canvas }} className="d-none" />
