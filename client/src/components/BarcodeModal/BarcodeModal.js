@@ -56,10 +56,6 @@ class BarcodeModal extends React.Component {
             console.log(`*** the preferred deviceid now set to: ${this.state.constraints.video.deviceId.exact}`)
             return devices;
         }).then(stream => {
-            const track = stream.getVideoTracks()[0];
-            track.applyConstraints({
-                advanced: [{ torch: true }]
-            });
         }).catch(this.handleError);
 
     }
@@ -106,6 +102,9 @@ class BarcodeModal extends React.Component {
         if (window.stream) {
             window.stream.getTracks().forEach(track => {
                 track.stop();
+            });
+            window.stream.getVideoTracks()[0].applyConstraints({
+                advanced: [{ torch: true }]
             });
         }
         if (this.state.preferredDevice) {
