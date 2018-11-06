@@ -6,7 +6,7 @@ export default {
     return axios.get(`/api/food/${params.username}`);
   },
   // Gets all food for user by date range
-  getFoodsbyUserAndDate: function (params) {
+  getFoodsbyUserAndDateRange: function (params) {
     return axios.get(`/api/food/${params.username}/${params.today}/${params.tomorrow}`)
   },
   // Gets user
@@ -16,6 +16,14 @@ export default {
   // Deletes the food with the given id
   deleteFood: function (id) {
     return axios.delete(`/api/food/${id}`);
+  },
+  // Deletes the user from Auth0
+  deleteFoodsbyUser: function (username) {
+    return axios.delete(`/api/food/${username}`)
+  },
+  // Deletes the user from Auth0
+  deleteUser: function (username, id) {
+    return axios.delete(`/api/user/${username}/${id}`)
   },
   // Saves a food to the database
   createFood: function (food) {

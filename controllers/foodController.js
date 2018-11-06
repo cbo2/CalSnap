@@ -188,7 +188,7 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
-  findAllbyUserAndDate: function (req, res) {
+  findAllbyUserAndDateRange: function (req, res) {
     db.Food
       .find({ username: req.params.username, date: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
       .sort({ date: -1 })
@@ -220,6 +220,15 @@ module.exports = {
         return db.User.findOneAndUpdate({ username: dbFood.username }, { $pull: { food: dbFood._id } })
       })
       .then(dbUser => res.json(dbUser))
+      .catch(err => res.status(422).json(err));
+  },
+  removeAllbyUser: function (req, res) {
+    db.User
+      .findOneAndUpdate({ username: req.params.username }, { $set: { food: [] } })
+      .then(dbUser => {
+        return db.Food.deleteMany({ username: dbUser.username })
+      })
+      .then(dbFood => res.json(dbFood))
       .catch(err => res.status(422).json(err));
   }
 };
