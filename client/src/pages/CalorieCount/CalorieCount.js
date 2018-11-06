@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-import { Row, Col, Table} from 'reactstrap';
+import { Row, Col, Table } from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -61,12 +61,16 @@ class CalorieCount extends Component {
     }
 
     loadFood = () => {
+        let tomorrow = new Date();
         let today = new Date();
-        let dd = today.getDate();
-        var mm = today.getMonth() + 1
-        console.log("This is the date: ", mm + "/" + dd);
-        console.log("This is username: ", this.props.username);
-        API.getSavedFoods({ username: this.props.username })
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+        API.getFoodsbyUserAndDate({
+            username: this.props.username,
+            today,
+            tomorrow
+        })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
             ).then(res => this.doDashboardCalculation())

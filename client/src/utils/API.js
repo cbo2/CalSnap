@@ -2,16 +2,20 @@ import axios from "axios";
 
 export default {
   // Gets all food for user
-  getSavedFoods: function (params) {
-    return axios.get("/api/food/" + params.username);
+  getFoodsbyUser: function (params) {
+    return axios.get(`/api/food/${params.username}`);
+  },
+  // Gets all food for user by date range
+  getFoodsbyUserAndDate: function (params) {
+    return axios.get(`/api/food/${params.username}/${params.today}/${params.tomorrow}`)
   },
   // Gets user
   getUser: function (params) {
-    return axios.get("/api/user/" + params.username)
+    return axios.get(`/api/user/${params.username}`)
   },
   // Deletes the food with the given id
   deleteFood: function (id) {
-    return axios.delete("/api/food/" + id);
+    return axios.delete(`/api/food/${id}`);
   },
   // Saves a food to the database
   createFood: function (food) {

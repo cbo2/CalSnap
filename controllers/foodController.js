@@ -179,7 +179,7 @@ module.exports = {
       }
     })
   },
-  findAll: function (req, res) {
+  findAllbyUser: function (req, res) {
     db.Food
       .find({ username: req.params.username })
       .sort({ date: -1 })
@@ -188,10 +188,13 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
-  findById: function (req, res) {
+  findAllbyUserAndDate: function (req, res) {
     db.Food
-      .findById(req.params.id)
-      .then(dbModel => res.json(dbModel))
+      .find({ username: req.params.username, date: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
+      .sort({ date: -1 })
+      .then(dbModel => {
+        return res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
   create: function (req, res) {
