@@ -6,7 +6,7 @@ body {
   /* float: right; */
   /* color: #e74944; */
   background-color: rgb(78, 114, 126);
-  margin-top:20px;
+  margin-top: 20px;
   margin-left: 2px;
   margin-right: 2px;
   margin-bottom: 5px;
@@ -18,4 +18,12 @@ body {
   /* align-content: center; */
   text-align: center;
   /* background-color: grey; */
+}
+
+.delete-button {
+  float: right;  
+}
+
+.results-table {
+  width: 100%;
 }
