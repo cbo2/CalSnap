@@ -9,13 +9,13 @@
     position: absolute;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top: 25%;
-    margin-bottom: 25%;
+    margin-top: 10%;
+    margin-bottom: 30%;
     outline-width: 4px;
     outline-style: dashed;
     outline-color: green;
     width: 60%;
-    height: 30%;
+    height: 40%;
     bottom: 0;
     left: 0; 
     content: '';
