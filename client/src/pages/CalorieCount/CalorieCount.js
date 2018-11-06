@@ -66,14 +66,14 @@ class CalorieCount extends Component {
         let yyyy = today.getYear() + 1900;
         console.log(`This is the date: ${mm}/${dd}/${yyyy}`);
         console.log(`This is username: ${this.props.username}`);
-        API.getFoodsbyUser({
+        API.getFoodsbyUserAndDate({
             username: this.props.username,
-            // bYYYY: yyyy,
-            // bMM: mm,
-            // bDD: dd,
-            // eYYYY: yyyy,
-            // eMM: mm,
-            // eDD: dd + 1
+            bYYYY: yyyy,
+            bMM: mm,
+            bDD: dd,
+            eYYYY: yyyy,
+            eMM: mm,
+            eDD: dd + 1
         })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })

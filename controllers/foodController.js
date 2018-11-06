@@ -184,16 +184,15 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
-  // findAllbyUserAndDate: function (req, res) {
-  //   console.log(`This is req.params for findAllbyUserAndDate: ${req.params}`);
-  //   db.Food
-  //     .find({ username: req.params.username, date: { "$gte": new Date(req.params.bYYYY, req.params.bMM, req.params.bDD), "$lt": new Date(req.params.eYYYY, req.param.eMM, req.param.eDD) } })
-  //     .sort({ date: -1 })
-  //     .then(dbModel => {
-  //       return res.json(dbModel)
-  //     })
-  //     .catch(err => res.status(422).json(err));
-  // },
+  findAllbyUserAndDate: function (req, res) {
+    db.Food
+      .find({ username: req.params.username, date: { "$gte": new Date(2018, 10, 4), "$lt": new Date(2018, 10, 5) } })
+      .sort({ date: -1 })
+      .then(dbModel => {
+        return res.json(dbModel)
+      })
+      .catch(err => res.status(422).json(err));
+  },
   create: function (req, res) {
     db.Food
       .create(req.body)

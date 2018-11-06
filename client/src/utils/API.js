@@ -5,9 +5,11 @@ export default {
   getFoodsbyUser: function (params) {
     return axios.get(`/api/food/${params.username}`);
   },
-  // getFoodsbyUserAndDate: function (params) {
-  //   return axios.get(`/api/user/${params.username}/${params.bYYYY}/${params.bMM}/${params.bDD}/${params.eYYYY}/${params.eMM}/${params.eDD}`)
-  // },
+  getFoodsbyUserAndDate: function (params) {
+    console.log(`This is params in API for getFoodbyUserAndDate: ${JSON.stringify(params)}`);
+    return axios.get(`/api/food/${params.username}`)
+    // /${params.bYYYY}/${params.bMM}/${params.bDD}/${params.eYYYY}/${params.eMM}/${params.eDD})
+  },
   // Gets user
   getUser: function (params) {
     return axios.get(`/api/user/${params.username}`)
