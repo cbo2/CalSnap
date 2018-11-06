@@ -10,8 +10,8 @@ router.route("/")
 router.route("/:username")
   .get(foodController.findAllbyUser)
 
-// Matches with "/api/food/:username/:bYYYY/:bMM:/:bDD/:eYYYY/:eMM/:eDD"
-router.route("/:username")
+// Matches with "/api/food/:today/:tomorrow/:username
+router.route("/:username/:today/:tomorrow")
   .get(foodController.findAllbyUserAndDate)
 
 // Matches with "/api/food/:id"

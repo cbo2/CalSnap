@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-import { Row, Col, Table} from 'reactstrap';
+import { Row, Col, Table } from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -61,20 +61,15 @@ class CalorieCount extends Component {
     }
 
     loadFood = () => {
-        let today = new Date();
-        let dd = today.getDate();
-        let mm = today.getMonth();
-        let yyyy = today.getYear() + 1900;
-        console.log(`This is the date: ${mm}/${dd}/${yyyy}`);
-        console.log(`This is username: ${this.props.username}`);
+        var tomorrow = new Date();
+        var today = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
         API.getFoodsbyUserAndDate({
             username: this.props.username,
-            bYYYY: yyyy,
-            bMM: mm,
-            bDD: dd,
-            eYYYY: yyyy,
-            eMM: mm,
-            eDD: dd + 1
+            today,
+            tomorrow
         })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
@@ -86,9 +81,9 @@ class CalorieCount extends Component {
     // finds sum of total calories in food array and subtracts from daily goal
     doDashboardCalculation = () => {
         console.log("this is the foods: ", this.state.food)
-        this.setState({ calValues: []})
-        this.setState({ actual: 0})
-        this.setState({ remaining: this.state.dailyGoal})
+        this.setState({ calValues: [] })
+        this.setState({ actual: 0 })
+        this.setState({ remaining: this.state.dailyGoal })
         this.state.food.map(food => (
             this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
         ))

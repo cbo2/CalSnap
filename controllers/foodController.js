@@ -190,7 +190,7 @@ module.exports = {
   },
   findAllbyUserAndDate: function (req, res) {
     db.Food
-      .find({ username: req.params.username, date: { "$gte": new Date(2018, 10, 4), "$lt": new Date(2018, 10, 5) } })
+      .find({ username: req.params.username, date: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
       .sort({ date: -1 })
       .then(dbModel => {
         return res.json(dbModel)
