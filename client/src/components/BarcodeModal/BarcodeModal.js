@@ -10,8 +10,7 @@ class BarcodeModal extends React.Component {
         this.state = {
             modal: false,
             constraints: {
-                video: { deviceId: { exact: undefined } },
-                advanced: [{ torch: true }]
+                video: { deviceId: { exact: undefined } }
             },
             deviceNames: [],
             preferredDevice: null,
@@ -19,7 +18,6 @@ class BarcodeModal extends React.Component {
             firstDisplay: "reveal",
             secondDisplay: "d-none",
             results: [],
-            torch: "N/A",
             selectedItem: [],
             quantity: 1
         };
@@ -47,7 +45,7 @@ class BarcodeModal extends React.Component {
         this.setState({ firstDisplay: "reveal" });
         this.setState({ secondDisplay: "d-none" });
         this.toggle();
-    }
+      }
 
     initMedia = () => {
         console.log(`********* initMedia *******`)
@@ -79,7 +77,6 @@ class BarcodeModal extends React.Component {
                 device_names.push(deviceInfo.label);
                 if (!this.state.preferredDevice) {
                     console.log(`now setting the preffered device to: ${JSON.stringify(deviceInfo)}`)
-                    console.log(`\n\n supported tracks are: ${JSON.stringify(navigator.mediaDevices.getSupportedConstraints())}`)
                     preferred_device = deviceInfo    // take a camera of some kind
                 } else {
                     // if (deviceInfo.label === "Back Camera") {
@@ -94,53 +91,11 @@ class BarcodeModal extends React.Component {
     }
 
     gotStream = (stream) => {
-        // this.experiment()
         window.stream = stream; // make stream available to console
         console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
-        console.log(`=== now getting the stream tracks: ${JSON.stringify(stream.getVideoTracks())}`)
         this.video.srcObject = stream;
         // Refresh button list in case labels have become available
         return navigator.mediaDevices.enumerateDevices();
-    }
-
-    experiment = () => {
-        console.log(`-------- starting experiment`)
-        navigator.mediaDevices.enumerateDevices().then(devices => {
-
-            const cameras = devices.filter((device) => device.kind === 'videoinput');
-
-            if (cameras.length === 0) {
-                throw 'No camera found on this device.';
-            }
-            const camera = cameras[cameras.length - 1];
-
-            // Create stream and get video track
-            navigator.mediaDevices.getUserMedia({
-                video: {
-                    deviceId: camera.deviceId,
-                    facingMode: ['user', 'environment'],
-                    height: { ideal: 1080 },
-                    width: { ideal: 1920 }
-                }
-            }).then(stream => {
-                const track = stream.getVideoTracks()[0];
-
-                //Create image capture object and get camera capabilities
-                const imageCapture = new ImageCapture(track)
-                imageCapture.getPhotoCapabilities().then(() => {
-
-                    //todo: check if camera has a torch
-
-                    //let there be light!
-                    console.log(`-------- adding light in experiment now! ------`)
-                    track.applyConstraints({
-                        advanced: [{ torch: true }]
-                    });
-                });
-            });
-        });
-        console.log(`-------- finishing experiment`)
-
     }
 
     start = () => {
@@ -148,55 +103,12 @@ class BarcodeModal extends React.Component {
             window.stream.getTracks().forEach(track => {
                 track.stop();
             });
-            // console.log(`************* [now trying to turn on the flashlight/torch] **************`)
-            // window.stream.getVideoTracks()[0].applyConstraints({
-            //     advanced: [{ torch: true }]
-            // });
         }
         if (this.state.preferredDevice) {
             console.log(`the preferred Device id is: ${this.state.preferredDevice.deviceId}`)
         }
         console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
         navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).catch(this.handleError)
-
-        navigator.mediaDevices.getUserMedia(this.state.constraints).then(localMediaStream => {
-            console.log(localMediaStream)
-            console.log(localMediaStream.getVideoTracks()[0])
-            let track = localMediaStream.getVideoTracks()[0]
-
-            // const imageCapture = new ImageCapture(track)
-            // imageCapture.getPhotoCapabilities().then(() => {
-
-            //   //todo: check if camera has a torch
-
-            //   //let there be light!
-            //   this.setState({torch: "true"})
-
-            //     track.applyConstraints({
-            //       advanced: [{torch: true}]
-            //     });
-            // }).catch(err => {
-            //     this.setState({torch: "false"})
-
-            // })
-
-
-
-
-            let supportedContraints = navigator.mediaDevices.getSupportedConstraints()
-            let trackCapabilities = track.getCapabilities()
-            console.log(`trackcapabilities are: ${JSON.stringify(trackCapabilities)}`)
-            this.setState({ torch: JSON.stringify(Object.keys(trackCapabilities)) })
-            // if (trackCapabilities["torch"]) {
-            //     // we are good to go
-            //     console.log(`now going to set torch to true!!`)
-            //     track.applyConstraints({advanced: [{torch: true}]})
-            //     this.setState({torch: "true"})
-            // } else {
-            //     console.log(`no torch capability!!`)
-            //     this.setState({torch: "false"})
-            // }
-        })
     }
 
     handleError = (error) => {
@@ -262,7 +174,7 @@ class BarcodeModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
         this.selectQuantity();
     }
-
+   
     handleQuantity = (event) => {
         event.preventDefault();
         console.log("quantity: " + this.state.quantity)
@@ -298,10 +210,6 @@ class BarcodeModal extends React.Component {
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
                     <ModalBody>
                         <div id="videoimage" className={this.state.firstDisplay}>
-                            <div className="fluid">
-                                TORCH:
-                                <p>{this.state.torch}</p>
-                            </div>
                             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
                             <img ref={image => { this.image = image }} alt="food pic" className="d-none" />
                             <canvas ref={canvas => { this.canvas = canvas }} className="d-none" />
