@@ -6,14 +6,18 @@
     float: right;
 }
 #videoimage:after {
-    border-top: 2px solid green;
-    width: 70%;
-    margin-left: 15%;
-    margin-right: 15%;
-    height: 50%;
     position: absolute;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 25%;
+    margin-bottom: 25%;
+    outline-width: 2px;
+    outline-style: dashed;
+    outline-color: green;
+    width: 60%;
+    height: 40%;
     bottom: 0;
-    left: 0;
+    left: 0; 
     content: '';
     pointer-events: none;
 }
