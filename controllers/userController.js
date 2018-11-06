@@ -4,7 +4,7 @@ const db = require("../models");
 module.exports = {
   findOne: function (req, res) {
     db.User
-      .findOne({ username: req.params.username }, "username" )
+      .findOne({ username: req.params.username }, "username")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -20,11 +20,29 @@ module.exports = {
   //       .then(dbModel => res.json(dbModel))
   //       .catch(err => res.status(422).json(err));
   //   },
-  remove: function (req, res) {
+  removeUser: function (req, res) {
     db.User
-      .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    .findOneAndDelete({ username: req.params.username })
+    .then(dbUser => {
+      return db.Food.deleteMany({ username: dbUser.username })
+    })
+    .then(dbFood => res.json(dbFood))
+    .catch(err => res.status(422).json(err));
+
+    console.log(req);
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": `https://calsnap.auth0.com/api/v2/users/${req.params.id}`,
+      "method": "GET",
+      "headers": {
+        "authorization": `Bearer =${process.env.AUHT0_API_TOKENID}`
+      }
+    }
+
+    axios(settings)
+      .then(function (response) {
+        console.log(response);
+      });
   }
 };

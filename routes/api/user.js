@@ -9,6 +9,8 @@ router.route("/")
 router.route("/:username")
   .get(userController.findOne)
     // .put(userController.update)
-  .delete(userController.remove);
 
+  router.route("/:username/:id")
+  .delete(userController.removeUser)
+  
   module.exports = router;

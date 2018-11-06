@@ -9,10 +9,11 @@ router.route("/")
 // Matches with "/api/food/:username"
 router.route("/:username")
   .get(foodController.findAllbyUser)
+  .delete(foodController.removeAllbyUser)
 
 // Matches with "/api/food/:today/:tomorrow/:username
 router.route("/:username/:today/:tomorrow")
-  .get(foodController.findAllbyUserAndDate)
+  .get(foodController.findAllbyUserAndDateRange)
 
 // Matches with "/api/food/:id"
 router.route("/:id")

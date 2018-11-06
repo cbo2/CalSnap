@@ -66,7 +66,7 @@ class CalorieCount extends Component {
         tomorrow.setDate(tomorrow.getDate() + 1);
         tomorrow.setHours(0, 0, 0, 0);
         today.setHours(0, 0, 0, 0);
-        API.getFoodsbyUserAndDate({
+        API.getFoodsbyUserAndDateRange({
             username: this.props.username,
             today,
             tomorrow
@@ -80,9 +80,9 @@ class CalorieCount extends Component {
 
     // finds sum of total calories in food array and subtracts from daily goal
     doDashboardCalculation = () => {
-        this.setState({ calValues: []})
-        this.setState({ actual: 0})
-        this.setState({ remaining: this.state.dailyGoal})
+        this.setState({ calValues: [] })
+        this.setState({ actual: 0 })
+        this.setState({ remaining: this.state.dailyGoal })
         this.state.food.map(food => (
             this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
         ))
@@ -97,6 +97,13 @@ class CalorieCount extends Component {
 
     deleteFood = id => {
         API.deleteFood(id)
+            .then(res => this.loadFood())
+            .catch(err => console.log(err));
+    };
+
+    // TO BE MOVED TO USER PAGE DANGER ZONE;
+    deleteFoodsbyUser = username => {
+        API.deleteFoodsbyUser(username)
             .then(res => this.loadFood())
             .catch(err => console.log(err));
     };
@@ -173,6 +180,8 @@ class CalorieCount extends Component {
         if (loggedIn) {
             return (<Wrapper>
                 <Container>
+                    <button className="btn btn-danger" onClick={() => this.deleteFoodsbyUser(this.props.username)}>DELETE ALL DATA</button>
+                    <button className="btn btn-danger">DELETE ALL DATA AND PROFILE</button>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
                         actual={this.state.actual}
