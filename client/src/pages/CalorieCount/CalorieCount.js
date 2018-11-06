@@ -34,11 +34,9 @@ class CalorieCount extends Component {
     };
 
     componentDidMount() {
-        // calculates remaining calories for day
-        
+        // calculates remaining calories for day        
         this.loadFood();
-        console.log("actual: ", this.state.actual)
-        
+
         API.getUser({
             username: this.props.username
         })
@@ -203,15 +201,15 @@ class CalorieCount extends Component {
                         {/* </div> */}
                     </div>
                     {this.state.food.length ? (
-                        <Table>
+                        <Table className="results-table">
 
                             <thead>
                                 <tr>
                                     <th>Item</th>
-                                    <th>Calories</th>
-                                    <th>Quantity</th>
-                                    <th>Update</th>
-                                    <th>Remove</th>
+                                    <th>Cals</th>
+                                    <th>#</th>
+                                    {/* <th>Update</th> */}
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -221,8 +219,8 @@ class CalorieCount extends Component {
                                         <td>{food.item_name}</td>
                                         <td>{food.nf_calories}</td>
                                         <td>{food.quantity}</td>
-                                        <td><button className="btn">U</button></td>
-                                        <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger" data-id={food._id}>X</button></td>
+                                        {/* <td><button className="btn">U</button></td> */}
+                                        <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger delete-button" data-id={food._id}>X</button></td>
 
                                     </tr>
                                 ))}
