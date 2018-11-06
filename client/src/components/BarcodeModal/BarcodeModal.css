@@ -11,11 +11,11 @@
     margin-right: 20%;
     margin-top: 25%;
     margin-bottom: 25%;
-    outline-width: 2px;
+    outline-width: 4px;
     outline-style: dashed;
     outline-color: green;
     width: 60%;
-    height: 40%;
+    height: 30%;
     bottom: 0;
     left: 0; 
     content: '';
