@@ -10,7 +10,8 @@ class BarcodeModal extends React.Component {
         this.state = {
             modal: false,
             constraints: {
-                video: { deviceId: { exact: undefined } }
+                video: { deviceId: { exact: undefined } },
+                advanced: [{torch: true}]
             },
             deviceNames: [],
             preferredDevice: null,
