@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-import { Button, Modal, Row, Col, Table, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+import { Row, Col, Table} from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -22,11 +22,12 @@ import API from "../../utils/API";
 class CalorieCount extends Component {
     state = {
         dailyGoal: 2200,
-        actual: 500,
+        actual: 0,
         remaining: 0,
         isVideoModalOpen: false,
         searchItem: "orange",
         food: [],
+        calValues: [],
         item_name: "",
         nf_calories: 0,
         quantity: 0
@@ -34,8 +35,10 @@ class CalorieCount extends Component {
 
     componentDidMount() {
         // calculates remaining calories for day
-        this.setState({ remaining: this.state.dailyGoal - this.state.actual });
+        
         this.loadFood();
+        console.log("actual: ", this.state.actual)
+        
         API.getUser({
             username: this.props.username
         })
@@ -77,10 +80,27 @@ class CalorieCount extends Component {
         })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
-            )
+            ).then(res => this.doDashboardCalculation())
             .catch(err => console.log(err));
-        console.log("here are the foods: " + JSON.stringify(this.state.food));
+        // console.log("here are the foods: " + JSON.stringify(this.state.food));
     };
+
+    // finds sum of total calories in food array and subtracts from daily goal
+    doDashboardCalculation = () => {
+        console.log("this is the foods: ", this.state.food)
+        this.setState({ calValues: []})
+        this.setState({ remaining: this.state.dailyGoal})
+        this.state.food.map(food => (
+            this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
+        ))
+        const add = (a, b) => a + b
+        const sum = (this.state.calValues).reduce(add)
+        this.setState({ actual: Math.round(sum) })
+        this.setState({ remaining: this.state.dailyGoal - this.state.actual });
+        // console.log("here are the cal values: ", this.state.calValues)
+        // console.log("this is the sum: ", sum)
+        // console.log("this is the actual: ", this.state.actual)
+    }
 
     deleteFood = id => {
         API.deleteFood(id)
@@ -103,17 +123,17 @@ class CalorieCount extends Component {
     }
 
     // handle the form search button to kick off the search to the NYT
-    handleSearchSubmit = event => {
-        event.preventDefault();
+    // handleSearchSubmit = event => {
+    //     event.preventDefault();
 
-        // API.hitapi({
-        // })
-        //     .then(res => {
-        //             return res
-        //         })
-        //     })
-        //     .catch(err => console.log(err));
-    }
+    //     // API.hitapi({
+    //     // })
+    //     //     .then(res => {
+    //     //             return res
+    //     //         })
+    //     //     })
+    //     //     .catch(err => console.log(err));
+    // }
 
     // Generic component state handler when the user types into the input field
     handleInputChange = event => {
@@ -123,32 +143,32 @@ class CalorieCount extends Component {
         });
     };
 
-    handleIRresponse = response => {
-        // TODO - first check for an error ERR-100
-        if (response.code.startsWith("ERR-100")) {
-            alert(`Image is not identifyable!`)
-        } else {
-            // destructure the response 
-            let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
-                let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
-                return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
-            }).join('')         // use join with null to avoid commas in-between each item
-            // alert(`<ul>${all}</ul`)
-        }
-    }
+    // handleIRresponse = response => {
+    //     // TODO - first check for an error ERR-100
+    //     if (response.code.startsWith("ERR-100")) {
+    //         alert(`Image is not identifyable!`)
+    //     } else {
+    //         // destructure the response 
+    //         let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
+    //             let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
+    //             return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
+    //         }).join('')         // use join with null to avoid commas in-between each item
+    //         // alert(`<ul>${all}</ul`)
+    //     }
+    // }
 
-    handleBarcodeResponse = response => {
-        // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
-        console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
-        if (response.code !== "000") {
-            alert(`something went wrong with the barcode reader.  Try again!`)
-        } else {
-            // destructure the response 
-            // for now, backend is returning ONLY 1 response 
-            const { food_name, nf_calories } = response.data
-            alert(`Item identified as: ${food_name}  ${nf_calories}`)
-        }
-    }
+    // handleBarcodeResponse = response => {
+    //     // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
+    //     console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
+    //     if (response.code !== "000") {
+    //         alert(`something went wrong with the barcode reader.  Try again!`)
+    //     } else {
+    //         // destructure the response 
+    //         // for now, backend is returning ONLY 1 response 
+    //         const { food_name, nf_calories } = response.data
+    //         alert(`Item identified as: ${food_name}  ${nf_calories}`)
+    //     }
+    // }
 
     handleSearchResponse = response => {
         console.log(`*** inside callback from Search and about to reload state from the Mongo ***`)
