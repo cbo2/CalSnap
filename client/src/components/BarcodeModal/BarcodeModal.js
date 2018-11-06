@@ -103,6 +103,7 @@ class BarcodeModal extends React.Component {
             window.stream.getTracks().forEach(track => {
                 track.stop();
             });
+            console.log(`************* [now trying to turn on the flashlight/torch] **************`)
             window.stream.getVideoTracks()[0].applyConstraints({
                 advanced: [{ torch: true }]
             });
