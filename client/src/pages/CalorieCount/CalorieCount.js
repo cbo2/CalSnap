@@ -80,10 +80,16 @@ class CalorieCount extends Component {
 
     // finds sum of total calories in food array and subtracts from daily goal
     doDashboardCalculation = () => {
+<<<<<<< HEAD
         console.log("this is the foods: ", this.state.food)
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
+=======
+        this.setState({ calValues: []})
+        this.setState({ actual: 0})
+        this.setState({ remaining: this.state.dailyGoal})
+>>>>>>> 2ed6f89b5a64981ad1cfb287a84b0a62d933d17e
         this.state.food.map(food => (
             this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
         ))

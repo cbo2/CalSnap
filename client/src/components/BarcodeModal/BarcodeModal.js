@@ -118,7 +118,10 @@ class BarcodeModal extends React.Component {
     toggle() {
         let new_modal_state = !this.state.modal
         this.setState({
-            modal: new_modal_state
+            modal: new_modal_state,
+            firstDisplay: "reveal",
+            secondDisplay: "d-none",
+            quantity: 1
         });
         if (new_modal_state) {
             this.start()
