@@ -10,8 +10,7 @@ class BarcodeModal extends React.Component {
         this.state = {
             modal: false,
             constraints: {
-                video: { deviceId: { exact: undefined } },
-                advanced: [{torch: true}]
+                video: { deviceId: { exact: undefined } }
             },
             deviceNames: [],
             preferredDevice: null,
@@ -46,7 +45,7 @@ class BarcodeModal extends React.Component {
         this.setState({ firstDisplay: "reveal" });
         this.setState({ secondDisplay: "d-none" });
         this.toggle();
-      }
+    }
 
     initMedia = () => {
         console.log(`********* initMedia *******`)
@@ -57,6 +56,10 @@ class BarcodeModal extends React.Component {
             console.log(`*** the preferred deviceid now set to: ${this.state.constraints.video.deviceId.exact}`)
             return devices;
         }).then(stream => {
+            const track = stream.getVideoTracks()[0];
+            track.applyConstraints({
+                advanced: [{ torch: true }]
+            });
         }).catch(this.handleError);
 
     }
@@ -175,7 +178,7 @@ class BarcodeModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
         this.selectQuantity();
     }
-   
+
     handleQuantity = (event) => {
         event.preventDefault();
         console.log("quantity: " + this.state.quantity)
