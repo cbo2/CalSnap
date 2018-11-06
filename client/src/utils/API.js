@@ -17,11 +17,11 @@ export default {
   deleteFood: function (id) {
     return axios.delete(`/api/food/${id}`);
   },
-  // Deletes the user from Auth0
+  // Deletes the foods related to username
   deleteFoodsbyUser: function (username) {
     return axios.delete(`/api/food/${username}`)
   },
-  // Deletes the user from Auth0
+  // Deletes the foods & profile related to username & deletes Auth0 profile
   deleteUser: function (username, id) {
     return axios.delete(`/api/user/${username}/${id}`)
   },
