@@ -6,19 +6,19 @@ const nutritionixController = require("../../controllers/nutritionixController")
 router.route("/")
   .post(foodController.create)
 
+// Matches with "/api/food/:id"
+router.route("/:id")
+  // .put(foodController.update)
+  .delete(foodController.remove)
+
 // Matches with "/api/food/:username"
-router.route("/:username")
+router.route("/deleteallfoods/:username")
   .get(foodController.findAllbyUser)
   .delete(foodController.removeAllbyUser)
 
 // Matches with "/api/food/:today/:tomorrow/:username
 router.route("/:username/:today/:tomorrow")
   .get(foodController.findAllbyUserAndDateRange)
-
-// Matches with "/api/food/:id"
-router.route("/:id")
-  // .put(foodController.update)
-  .delete(foodController.remove)
 
 // Matches with "/api/food/identify"
 router.route("/identify")
