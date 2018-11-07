@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-// import SomeComponent from "../../components/SomeComponent";
-// import API from "../../utils/API";
-// import axios from "axios";
-import './CalorieCount.css';
 import { Table } from 'reactstrap';
+import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -14,11 +11,8 @@ import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
 import UpdateModal from "../../components/UpdateModal";
-// import { Link } from "react-router-dom";
 // import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
-
-
 
 class CalorieCount extends Component {
     state = {
