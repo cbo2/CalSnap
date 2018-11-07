@@ -1,18 +1,16 @@
 .navbar{
-    height: 80px;
+    /* height: 80px;
     z-index: 100;
     width: 100vw;
     left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    margin-bottom: 20px;
+    right: 50%; */
+    /* margin-left: -50vw;
+    margin-right: -50vw; */
     background: rgb(78, 114, 126);
     /* position: fixed; */
 }
 
 .navbar-brand {
-    color: white;
     font-size: 30px;
 }
 
@@ -20,15 +18,5 @@
     /* float: right; */
     /* color: #e74944; */
     background-color: rgb(78, 114, 126);
-    /* margin-top:20px;
-    margin-left: 2px;
-    margin-right: 2px;
-    margin-bottom: 5px; */
-    /* font-size: 11px; */
-  }
 
-@media screen and (max-width: 1400px) {
-    .scoreboard {
-        height: 100px;
-    }
   }
