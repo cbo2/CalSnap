@@ -16,7 +16,7 @@ export default class Example extends React.Component {
     };
   }
 
-  toggleNavbar = () => {
+  toggleNavbar() {
     this.setState({
       collapsed: !this.state.collapsed
     });
