@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import API from "../../utils/API";
 // import axios from "axios";
 import './CalorieCount.css';
-import { Row, Col, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -35,14 +35,16 @@ class CalorieCount extends Component {
     };
 
     componentDidMount() {
-        // calculates remaining calories for day        
-        this.loadFood();
-
+        // calculates remaining calories for day 
+        if (this.props.auth.isAuthenticated()) {
+            this.loadFood();
+        }
+  
         API.getUser({
             username: this.props.username
         })
             .then(res => {
-                if (!res.data) {
+                if (!res.data && this.props.auth.isAuthenticated()) {
                     API.createUser({
                         username: this.props.username
                     })
@@ -51,6 +53,7 @@ class CalorieCount extends Component {
                 }
             })
             .catch(err => console.log(err));
+        }     
         // temporary location to call nutritionix API
         // API.nutritionixNutritionSearch({})
         // this.nutritionixInstantSearch()
@@ -59,7 +62,6 @@ class CalorieCount extends Component {
         //     searchItem: this.state.searchItem
         // })
         // API.nutritionixBarcodeSearch({})
-    }
 
     loadFood = () => {
         let tomorrow = new Date();
