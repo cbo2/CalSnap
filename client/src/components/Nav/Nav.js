@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem } from 'reactstrap';
 import AuthButton from "../AuthButton/AuthButton.js"
 // import CalPal from "../CalPal/CalPal.js"
 import "./Nav.css";
@@ -73,7 +73,7 @@ export default class Example extends React.Component {
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse isOpen={!this.state.collapsed} navbar>
               <Nav navbar className="ml-auto">
-                <NavItem>
+              <NavItem>
                   <AuthButton {...this.props} />
                 </NavItem>
                 <NavItem>
