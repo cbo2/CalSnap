@@ -12,7 +12,11 @@ class VideoModal extends React.Component {
     this.state = {
       modal: false,
       constraints: {
-        video: { deviceId: { exact: undefined } }
+        video: {
+          deviceId: { exact: undefined },
+          height: { ideal: 1080 },
+          width: { ideal: 1920 }
+        }
       },
       deviceNames: [],
       preferredDevice: null,
