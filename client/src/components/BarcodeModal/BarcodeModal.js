@@ -22,8 +22,8 @@ class BarcodeModal extends React.Component {
             firstDisplay: "reveal",
             secondDisplay: "d-none",
             results: [],
-            selectedItem: [],
-            quantity: 1
+            quantity: 1,
+            selectedMeal: "Select Meal"
         };
 
         this.initMedia()
@@ -124,8 +124,7 @@ class BarcodeModal extends React.Component {
         this.setState({
             modal: new_modal_state,
             firstDisplay: "reveal",
-            secondDisplay: "d-none",
-            quantity: 1
+            secondDisplay: "d-none"
         });
         if (new_modal_state) {
             this.start()
@@ -167,42 +166,31 @@ class BarcodeModal extends React.Component {
         }
     }
 
-    // selects item from results
-    selectItem = (index, event) => {
-        // event.preventDefault();
-        console.log(this.state.results[index])
-        this.setState({ selectedItem: this.state.results[index] })
-        console.log(this.state.selectedItem)
-        // this.setState ({ firstDisplay: "reveal"})
-        // this.toggle()
+    // handles selection of food and calls API to place in database.   
+    handleConsume = (index) => {
+        console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
         this.setState({ secondDisplay: "d-none" })
-        this.selectQuantity();
-    }
-
-    handleQuantity = (event) => {
-        event.preventDefault();
-        console.log("quantity: " + this.state.quantity)
+        console.log("quantity: " + this.state.quantity);
+        console.log("meal: " + this.state.selectedMeal);
         this.toggle()
         this.setState({ firstDisplay: "reveal" })
         // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
-
-        // new stuff for destructuring
-        const { results, quantity } = this.state
-
+        const { quantity, results, selectedMeal } = this.state
         API.createFood({
-            item_name: results.food_name,
-            quantity: quantity,
-            nf_calories: results.nf_calories * quantity,
-            nf_protein: results.nf_protein * quantity,
-            nf_serving_size_unit: results.serving_qty,
-            nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
+            item_name: results[index].fields.item_name,
+            quantity,
+            nf_calories: results[index].fields.nf_calories * quantity,
+            nf_protein: results[index].fields.nf_protein * quantity,
+            nf_serving_size_unit: results[index].fields.nf_serving_size_unit,
+            nf_total_carbohydrate: results[index].fields.nf_total_carbohydrate * quantity,
             username: this.props.username,
+            meal: selectedMeal,
             date: new Date()
         })
             .then(this.onResponseFromSearch)
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
     }
 
     onResponseFromSearch = () => {
@@ -215,7 +203,7 @@ class BarcodeModal extends React.Component {
                 <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
                 <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
-                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
+                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings:</ModalHeader>
                     <ModalBody>
                         <div id="videoimage" className={this.state.firstDisplay}>
                             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
@@ -224,22 +212,51 @@ class BarcodeModal extends React.Component {
                         </div>
                         <div className={this.state.secondDisplay}>
                             <div>
-                                <Row>
-                                    <Col>
-                                        {this.state.results.food_name} | Calories: {this.state.results.nf_calories}
+                                {this.state.results.map((oneitem, index) => (
+                                    <div key={index + 1000}>
+                                        <Row >
+                                            <Col>
+                                                <b>{oneitem.fields.item_name}</b>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-1">
+                                            <Col>
+                                                Calories: {oneitem.fields.nf_calories} | Serving: {oneitem.fields.nf_serving_size_unit}
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-2">
+                                            <Col>
+                                                <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                                    <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
+                                                    <option>BreakFast</option>
+                                                    <option>Lunch</option>
+                                                    <option>Dinner</option>
+                                                    <option>Snacks</option>
+                                                </Input>
+                                            </Col>
+                                            <Col>
+                                                <Input
+                                                    type="number"
+                                                    name="quantity"
+                                                    min="0"
+                                                    max="100"
+                                                    value={this.state.quantity}
+                                                    id="quantityText"
+                                                    className="form-control form-control-sm"
+                                                    value={this.state.quantity}
+                                                    onChange={e => this.setState({ quantity: e.target.value })}
+                                                >
+                                                </Input>
+                                            </Col>
+                                            <Col>
+                                                <button onClick={this.handleConsume.bind(this, index)} className="results-button" key={index}>Consume</button>
+                                            </Col>
+                                        </Row>
                                         <hr></hr>
-                                    </Col>
-                                </Row>
-                                <Form>
-                                    <FormGroup>
-                                        <Input type="textarea" name="text" id="quantityText" value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} />
-                                    </FormGroup>
-                                    <Button color="primary" onClick={this.handleQuantity} className="select-quantity">Enter</Button>
-                                </Form>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-
-
                     </ModalBody>
                 </Modal>
             </div>
