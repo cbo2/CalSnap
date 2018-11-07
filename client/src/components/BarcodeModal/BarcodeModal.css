@@ -7,7 +7,8 @@
 }
 #videoimage:after {
     position: absolute;
-    padding: 0, 0, 0, 0;
+    padding: 0 0 0 0;
+    border: 0 0 0 0;
     margin-left: 19%;
     margin-right: 19%;
     margin-bottom: 40%;
