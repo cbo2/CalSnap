@@ -2,8 +2,6 @@ import React from 'react';
 import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./TextInputModal.css";
-// import CalorieCount from "../../pages/CalorieCount";
-
 
 class TextInputModal extends React.Component {
 
@@ -18,8 +16,8 @@ class TextInputModal extends React.Component {
             secondDisplay: "d-none",
             results: [],
             selectedItem: [],
-            quantity: 1
-
+            quantity: 1,
+            selectedMeal: "Select Meal"
         };
 
         this.toggle = this.toggle.bind(this);
@@ -55,14 +53,12 @@ class TextInputModal extends React.Component {
             searchedFood: "",
             quantity: 1
         });
-
-
     }
 
     // handles search button on modal
     handleSearch = (event) => {
         // this.setState({  })
-        console.log("this was submitted: " + this.state.searchedFood)
+        console.log("this was submitted: " + this.state.searchedFood);
         // this.toggle();
         event.preventDefault();
         API.nutritionixInstantSearch(this.state.searchedFood).then(response => {
@@ -75,39 +71,30 @@ class TextInputModal extends React.Component {
         })
     }
 
-    // selects item from results
-    selectItem = (index, event) => {
-        // event.preventDefault();
-        console.log(this.state.results[index])
-        this.setState({ selectedItem: this.state.results[index] })
-        console.log(this.state.selectedItem)
-        // this.setState ({ firstDisplay: "reveal"})
-        // this.toggle()
+    // handles selection of food and calls API to place in database.   
+    handleConsume = (index) => {
+        console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
         this.setState({ secondDisplay: "d-none" })
-        this.handleConsume();
-    }
-
-    // handles quantity capture    
-    handleConsume = () => {
-        console.log("quantity: " + this.state.quantity)
+        console.log("quantity: " + this.state.quantity);
+        console.log("meal: " + this.state.selectedMeal);
         this.toggle()
-        console.log(this)
         this.setState({ firstDisplay: "reveal" })
         // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
         API.createFood({
-            item_name: this.state.selectedItem.fields.item_name,
+            item_name: this.state.results[index].fields.item_name,
             quantity: this.state.quantity,
-            nf_calories: this.state.selectedItem.fields.nf_calories * this.state.quantity,
-            nf_protein: this.state.selectedItem.fields.nf_protein * this.state.quantity,
-            nf_serving_size_unit: this.state.selectedItem.fields.nf_serving_size_unit,
-            nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate * this.state.quantity,
+            nf_calories: this.state.results[index].fields.nf_calories * this.state.quantity,
+            nf_protein: this.state.results[index].fields.nf_protein * this.state.quantity,
+            nf_serving_size_unit: this.state.results[index].fields.nf_serving_size_unit,
+            nf_total_carbohydrate: this.state.results[index].fields.nf_total_carbohydrate * this.state.quantity,
             username: this.props.username,
+            meal: this.state.selectedMeal,
             date: new Date()
         })
             .then(this.onResponseFromSearch)
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
     }
 
     // handles form input change
@@ -148,8 +135,8 @@ class TextInputModal extends React.Component {
                                         </Row>
                                         <Row className="mt-2">
                                             <Col>
-                                                <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" >
-                                                    <option value="" disabled selected>Select Meal</option>
+                                                <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                                    <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
                                                     <option>BreakFast</option>
                                                     <option>Lunch</option>
                                                     <option>Dinner</option>
@@ -161,7 +148,7 @@ class TextInputModal extends React.Component {
                                                     type="number"
                                                     name="quantity"
                                                     min="0"
-                                                    max="1000"
+                                                    max="100"
                                                     value={this.state.quantity}
                                                     id="quantityText"
                                                     className="form-control form-control-sm"
@@ -171,7 +158,7 @@ class TextInputModal extends React.Component {
                                                 </Input>
                                             </Col>
                                             <Col>
-                                                <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Consume</button>
+                                                <button onClick={this.handleConsume.bind(this, index)} className="results-button" key={index}>Consume</button>
                                             </Col>
                                         </Row>
                                         <hr></hr>

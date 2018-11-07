@@ -10,6 +10,7 @@ var FoodSchema = new Schema({
   nf_serving_size_unit: String,
   nf_total_carbohydrate: Number,
   username: String,
+  meal: String,
   date: Date
 });
 
