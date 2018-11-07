@@ -20,3 +20,9 @@
     background-color: rgb(78, 114, 126);
 
   }
+
+  @media screen and (max-width: 600px) {
+    .message {
+      display: none;
+    }
+  }
