@@ -8,13 +8,10 @@
 #videoimage:after {
     position: absolute;
     padding: 0 0 0 0;
-    /* border: 0 0 0 0; */
     margin-left: 20%;
     margin-right: 20%;
     margin-bottom: 40%;
-    /* outline-width: 4px; */
     border: 4px dashed green;
-    /* border: greenyellow; */
     width: 60%;
     height: 30%;
     bottom: 0;
