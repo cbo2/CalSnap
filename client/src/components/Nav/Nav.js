@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem } from 'reactstrap';
 import AuthButton from "../AuthButton/AuthButton.js"
 // import CalPal from "../CalPal/CalPal.js"
 import "./Nav.css";
@@ -42,7 +42,7 @@ export default class Example extends React.Component {
         <div>
           <Navbar light>
             <NavbarBrand href="/" className="text-white">CalSnap</NavbarBrand>
-            <div className="text-white">{message}</div>
+            <div className="text-white message">{message}</div>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse isOpen={!this.state.collapsed} navbar>
               <Nav navbar>
@@ -69,15 +69,15 @@ export default class Example extends React.Component {
         <div>
           <Navbar light expand="md">
             <NavbarBrand href="/" className="text-white">CalSnap</NavbarBrand>
-            <div className="text-white">{message}</div>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="mr-auto" navbar>
-                <NavItem>
-                  <Link to="/about" className="btn text-white mr-3 mb-xs-3">About</Link>
+            <div className="text-white message">{message}</div>
+            <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+            <Collapse isOpen={!this.state.collapsed} navbar>
+              <Nav navbar className="ml-auto">
+              <NavItem>
+                  <AuthButton {...this.props} />
                 </NavItem>
                 <NavItem>
-                  <AuthButton {...this.props} />
+                  <Link to="/about" className="btn text-white mr-3 mb-xs-3">About</Link>
                 </NavItem>
               </Nav>
             </Collapse>

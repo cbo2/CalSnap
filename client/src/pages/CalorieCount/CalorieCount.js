@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-// import SomeComponent from "../../components/SomeComponent";
-// import API from "../../utils/API";
-// import axios from "axios";
-import './CalorieCount.css';
 import { Table } from 'reactstrap';
+import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
 import Container from "../../components/Container";
@@ -14,11 +11,8 @@ import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
 import UpdateModal from "../../components/UpdateModal";
-// import { Link } from "react-router-dom";
 // import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
-
-
 
 class CalorieCount extends Component {
     state = {
@@ -214,7 +208,7 @@ class CalorieCount extends Component {
                                     <tr key={food._id}>
                                         <td><UpdateModal inputVal={food.item_name}></UpdateModal></td>
                                         {/* <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>        */}
-                                        <td>{food.nf_calories}</td>
+                                        <td>{Math.round(food.nf_calories)}</td>
                                         <td>{food.quantity}</td>
                                         <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger delete-button" data-id={food._id}>X</button></td>
 
