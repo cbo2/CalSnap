@@ -16,7 +16,6 @@ class TextInputModal extends React.Component {
             searchedFood: "",
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            thirdDisplay: "d-none",
             results: [],
             selectedItem: [],
             quantity: 1
@@ -53,7 +52,6 @@ class TextInputModal extends React.Component {
             modal: !this.state.modal,
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            thirdDisplay: "d-none",
             searchedFood: "",
             quantity: 1
         });
@@ -86,18 +84,13 @@ class TextInputModal extends React.Component {
         // this.setState ({ firstDisplay: "reveal"})
         // this.toggle()
         this.setState({ secondDisplay: "d-none" })
-        this.selectQuantity();
+        this.handleConsume();
     }
-    //initializes quantity form    
-    selectQuantity = (index, event) => {
-        this.setState({ thirdDisplay: "reveal" })
-    }
+
     // handles quantity capture    
-    handleQuantity = (event) => {
-        event.preventDefault();
+    handleConsume = () => {
         console.log("quantity: " + this.state.quantity)
         this.toggle()
-        this.setState({ thirdDisplay: "d-none" })
         console.log(this)
         this.setState({ firstDisplay: "reveal" })
         // TO DO: clear out forms after quantity entered
@@ -132,7 +125,6 @@ class TextInputModal extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Search for a specific item!</ModalHeader>
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>
-                    <ModalHeader className={this.state.thirdDisplay} toggle={this.toggle}>Enter a Quantity:</ModalHeader>
                     <ModalBody>
                         <Form className={this.state.firstDisplay}>
                             <FormGroup>
@@ -143,23 +135,50 @@ class TextInputModal extends React.Component {
                         <div className={this.state.secondDisplay}>
                             <div>
                                 {this.state.results.map((oneitem, index) => (
-                                    <Row key={index + 1000}>
-                                        <Col>
-                                            <b>{oneitem.fields.item_name}</b><br></br> Calories: {oneitem.fields.nf_calories}
-                                            <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Select</button>
-                                            <hr></hr>
-                                        </Col>
-                                    </Row>
+                                    <div key={index + 1000}>
+                                        <Row >
+                                            <Col>
+                                                <b>{oneitem.fields.item_name}</b>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-1">
+                                            <Col>
+                                                Calories: {oneitem.fields.nf_calories} | Serving: {oneitem.fields.nf_serving_size_unit}
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-2">
+                                            <Col>
+                                                <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" >
+                                                    <option value="" disabled selected>Select Meal</option>
+                                                    <option>BreakFast</option>
+                                                    <option>Lunch</option>
+                                                    <option>Dinner</option>
+                                                    <option>Snacks</option>
+                                                </Input>
+                                            </Col>
+                                            <Col>
+                                                <Input
+                                                    type="number"
+                                                    name="quantity"
+                                                    min="0"
+                                                    max="1000"
+                                                    value={this.state.quantity}
+                                                    id="quantityText"
+                                                    className="form-control form-control-sm"
+                                                    value={this.state.quantity}
+                                                    onChange={e => this.setState({ quantity: e.target.value })}
+                                                >
+                                                </Input>
+                                            </Col>
+                                            <Col>
+                                                <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Consume</button>
+                                            </Col>
+                                        </Row>
+                                        <hr></hr>
+                                    </div>
                                 ))}
                             </div>
                         </div>
-                        <Form className={this.state.thirdDisplay}>
-                            <FormGroup>
-                                <Input type="textarea" name="text" id="quantityText" value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} />
-                            </FormGroup>
-                            <Button color="primary" onClick={this.handleQuantity} className="select-quantity">Enter</Button>
-                        </Form>
-
                     </ModalBody>
                 </Modal>
 
