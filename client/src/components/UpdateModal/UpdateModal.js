@@ -20,13 +20,12 @@ class UpdateModal extends React.Component {
     }
 
 
-    render(props) {
+    render() {
         return (
             <div>
-                {console.log("props: ", this.props)}
-                <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}{this.props.item_name}</Button>
+                <a onClick={this.toggle}>{this.props.buttonLabel}{this.props.inputVal}</a>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Update {this.props.inputVal}</ModalHeader>
                     <ModalBody>
                         Test Modal
                     </ModalBody>
