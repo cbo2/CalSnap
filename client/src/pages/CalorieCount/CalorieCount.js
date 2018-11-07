@@ -101,13 +101,6 @@ class CalorieCount extends Component {
             .catch(err => console.log(err));
     };
 
-    // TO BE MOVED TO USER PAGE DANGER ZONE;
-    deleteFoodsbyUser = username => {
-        API.deleteFoodsbyUser(username)
-            .then(res => this.loadFood())
-            .catch(err => console.log(err));
-    };
-
     toggleModal = () => {
         console.log(`modal state is: ${this.state.isVideoModalOpen}`)
         this.setState({
@@ -180,8 +173,6 @@ class CalorieCount extends Component {
         if (loggedIn) {
             return (<Wrapper>
                 <Container>
-                    <button className="btn btn-danger" onClick={() => this.deleteFoodsbyUser(this.props.username)}>DELETE ALL DATA</button>
-                    <button className="btn btn-danger">DELETE ALL DATA AND PROFILE</button>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
                         actual={this.state.actual}
@@ -212,7 +203,6 @@ class CalorieCount extends Component {
                                     <th>Item</th>
                                     <th>Cals</th>
                                     <th>#</th>
-                                    {/* <th>Update</th> */}
                                     <th></th>
                                 </tr>
                             </thead>
@@ -223,19 +213,15 @@ class CalorieCount extends Component {
                                         <td>{food.item_name}</td>
                                         <td>{food.nf_calories}</td>
                                         <td>{food.quantity}</td>
-                                        {/* <td><button className="btn">U</button></td> */}
                                         <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger delete-button" data-id={food._id}>X</button></td>
 
                                     </tr>
                                 ))}
                             </tbody>
-
                         </Table>
                     ) : (
                             <h3>Start Snapping to see results!</h3>
                         )}
-
-
                 </Container>
             </Wrapper>
             )

@@ -9,6 +9,7 @@ const Nav = (props) => (
         <AuthButton {...props}/>
         <div className="text-white">Welcome back, {props.name}</div>
         {/* <CalPal {...props}>CalBud</CalPal> */}
+        <a href="/userprofile">Userprofile</a>
       </div>
 )
 
