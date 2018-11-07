@@ -82,16 +82,15 @@ class TextInputModal extends React.Component {
         // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
-        const { quantity, results, selectedMeal } = this.state
         API.createFood({
-            item_name: results[index].stafields.item_name,
-            quantity: quantity,
-            nf_calories: results[index].fields.nf_calories * quantity,
-            nf_protein: results[index].fields.nf_protein * quantity,
-            nf_serving_size_unit: results[index].fields.nf_serving_size_unit,
-            nf_total_carbohydrate: results[index].fields.nf_total_carbohydrate * quantity,
+            item_name: this.state.results[index].fields.item_name,
+            quantity: this.state.quantity,
+            nf_calories: this.state.results[index].fields.nf_calories * this.state.quantity,
+            nf_protein: this.state.results[index].fields.nf_protein * this.state.quantity,
+            nf_serving_size_unit: this.state.results[index].fields.nf_serving_size_unit,
+            nf_total_carbohydrate: this.state.results[index].fields.nf_total_carbohydrate * this.state.quantity,
             username: this.props.username,
-            meal: selectedMeal,
+            meal: this.state.selectedMeal,
             date: new Date()
         })
             .then(this.onResponseFromSearch)
