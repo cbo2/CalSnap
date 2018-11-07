@@ -187,13 +187,17 @@ class BarcodeModal extends React.Component {
         // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
+
+        // new stuff for destructuring
+        const { results, quantity } = this.state
+
         API.createFood({
-            item_name: this.state.results.food_name,
-            quantity: this.state.quantity,
-            nf_calories: this.state.results.nf_calories * this.state.quantity,
-            nf_protein: this.state.results.nf_protein * this.state.quantity,
-            nf_serving_size_unit: this.state.results.serving_qty,
-            nf_total_carbohydrate: this.state.results.nf_total_carbohydrate * this.state.quantity,
+            item_name: results.food_name,
+            quantity: quantity,
+            nf_calories: results.nf_calories * quantity,
+            nf_protein: results.nf_protein * quantity,
+            nf_serving_size_unit: results.serving_qty,
+            nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
             username: this.props.username,
             date: new Date()
         })
