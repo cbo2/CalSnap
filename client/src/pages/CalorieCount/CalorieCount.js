@@ -13,6 +13,7 @@ import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
+import UpdateModal from "../../components/UpdateModal";
 // import { Link } from "react-router-dom";
 // import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
@@ -106,6 +107,11 @@ class CalorieCount extends Component {
         API.deleteFoodsbyUser(username)
             .then(res => this.loadFood())
             .catch(err => console.log(err));
+    };
+
+    updateFood = () => {
+        console.log("food item was clicked")
+        UpdateModal.toggle()
     };
 
     toggleModal = () => {
@@ -219,8 +225,8 @@ class CalorieCount extends Component {
                             <tbody>
                                 {this.state.food.map(food => (
                                     <tr key={food._id}>
-
-                                        <td>{food.item_name}</td>
+                                        <UpdateModal {...food.item_name}></UpdateModal>
+                                        <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>       
                                         <td>{food.nf_calories}</td>
                                         <td>{food.quantity}</td>
                                         {/* <td><button className="btn">U</button></td> */}
