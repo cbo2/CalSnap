@@ -84,8 +84,8 @@ class TextInputModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
         const { quantity, results, selectedMeal } = this.state
         API.createFood({
-            item_name: results[index].stafields.item_name,
-            quantity: quantity,
+            item_name: results[index].fields.item_name,
+            quantity,
             nf_calories: results[index].fields.nf_calories * quantity,
             nf_protein: results[index].fields.nf_protein * quantity,
             nf_serving_size_unit: results[index].fields.nf_serving_size_unit,
