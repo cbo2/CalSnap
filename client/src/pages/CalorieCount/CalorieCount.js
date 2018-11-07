@@ -13,6 +13,7 @@ import VideoModal from "../../components/VideoModal";
 import BarcodeModal from "../../components/BarcodeModal";
 import TextInputModal from "../../components/TextInputModal";
 import LaunchPage from "../../components/LaunchPage";
+import UpdateModal from "../../components/UpdateModal";
 // import { Link } from "react-router-dom";
 // import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
@@ -209,8 +210,8 @@ class CalorieCount extends Component {
                             <tbody>
                                 {this.state.food.map(food => (
                                     <tr key={food._id}>
-
-                                        <td>{food.item_name}</td>
+                                        <td><UpdateModal inputVal={food.item_name}></UpdateModal></td>
+                                        {/* <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>        */}
                                         <td>{food.nf_calories}</td>
                                         <td>{food.quantity}</td>
                                         <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger delete-button" data-id={food._id}>X</button></td>
