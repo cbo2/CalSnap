@@ -193,13 +193,17 @@ class VideoModal extends React.Component {
     // TO DO: clear out forms after quantity entered
     this.toggle()
     this.setState({ secondDisplay: "d-none" })
+
+    // new stuff for destructuring
+    const { quantity, selectedItem } = this.state
+
     API.createFood({
-      item_name: this.state.selectedItem.fields.item_name,
-      quantity: this.state.quantity,
-      nf_calories: this.state.selectedItem.fields.nf_calories * this.state.quantity,
-      nf_protein: this.state.selectedItem.fields.nf_protein * this.state.quantity,
-      nf_serving_size_unit: this.state.selectedItem.fields.nf_serving_size_unit,
-      nf_total_carbohydrate: this.state.selectedItem.fields.nf_total_carbohydrate * this.state.quantity,
+      item_name: selectedItem.fields.item_name,
+      quantity: quantity,
+      nf_calories: selectedItem.fields.nf_calories * quantity,
+      nf_protein: selectedItem.fields.nf_protein * quantity,
+      nf_serving_size_unit: selectedItem.fields.nf_serving_size_unit,
+      nf_total_carbohydrate: selectedItem.fields.nf_total_carbohydrate * quantity,
       username: this.props.username,
       date: new Date()
     })

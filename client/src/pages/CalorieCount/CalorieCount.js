@@ -208,7 +208,7 @@ class CalorieCount extends Component {
                                     <tr key={food._id}>
                                         <td><UpdateModal inputVal={food.item_name}></UpdateModal></td>
                                         {/* <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>        */}
-                                        <td>{food.nf_calories}</td>
+                                        <td>{Math.round(food.nf_calories)}</td>
                                         <td>{food.quantity}</td>
                                         <td><button onClick={() => this.deleteFood(food._id)} className="btn btn-danger delete-button" data-id={food._id}>X</button></td>
 

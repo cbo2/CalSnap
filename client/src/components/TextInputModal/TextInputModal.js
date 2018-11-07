@@ -82,6 +82,7 @@ class TextInputModal extends React.Component {
         // TO DO: clear out forms after quantity entered
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
+<<<<<<< HEAD
         API.createFood({
             item_name: this.state.results[index].fields.item_name,
             quantity: this.state.quantity,
@@ -93,6 +94,22 @@ class TextInputModal extends React.Component {
             meal: this.state.selectedMeal,
             date: new Date()
         })
+=======
+        
+         // new stuff for destructuring
+         const { quantity, selectedItem } = this.state
+        
+         API.createFood({
+             item_name: selectedItem.fields.item_name,
+             quantity: quantity,
+             nf_calories: selectedItem.fields.nf_calories * quantity,
+             nf_protein: selectedItem.fields.nf_protein * quantity,
+             nf_serving_size_unit: selectedItem.fields.nf_serving_size_unit,
+             nf_total_carbohydrate: selectedItem.fields.nf_total_carbohydrate * quantity,
+             username: this.props.username,
+             date: new Date()
+         })
+>>>>>>> 55933fd34662aa0bc641b390ad60e34041e42c59
             .then(this.onResponseFromSearch)
             .catch(err => console.log(err))
     }

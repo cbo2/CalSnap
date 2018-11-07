@@ -17,7 +17,8 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const fields = "?results=0%3A5" + // 5 items in the result
                 "&cal_min=0&cal_max=50000" + // min and max calories
-                "&fields=item_name%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_serving_size_unit"
+                // "&fields=item_name%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_serving_size_unit"
+                "&fields=*"
             const id = `&appId=${appID}`
             const key = `&appKey=${appKey}`
             return axios.get(`https://api.nutritionix.com/v1_1/search/${searchTerm}${fields}${id}${key}`
