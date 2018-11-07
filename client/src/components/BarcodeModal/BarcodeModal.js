@@ -10,7 +10,11 @@ class BarcodeModal extends React.Component {
         this.state = {
             modal: false,
             constraints: {
-                video: { deviceId: { exact: undefined } }
+                video: {
+                    deviceId: { exact: undefined },
+                    height: { ideal: 1080 },
+                    width: { ideal: 1920 }
+                }
             },
             deviceNames: [],
             preferredDevice: null,
@@ -45,7 +49,7 @@ class BarcodeModal extends React.Component {
         this.setState({ firstDisplay: "reveal" });
         this.setState({ secondDisplay: "d-none" });
         this.toggle();
-      }
+    }
 
     initMedia = () => {
         console.log(`********* initMedia *******`)
@@ -174,7 +178,7 @@ class BarcodeModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
         this.selectQuantity();
     }
-   
+
     handleQuantity = (event) => {
         event.preventDefault();
         console.log("quantity: " + this.state.quantity)
