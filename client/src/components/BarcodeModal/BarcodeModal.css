@@ -6,14 +6,19 @@
     float: right;
 }
 #videoimage:after {
-    border-top: 2px solid green;
-    width: 70%;
-    margin-left: 15%;
-    margin-right: 15%;
-    height: 50%;
     position: absolute;
+    padding: 0 0 0 0;
+    border: 0 0 0 0;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 40%;
+    outline-width: 4px;
+    outline-style: dashed;
+    outline-color: greenyellow;
+    width: 60%;
+    height: 30%;
     bottom: 0;
-    left: 0;
+    left: 0; 
     content: '';
     pointer-events: none;
 }
