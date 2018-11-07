@@ -7,8 +7,9 @@
 }
 #videoimage:after {
     position: absolute;
-    margin-left: 20%;
-    margin-right: 20%;
+    padding: 0, 0, 0, 0;
+    margin-left: 19%;
+    margin-right: 19%;
     margin-bottom: 40%;
     outline-width: 4px;
     outline-style: dashed;
