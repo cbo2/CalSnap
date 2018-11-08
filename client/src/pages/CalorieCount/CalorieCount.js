@@ -207,7 +207,7 @@ class CalorieCount extends Component {
                             <tbody>
                                 {this.state.food.map(food => (
                                     <tr key={food._id}>
-                                        <td><UpdateModal inputVal={food.item_name}></UpdateModal></td>
+                                        <td><UpdateModal onResponseFromSearch={this.handleSearchResponse} inputVal={food.item_name} id={food._id}></UpdateModal></td>
                                         {/* <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>        */}
                                         <td>{Math.round(food.nf_calories)}</td>
                                         <td>{food.quantity}</td>

@@ -9,6 +9,9 @@ export default {
   getFoodsbyUserAndDateRange: function (params) {
     return axios.get(`/api/food/${params.username}/${params.today}/${params.tomorrow}`)
   },
+  getFoodbyId: function (id) {
+    return axios.get(`/api/food/${id}`)
+  },
   // Gets user
   getUser: function (params) {
     return axios.get(`/api/user/${params.username}`)
@@ -32,6 +35,9 @@ export default {
   // Saves a new user to the database
   createUser: function (user) {
     return axios.post("/api/user", user);
+  },
+  updateFood: function (id, food) {
+    return axios.put(`/api/food/${id}`, food)
   },
   callImageRecognition: (image) => {
     return axios.post("/api/food/identify", { image: image })
