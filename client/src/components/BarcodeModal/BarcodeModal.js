@@ -183,7 +183,7 @@ class BarcodeModal extends React.Component {
             quantity,
             nf_calories: results.nf_calories * quantity,
             nf_protein: results.nf_protein * quantity,
-            nf_serving_size_unit: results.nf_serving_size_unit,
+            nf_serving_size_unit: results.serving_qty,
             nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
             username: this.props.username,
             meal: selectedMeal,
@@ -219,7 +219,7 @@ class BarcodeModal extends React.Component {
                                 </Row>
                                 <Row className="mt-1">
                                     <Col>
-                                        Calories: {this.state.results.nf_calories} | Serving: {this.state.results.nf_serving_size_unit}
+                                        Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_qty}
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
