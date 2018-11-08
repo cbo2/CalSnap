@@ -1,13 +1,12 @@
 // README - This mini node app will seed the mongo db with food items based on user input
 //
-//  - to run this app, execute this from the root directory:  node models/seedapp
+//  - to run this app, execute this from the root directory:  node models/seedapp (or by 'yarn seed')
 //  - it will prompt you for a username (assumption is that the user is already in the mongodb!)
 //  - it will prompt you for number of food items to seed per day
 //  - it will prompt you for the number of days to provide data (going back from today's date)
 //
 // example:
-//      node models/seedapp
-//      node models/seedapp
+//      node models/seedapp  (or by 'yarn seed')
 //  ** running with MONGODB_URI=mongodb://localhost/CalSnap
 //  ? Enter the associated username?  talk2cbo
 //  ? How many food items per day?  10
