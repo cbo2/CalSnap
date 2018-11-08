@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, Row, Col, Input } from 'reactstrap';
-// Form, FormGroup, Input
 import API from "../../utils/API";
 import "./UpdateModal.css";
 
