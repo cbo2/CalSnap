@@ -181,12 +181,12 @@ class BarcodeModal extends React.Component {
         const { results, quantity, selectedMeal } = this.state
 
         API.createFood({
-            item_name: results[index].food_name,
+            item_name: results.food_name,
             quantity,
-            nf_calories: results[index].nf_calories * quantity,
-            nf_protein: results[index].nf_protein * quantity,
-            nf_serving_size_unit: results[index].serving_qty,
-            nf_total_carbohydrate: results[index].nf_total_carbohydrate * quantity,
+            nf_calories: results.nf_calories * quantity,
+            nf_protein: results.nf_protein * quantity,
+            nf_serving_size_unit: results.serving_qty,
+            nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
             username: this.props.username,
             meal: selectedMeal,
             date: new Date()
@@ -215,49 +215,45 @@ class BarcodeModal extends React.Component {
                         <div className={this.state.secondDisplay}>
                             <div>
                                 <div>
-                                    {this.state.results.map((oneitem, index) => (
-                                        <div key={index + 1000}>
-                                            <Row >
-                                                <Col>
-                                                    <b>{oneitem.food_name}</b>
-                                                </Col>
-                                            </Row>
-                                            <Row className="mt-1">
-                                                <Col>
-                                                    Calories: {oneitem.nf_calories} | Serving: {oneitem.serving_qty}
-                                                </Col>
-                                            </Row>
-                                            <Row className="mt-2">
-                                                <Col>
-                                                    <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
-                                                        <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
-                                                        <option>BreakFast</option>
-                                                        <option>Lunch</option>
-                                                        <option>Dinner</option>
-                                                        <option>Snacks</option>
-                                                    </Input>
-                                                </Col>
-                                                <Col>
-                                                    <Input
-                                                        type="number"
-                                                        name="quantity"
-                                                        min="0"
-                                                        max="100"
-                                                        value={this.state.quantity}
-                                                        id="quantityText"
-                                                        className="form-control form-control-sm"
-                                                        value={this.state.quantity}
-                                                        onChange={e => this.setState({ quantity: e.target.value })}
-                                                    >
-                                                    </Input>
-                                                </Col>
-                                                <Col>
-                                                    <button onClick={this.handleConsume.bind(this, index)} className="results-button" key={index}>Consume</button>
-                                                </Col>
-                                            </Row>
-                                            <hr></hr>
-                                        </div>
-                                    ))}
+                                    <Row >
+                                        <Col>
+                                            <b>{this.state.results.food_name}</b>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mt-1">
+                                        <Col>
+                                            Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_qty}
+                                        </Col>
+                                    </Row>
+                                    <Row className="mt-2">
+                                        <Col>
+                                            <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                                <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
+                                                <option>BreakFast</option>
+                                                <option>Lunch</option>
+                                                <option>Dinner</option>
+                                                <option>Snacks</option>
+                                            </Input>
+                                        </Col>
+                                        <Col>
+                                            <Input
+                                                type="number"
+                                                name="quantity"
+                                                min="0"
+                                                max="100"
+                                                value={this.state.quantity}
+                                                id="quantityText"
+                                                className="form-control form-control-sm"
+                                                value={this.state.quantity}
+                                                onChange={e => this.setState({ quantity: e.target.value })}
+                                            >
+                                            </Input>
+                                        </Col>
+                                        <Col>
+                                            <button onClick={this.handleConsume.bind(this, index)} className="results-button" key={index}>Consume</button>
+                                        </Col>
+                                    </Row>
+                                    <hr></hr>
                                 </div>
                             </div>
                         </div>
