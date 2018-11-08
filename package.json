@@ -8,7 +8,7 @@
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
-    "seed": "node scripts/seedDB.js",
+    "seed": "node models/seedapp.js",
     "install": "cd client && yarn install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
@@ -27,6 +27,7 @@
     "express": "^4.16.3",
     "fs": "^0.0.1-security",
     "if-env": "^1.0.4",
+    "inquirer": "^6.2.0",
     "mongoose": "^5.0.17",
     "path": "^0.12.7",
     "quagga": "^0.12.1",
