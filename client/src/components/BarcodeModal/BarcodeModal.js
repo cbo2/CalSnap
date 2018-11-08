@@ -48,7 +48,7 @@ class BarcodeModal extends React.Component {
         } else if ((dinnerStartTime <= now) && (now <= dinnerEndTime)) {
             this.setState({ selectedMeal: "Dinner" })
         } else {
-            this.setState({ selectedMeal: "Snacks" })
+            this.setState({ selectedMeal: "Snack" })
         }
         this.setState({ secondDisplay: "reveal" })
         if (response.code != "000") {
@@ -242,11 +242,18 @@ class BarcodeModal extends React.Component {
                                 </Row>
                                 <Row className="mt-2">
                                     <Col>
-                                        <Input type="select" name="meal-select" defaultValue={this.state.selectedMeal} placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                        <Input
+                                            type="select"
+                                            name="mealSelect"
+                                            id="mealSelect"
+                                            className="form-control form-control-sm"
+                                            value={this.state.selectedMeal}
+                                            onChange={e => this.setState({ selectedMeal: e.target.value })}
+                                        >
                                             <option>BreakFast</option>
                                             <option>Lunch</option>
                                             <option>Dinner</option>
-                                            <option>Snacks</option>
+                                            <option>Snack</option>
                                         </Input>
                                     </Col>
                                     <Col>

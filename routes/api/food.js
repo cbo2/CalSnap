@@ -8,12 +8,16 @@ router.route("/")
 
 // Matches with "/api/food/:id"
 router.route("/:id")
-  // .put(foodController.update)
+  .get(foodController.findbyId)
+  .put(foodController.update)
   .delete(foodController.remove)
 
 // Matches with "/api/food/:username"
-router.route("/deleteallfoods/:username")
+router.route("/:username")
   .get(foodController.findAllbyUser)
+
+// Matches with "/api/food/deleteallfoods/:username"
+router.route("/deleteallfoods/:username")
   .delete(foodController.removeAllbyUser)
 
 // Matches with "/api/food/:today/:tomorrow/:username

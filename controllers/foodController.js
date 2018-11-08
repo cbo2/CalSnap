@@ -24,7 +24,7 @@ const visual_recognition = new VisualRecognitionV3({
 });
 
 
-// Defining methods for the articlesController
+// Defining methods for the foodController
 module.exports = {
   parseBase64Image: function (imageString) {
     var matches = imageString.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
@@ -179,6 +179,14 @@ module.exports = {
       }
     })
   },
+  findbyId: function (req, res) {
+    db.Food
+    .find({ _id: req.params.id })
+    .then(dbModel => {
+      return res.json(dbModel)
+    })
+    .catch(err => res.status(422).json(err));
+  },
   findAllbyUser: function (req, res) {
     db.Food
       .find({ username: req.params.username })
@@ -206,12 +214,14 @@ module.exports = {
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
   },
-  //   update: function(req, res) {
-  //     db.Food
-  //       .findOneAndUpdate({ _id: req.params.id }, req.body)
-  //       .then(dbModel => res.json(dbModel))
-  //       .catch(err => res.status(422).json(err));
-  //   },
+    update: function(req, res) {
+      console.log(req.params.id);
+      console.log(req.body);
+      db.Food
+        .findOneAndUpdate({ _id: req.params.id }, req.body)
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+    },
   // Remove Food from User
   remove: function (req, res) {
     db.Food

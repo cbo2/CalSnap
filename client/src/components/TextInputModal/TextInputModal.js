@@ -44,7 +44,7 @@ class TextInputModal extends React.Component {
         } else if ((dinnerStartTime <= now) && (now <= dinnerEndTime)) {
             this.setState({ selectedMeal: "Dinner" })
         } else {
-            this.setState({ selectedMeal: "Snacks" })
+            this.setState({ selectedMeal: "Snack" })
         }
         this.setState({ secondDisplay: "reveal" })
         if (response.code != "000") {
@@ -67,8 +67,7 @@ class TextInputModal extends React.Component {
             modal: !this.state.modal,
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            searchedFood: "",
-            quantity: 1
+            searchedFood: ""
         });
     }
 
@@ -153,11 +152,18 @@ class TextInputModal extends React.Component {
                                         </Row>
                                         <Row className="mt-2">
                                             <Col>
-                                                <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                                <Input
+                                                    type="select"
+                                                    name="mealSelect"
+                                                    id="mealSelect"
+                                                    className="form-control form-control-sm"
+                                                    value={this.state.selectedMeal}
+                                                    onChange={e => this.setState({ selectedMeal: e.target.value })}
+                                                >
                                                     <option>BreakFast</option>
                                                     <option>Lunch</option>
                                                     <option>Dinner</option>
-                                                    <option>Snacks</option>
+                                                    <option>Snack</option>
                                                 </Input>
                                             </Col>
                                             <Col>
@@ -166,7 +172,6 @@ class TextInputModal extends React.Component {
                                                     name="quantity"
                                                     min="0"
                                                     max="100"
-                                                    value={this.state.quantity}
                                                     id="quantityText"
                                                     className="form-control form-control-sm"
                                                     value={this.state.quantity}
