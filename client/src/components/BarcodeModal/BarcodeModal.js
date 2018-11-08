@@ -166,11 +166,10 @@ class BarcodeModal extends React.Component {
         }
     }
 
-    handleConsume = (index) => {
-        console.log(this.state.results[index])
+    handleConsume = () => {
+        console.log(JSON.stringify(this.state.results))
         this.setState({ secondDisplay: "d-none" })
-        console.log("quantity: " + this.state.quantity);
-        console.log("meal: ", this.start.selectedMeal);
+        console.log("quantity: " + this.state.quantity)
         this.toggle()
         this.setState({ firstDisplay: "reveal" })
         // TO DO: clear out forms after quantity entered
@@ -182,7 +181,7 @@ class BarcodeModal extends React.Component {
 
         API.createFood({
             item_name: results.food_name,
-            quantity,
+            quantity: quantity,
             nf_calories: results.nf_calories * quantity,
             nf_protein: results.nf_protein * quantity,
             nf_serving_size_unit: results.serving_qty,
@@ -205,7 +204,7 @@ class BarcodeModal extends React.Component {
                 <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
                 <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
-                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings:</ModalHeader>
+                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
                     <ModalBody>
                         <div id="videoimage" className={this.state.firstDisplay}>
                             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
@@ -214,52 +213,50 @@ class BarcodeModal extends React.Component {
                         </div>
                         <div className={this.state.secondDisplay}>
                             <div>
-                                <div>
-                                    <Row >
-                                        <Col>
-                                            <b>{this.state.results.food_name}</b>
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-1">
-                                        <Col>
-                                            Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_qty}
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-2">
-                                        <Col>
-                                            <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
-                                                <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
-                                                <option>BreakFast</option>
-                                                <option>Lunch</option>
-                                                <option>Dinner</option>
-                                                <option>Snacks</option>
-                                            </Input>
-                                        </Col>
-                                        <Col>
-                                            <Input
-                                                type="number"
-                                                name="quantity"
-                                                min="0"
-                                                max="100"
-                                                value={this.state.quantity}
-                                                id="quantityText"
-                                                className="form-control form-control-sm"
-                                                value={this.state.quantity}
-                                                onChange={e => this.setState({ quantity: e.target.value })}
-                                            >
-                                            </Input>
-                                        </Col>
-                                        <Col>
-                                            <button onClick={this.handleConsume.bind(this, index)} className="results-button" key={index}>Consume</button>
-                                        </Col>
-                                    </Row>
-                                    <hr></hr>
-                                </div>
+                                <Row >
+                                    <Col>
+                                        <b>{this.state.results.food_name}</b>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-1">
+                                    <Col>
+                                        Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_qty}
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col>
+                                        <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                            <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
+                                            <option>BreakFast</option>
+                                            <option>Lunch</option>
+                                            <option>Dinner</option>
+                                            <option>Snacks</option>
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <Input
+                                            type="number"
+                                            name="quantity"
+                                            min="0"
+                                            max="100"
+                                            value={this.state.quantity}
+                                            id="quantityText"
+                                            className="form-control form-control-sm"
+                                            value={this.state.quantity}
+                                            onChange={e => this.setState({ quantity: e.target.value })}
+                                        >
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <button onClick={() => this.handleConsume()} className="results-button">Consume</button>
+                                    </Col>
+                                </Row>
+                                <hr></hr>
                             </div>
                         </div>
                     </ModalBody>
                 </Modal>
-            </div>
+            </div >
         );
     }
 
