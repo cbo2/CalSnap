@@ -22,8 +22,8 @@ class BarcodeModal extends React.Component {
             firstDisplay: "reveal",
             secondDisplay: "d-none",
             results: [],
-            selectedItem: [],
-            quantity: 1
+            quantity: 1,
+            selectedMeal: "Select Meal"
         };
 
         this.initMedia()
@@ -125,7 +125,6 @@ class BarcodeModal extends React.Component {
             modal: new_modal_state,
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            quantity: 1
         });
         if (new_modal_state) {
             this.start()
@@ -167,20 +166,9 @@ class BarcodeModal extends React.Component {
         }
     }
 
-    // selects item from results
-    selectItem = (index, event) => {
-        // event.preventDefault();
-        console.log(this.state.results[index])
-        this.setState({ selectedItem: this.state.results[index] })
-        console.log(this.state.selectedItem)
-        // this.setState ({ firstDisplay: "reveal"})
-        // this.toggle()
+    handleConsume = () => {
+        console.log(JSON.stringify(this.state.results))
         this.setState({ secondDisplay: "d-none" })
-        this.selectQuantity();
-    }
-
-    handleQuantity = (event) => {
-        event.preventDefault();
         console.log("quantity: " + this.state.quantity)
         this.toggle()
         this.setState({ firstDisplay: "reveal" })
@@ -189,7 +177,7 @@ class BarcodeModal extends React.Component {
         this.setState({ secondDisplay: "d-none" })
 
         // new stuff for destructuring
-        const { results, quantity } = this.state
+        const { results, quantity, selectedMeal } = this.state
 
         API.createFood({
             item_name: results.food_name,
@@ -199,6 +187,7 @@ class BarcodeModal extends React.Component {
             nf_serving_size_unit: results.serving_qty,
             nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
             username: this.props.username,
+            meal: selectedMeal,
             date: new Date()
         })
             .then(this.onResponseFromSearch)
@@ -224,25 +213,50 @@ class BarcodeModal extends React.Component {
                         </div>
                         <div className={this.state.secondDisplay}>
                             <div>
-                                <Row>
+                                <Row >
                                     <Col>
-                                        {this.state.results.food_name} | Calories: {this.state.results.nf_calories}
-                                        <hr></hr>
+                                        <b>{this.state.results.food_name}</b>
                                     </Col>
                                 </Row>
-                                <Form>
-                                    <FormGroup>
-                                        <Input type="textarea" name="text" id="quantityText" value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} />
-                                    </FormGroup>
-                                    <Button color="primary" onClick={this.handleQuantity} className="select-quantity">Enter</Button>
-                                </Form>
+                                <Row className="mt-1">
+                                    <Col>
+                                        Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_qty}
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col>
+                                        <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                                            <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
+                                            <option>BreakFast</option>
+                                            <option>Lunch</option>
+                                            <option>Dinner</option>
+                                            <option>Snacks</option>
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <Input
+                                            type="number"
+                                            name="quantity"
+                                            min="0"
+                                            max="100"
+                                            value={this.state.quantity}
+                                            id="quantityText"
+                                            className="form-control form-control-sm"
+                                            value={this.state.quantity}
+                                            onChange={e => this.setState({ quantity: e.target.value })}
+                                        >
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <button onClick={() => this.handleConsume()} className="results-button">Consume</button>
+                                    </Col>
+                                </Row>
+                                <hr></hr>
                             </div>
                         </div>
-
-
                     </ModalBody>
                 </Modal>
-            </div>
+            </div >
         );
     }
 
