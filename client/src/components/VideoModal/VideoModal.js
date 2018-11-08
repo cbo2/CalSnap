@@ -25,14 +25,13 @@ class VideoModal extends React.Component {
       secondDisplay: "d-none",
       thirdDisplay: "d-none",
       results: [],
-      selectedItem: [],
-      quantity: 1
+      quantity: 1,
+      selectedMeal: "Select Meal"
     };
 
     this.initMedia()
     this.toggle = this.toggle.bind(this);
   }
-
 
   onResponseFromIR = response => {
     // this.props.onResponseFromIR(response);
@@ -51,7 +50,6 @@ class VideoModal extends React.Component {
     this.toggle();
     this.setState({ firstDisplay: "reveal" });
     this.setState({ secondDisplay: "d-none" });
-    this.setState({ thirdDisplay: "d-none" });
     this.toggle();
   }
 
@@ -129,8 +127,6 @@ class VideoModal extends React.Component {
       modal: new_modal_state,
       firstDisplay: "reveal",
       secondDisplay: "d-none",
-      thirdDisplay: "d-none",
-      quantity: 1
     });
     if (new_modal_state) {
       this.start()
@@ -172,53 +168,36 @@ class VideoModal extends React.Component {
     }
   }
 
-  // selects item from results
-  selectItem = (index, event) => {
-    // event.preventDefault();
-    console.log(this.state.results[index])
-    this.setState({ selectedItem: this.state.results[index] })
-    console.log(this.state.selectedItem)
-    // this.setState ({ firstDisplay: "reveal"})
-    // this.toggle()
+  // handles selection of food and calls API to place in database.   
+  handleConsume = (index) => {
+    console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
     this.setState({ secondDisplay: "d-none" })
-    this.selectQuantity();
-  }
-  selectQuantity = (index, event) => {
-    this.setState({ thirdDisplay: "reveal" })
-  }
-
-  handleQuantity = (event) => {
-    event.preventDefault();
-    console.log("quantity: " + this.state.quantity)
+    console.log("quantity: " + this.state.quantity);
+    console.log("meal: " + this.state.selectedMeal);
     this.toggle()
-    this.setState({ thirdDisplay: "d-none" })
-    console.log(this)
     this.setState({ firstDisplay: "reveal" })
     // TO DO: clear out forms after quantity entered
     this.toggle()
     this.setState({ secondDisplay: "d-none" })
-
-    // new stuff for destructuring
-    const { quantity, selectedItem } = this.state
-
+    const { quantity, results, selectedMeal } = this.state
     API.createFood({
-      item_name: selectedItem.fields.item_name,
-      quantity: quantity,
-      nf_calories: selectedItem.fields.nf_calories * quantity,
-      nf_protein: selectedItem.fields.nf_protein * quantity,
-      nf_serving_size_unit: selectedItem.fields.nf_serving_size_unit,
-      nf_total_carbohydrate: selectedItem.fields.nf_total_carbohydrate * quantity,
+      item_name: results[index].fields.item_name,
+      quantity,
+      nf_calories: results[index].fields.nf_calories * quantity,
+      nf_protein: results[index].fields.nf_protein * quantity,
+      nf_serving_size_unit: results[index].fields.nf_serving_size_unit,
+      nf_total_carbohydrate: results[index].fields.nf_total_carbohydrate * quantity,
       username: this.props.username,
+      meal: selectedMeal,
       date: new Date()
     })
       .then(this.onResponseFromSearch)
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   }
 
   onResponseFromSearch = () => {
     this.props.onResponseFromSearch();  // callback to our parent so it can reload state from Mongo
   }
-
 
   render() {
     return (
@@ -227,7 +206,6 @@ class VideoModal extends React.Component {
         <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
           <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch the image to Snap!</ModalHeader>
           <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>
-          <ModalHeader className={this.state.thirdDisplay} toggle={this.toggle}>Enter a Quantity:</ModalHeader>
           <ModalBody>
             <div className={this.state.firstDisplay}>
               <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
@@ -238,23 +216,50 @@ class VideoModal extends React.Component {
             <div className={this.state.secondDisplay}>
               <div>
                 {this.state.results.map((oneitem, index) => (
-                  <Row key={index + 1000}>
-                    <Col>
-                      {oneitem.fields.item_name} | Calories: {oneitem.fields.nf_calories}
-                      <button onClick={this.selectItem.bind(this, index)} className="results-button" key={index}>Select</button>
-                      <hr></hr>
-                    </Col>
-                  </Row>
+                  <div key={index + 1000}>
+                    <Row >
+                      <Col>
+                        <b>{oneitem.fields.item_name}</b>
+                      </Col>
+                    </Row>
+                    <Row className="mt-1">
+                      <Col>
+                        Calories: {oneitem.fields.nf_calories} | Serving: {oneitem.fields.nf_serving_size_unit}
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col>
+                        <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
+                          <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
+                          <option>BreakFast</option>
+                          <option>Lunch</option>
+                          <option>Dinner</option>
+                          <option>Snacks</option>
+                        </Input>
+                      </Col>
+                      <Col>
+                        <Input
+                          type="number"
+                          name="quantity"
+                          min="0"
+                          max="100"
+                          value={this.state.quantity}
+                          id="quantityText"
+                          className="form-control form-control-sm"
+                          value={this.state.quantity}
+                          onChange={e => this.setState({ quantity: e.target.value })}
+                        >
+                        </Input>
+                      </Col>
+                      <Col>
+                        <button onClick={this.handleConsume.bind(this, index)} className="results-button" key={index}>Consume</button>
+                      </Col>
+                    </Row>
+                    <hr></hr>
+                  </div>
                 ))}
               </div>
             </div>
-            <Form className={this.state.thirdDisplay}>
-              <FormGroup>
-                <Input type="textarea" name="text" id="quantityText" value={this.state.quantity} onChange={e => this.setState({ quantity: e.target.value })} />
-              </FormGroup>
-              <Button color="primary" onClick={this.handleQuantity} className="select-quantity">Enter</Button>
-            </Form>
-
           </ModalBody>
         </Modal>
       </div>
