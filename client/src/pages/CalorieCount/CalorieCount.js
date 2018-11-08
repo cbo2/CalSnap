@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from 'reactstrap';
+import { Table, Row } from 'reactstrap';
 import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
@@ -169,15 +169,16 @@ class CalorieCount extends Component {
         const loggedIn = this.props.auth.isAuthenticated();
         if (loggedIn) {
             return (<Wrapper>
-                <Container>
+                <Container fluid>
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
                         actual={this.state.actual}
                         remaining={this.state.remaining}
 
                     />
-                    <div className="row button-row">
-                        {/* <div className="col" > */}
+               
+                    <Row className="button-row">
+                       
                         <VideoModal isOpen={this.state.isVideoModalOpen}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
@@ -190,8 +191,8 @@ class CalorieCount extends Component {
 
                         <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
                         </TextInputModal>
-                        {/* </div> */}
-                    </div>
+                     
+                    </Row>
                     {this.state.food.length ? (
                         <Table className="results-table">
 
@@ -220,7 +221,7 @@ class CalorieCount extends Component {
                             <h3>Start Snapping to see results!</h3>
                         )}
                 </Container>
-            </Wrapper>
+                </Wrapper>         
             )
         } else {
             return (<LaunchPage></LaunchPage>)

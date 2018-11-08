@@ -1,37 +1,88 @@
 .cal-display {
-    height: 100px;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
+    /* height: 100px; */
+    /* width: 100vw; */
+    /* left: 50%; */
+    /* right: 50%; */
     /* margin-left: -50vw;
     margin-right: -50vw; */
     margin-top: 1px;
     text-align: center;
-    font-size: 30px;
+    /* background-image: url("apple.jpg");
+    background-size: cover;
+    width:100%;
+    height: 300px; */
+    /* background-color: lightgrey; */
     /* background-size: cover; */
     /* background-position: center; */
     /* position: relative; */
     /* background-color: rgb(80, 114, 126); */
     /* color: white; */
-    border-style: solid;
+    /* border-style: solid; */
+  }
+   
+  .cal-title {
+    font-size: 25px;
+    text-align: center;
+    width: 100%;
   }
 
-  .cal-goal {
-    color: rgb(30, 74, 194);  
+  .cal-tile {
+    /* margin-left: 1px; */
+    /* margin-right: 1px; */
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    font-size: 55px;
+    text-align: center;
+    color: white;
   }
 
-  .cal-actual {
-    color: rgb(2, 102, 2); 
+  .cal-green {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    font-size: 55px;
+    text-align: center;
+    color: white;
   }
 
-  .cal-remaining {
-     color: rgb(165, 0, 0); 
+  .cal {
+    text-align: center
+  }
+  #cal-goal {
+    /* color: rgb(30, 74, 194); */
+    background-color: rgb(78, 114, 126);
+    /* width: 200px; */
   }
 
-  @media screen and (max-width: 1400px) {
-    .cal-display {
-        height: auto;
+  #cal-actual {
+    /* color: rgb(2, 102, 2);  */
+    background-color: rgb(78, 114, 126);
+  }
+
+  #cal-green {
+     background-color: darkgreen;
+  }
+
+  #cal-orange {
+    background-color: darkOrange;
+ }
+
+  #cal-red {
+   background-color: darkred;
+ }
+
+  @media screen and (max-width: 640px) {
+    .cal-title {
+        font-size: 20px;
     }
+    .cal-tile {
+        font-size: 30px;
+        width: 90px;
+        
+    }
+    
+
   }
 
   
