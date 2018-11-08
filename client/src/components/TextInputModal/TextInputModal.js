@@ -17,7 +17,7 @@ class TextInputModal extends React.Component {
             results: [],
             selectedItem: [],
             quantity: 1,
-            selectedMeal: "Select Meal"
+            selectedMeal: ""
         };
 
         this.toggle = this.toggle.bind(this);
@@ -29,6 +29,23 @@ class TextInputModal extends React.Component {
 
     // when the response comes back from the backend need to hit the callback on our parent component (CalorieCount)
     onResponseFromNutritionix = response => {
+        let now = new Date().getTime();
+        let today = new Date();
+        let breakfastStartTime = today.setHours(6, 0, 0, 0);
+        let breakfastEndTime = today.setHours(9, 0, 0, 0);
+        let lunchStartTime = today.setHours(11, 30, 0, 0);
+        let lunchEndTime = today.setHours(14, 0, 0, 0);
+        let dinnerStartTime = today.setHours(17, 0, 0, 0);
+        let dinnerEndTime = today.setHours(20, 0, 0, 0);
+        if ((breakfastStartTime <= now) && (now <= breakfastEndTime)) {
+            this.setState({ selectedMeal: "Breakfast" })
+        } else if ((lunchStartTime <= now) && (now <= lunchEndTime)) {
+            this.setState({ selectedMeal: "Lunch" })
+        } else if ((dinnerStartTime <= now) && (now <= dinnerEndTime)) {
+            this.setState({ selectedMeal: "Dinner" })
+        } else {
+            this.setState({ selectedMeal: "Snacks" })
+        }
         this.setState({ secondDisplay: "reveal" })
         if (response.code != "000") {
             alert(`something went wrong with the search.  Try again!`)
@@ -137,7 +154,6 @@ class TextInputModal extends React.Component {
                                         <Row className="mt-2">
                                             <Col>
                                                 <Input type="select" name="meal-select" placeholder="Select Meal" id="mealSelect" className="form-control form-control-sm" value={this.state.selectedMeal} onChange={e => this.setState({ selectedMeal: e.target.value })}>
-                                                    <option disabled defaultValue={this.state.selectedMeal}>Select Meal</option>
                                                     <option>BreakFast</option>
                                                     <option>Lunch</option>
                                                     <option>Dinner</option>
