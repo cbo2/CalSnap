@@ -17,27 +17,27 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   // Update user
-  //   update: function(req, res) {
-  //     db.Article
-  //       .findOneAndUpdate({ _id: req.params.id }, req.body)
-  //       .then(dbModel => res.json(dbModel))
-  //       .catch(err => res.status(422).json(err));
-  //   },
+  update: function (req, res) {
+    db.User
+      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   // Deletes user from database along with food data and delete them for Auth0
   removeUser: function (req, res) {
     console.log(req.params);
     // Deletes user from database as well as food data
     db.User
-    .findOneAndDelete({ username: req.params.username })
-    .then(dbUser => {
-      console.log(`This user was deleted: ${dbUser}`);
-      return db.Food.deleteMany({ username: dbUser.username })
-    })
-    .then(dbFood => {
-      console.log("This is dbFood:", dbFood);
-    
-    })
-    .catch(err => res.status(422).json(err));
+      .findOneAndDelete({ username: req.params.username })
+      .then(dbUser => {
+        console.log(`This user was deleted: ${dbUser}`);
+        return db.Food.deleteMany({ username: dbUser.username })
+      })
+      .then(dbFood => {
+        console.log("This is dbFood:", dbFood);
+
+      })
+      .catch(err => res.status(422).json(err));
 
     console.log("The function is getting this far")
     // Deletes user from Auth0
@@ -52,7 +52,7 @@ module.exports = {
     }
 
     axios(settings)
-    .then(res => res.json(res))
-    .catch(err => res.status(422).json(err));
+      .then(res => res.json(res))
+      .catch(err => res.status(422).json(err));
   }
 };
