@@ -167,7 +167,8 @@ class BarcodeModal extends React.Component {
     }
 
     // handles selection of food and calls API to place in database.   
-    handleConsume = (index) => {
+    handleConsume = (index, event) => {
+        event.preventDefault();
         console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
         this.setState({ secondDisplay: "d-none" })
         console.log("quantity: " + this.state.quantity);
