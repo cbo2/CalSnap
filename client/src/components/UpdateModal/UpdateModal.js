@@ -54,8 +54,7 @@ class UpdateModal extends React.Component {
     }
 
     onResponseFromUpdateSubmit = () => {
-        // this.props.onResponseFromSearch();  // callback to our parent so it can reload state from Mongo
-        console.log("Need to build connection to parent to trigger update")
+        this.props.onResponseFromSearch();  // callback to our parent so it can reload state from Mongo
     }
 
     handleUpdateClick = () => {
