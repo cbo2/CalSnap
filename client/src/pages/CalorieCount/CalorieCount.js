@@ -222,11 +222,11 @@ class CalorieCount extends Component {
                         </TextInputModal>
 
                     </Row>
-                    <Row>
-                        <Col xs="1">
-                            <Label for="meal-select" className="col-form-label label">Meal: </Label>
-                        </Col>
-                        <Col xs="3"className="mb-3">
+                    <Row className="selector-row"> 
+                        {/* <Col xs="1" className="label">
+                            <Label for="meal-select" className="col-form-label">Meal: </Label>
+                        </Col> */}
+                        <Col xs="3"className="mb-3 selector">
                             <Input
                                 type="select"
                                 name="mealSelect"
@@ -245,7 +245,7 @@ class CalorieCount extends Component {
                         <Col xs="1">
                             <Label for="from-date-select" className="col-form-label label" >From: </Label>
                         </Col>
-                        <Col xs="3">
+                        <Col xs="3" className="selector">
                             <Input
                                 type="date"
                                 name="fromDateSelect"
@@ -259,7 +259,7 @@ class CalorieCount extends Component {
                         <Col xs="1">
                             <Label for="to-date-select" className="col-form-label label">To: </Label>
                         </Col>
-                        <Col xs="3">
+                        <Col xs="3" className="selector">
                             <Input
                                 type="date"
                                 name="toDateSelect"
