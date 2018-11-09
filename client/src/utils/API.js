@@ -16,6 +16,9 @@ export default {
   getUser: function (params) {
     return axios.get(`/api/user/${params.username}`)
   },
+  updateUser: function (id, user) {
+    return axios.put(`/api/user/${id}`, user)
+  },
   // Deletes the food with the given id
   deleteFood: function (id) {
     return axios.delete(`/api/food/${id}`);

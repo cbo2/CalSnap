@@ -121,6 +121,15 @@ class VideoModal extends React.Component {
     return navigator.mediaDevices.enumerateDevices();
   }
 
+  stopUsingCamera = () => {
+    console.log(`******* stop using camera!!! **************`)
+    if (window.stream) {
+      window.stream.getTracks().forEach(track => {
+        track.stop();
+      });
+    }
+  }
+
   start = () => {
     if (window.stream) {
       window.stream.getTracks().forEach(track => {
@@ -147,6 +156,8 @@ class VideoModal extends React.Component {
     });
     if (new_modal_state) {
       this.start()
+    } else {
+      this.stopUsingCamera()
     }
   }
 

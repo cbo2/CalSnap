@@ -48,6 +48,9 @@ class CalorieCount extends Component {
                     })
                         .then(res => console.log("User created: ", res.data))
                         .catch(err => console.log(err));
+                } else {
+                    console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
+                    this.setState({ dailyGoal: res.data.calorieGoal })
                 }
             })
             .catch(err => console.log(err));
