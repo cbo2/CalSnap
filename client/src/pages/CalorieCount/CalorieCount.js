@@ -51,12 +51,10 @@ class CalorieCount extends Component {
                         username: this.props.username
                     })
                         .then(res => console.log("User created: ", res.data))
-                        // .then(this.loadFood())
                         .catch(err => console.log(err));
                 } else {
                     console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
                     this.setState({ dailyGoal: res.data.calorieGoal })
-                    // .then(this.loadFood())
                 }
             })
             .then(this.loadFood())
