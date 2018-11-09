@@ -255,7 +255,7 @@ class BarcodeModal extends React.Component {
                                             type="select"
                                             name="mealSelect"
                                             id="meal-select"
-                                            className="form-control form-control-sm"
+                                            className="form-control form-control-sm modal-meal-selector"
                                             value={this.state.selectedMeal}
                                             onChange={e => this.setState({ selectedMeal: e.target.value })}
                                         >
@@ -273,7 +273,7 @@ class BarcodeModal extends React.Component {
                                             max="100"
                                             value={this.state.quantity}
                                             id="quantityText"
-                                            className="form-control form-control-sm"
+                                            className="form-control form-control-sm modal-quantity-selector"
                                             value={this.state.quantity}
                                             onChange={e => this.setState({ quantity: e.target.value })}
                                         >
