@@ -67,7 +67,8 @@ class TextInputModal extends React.Component {
             modal: !this.state.modal,
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            searchedFood: ""
+            searchedFood: "",
+            quantity: 1
         });
     }
 

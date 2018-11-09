@@ -98,8 +98,12 @@ class CalorieCount extends Component {
         this.setState({ actual: Math.round(sum) })
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
         if (this.state.remaining > 1500) {
-            this.setState({ remainingStatus: "cal-orange"})
-          } 
+            this.setState({ remainingStatus: "cal-green" })
+          } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
+            this.setState({ remainingStatus: "cal-orange" })   
+          } else if (this.state.remaining <500) {
+            this.setState({ remainingStatus: "cal-red" })
+          }
     }
 
     deleteFood = id => {
