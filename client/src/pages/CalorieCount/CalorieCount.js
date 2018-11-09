@@ -208,8 +208,8 @@ class CalorieCount extends Component {
                             </div>
                         </Col>
                     </Row>
-                    
-                    <Row className="button-row">
+
+                    <Row className="button-row justify-content-center">
 
                         <VideoModal isOpen={this.state.isVideoModalOpen}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
@@ -230,7 +230,7 @@ class CalorieCount extends Component {
                             
                         </Col> */}
                         <Col className="col-xs-4 p-1">
-                        <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
+                            <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
                                 name="mealSelect"
@@ -250,7 +250,7 @@ class CalorieCount extends Component {
                             
                         </Col> */}
                         <Col className="col-xs-4 p-1">
-                        <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
+                            <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
                                 name="fromDateSelect"
@@ -265,7 +265,7 @@ class CalorieCount extends Component {
                             
                         </Col> */}
                         <Col className="col-xs-4 p-1">
-                        <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
+                            <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
                                 name="toDateSelect"
@@ -279,7 +279,6 @@ class CalorieCount extends Component {
                     </Row>
                     {this.state.food.length ? (
                         <Table className="results-table">
-
                             <thead>
                                 <tr>
                                     <th>Item</th>
@@ -302,7 +301,12 @@ class CalorieCount extends Component {
                             </tbody>
                         </Table>
                     ) : (
-                            <h3>Start Snapping to see results!</h3>
+                            <Row>
+                                <Col xl="12" className="mt-2">
+                                    <h3>Start Snapping for results!</h3>
+                                </Col>
+                            </Row>
+
                         )}
                 </Container>
             </Wrapper>
