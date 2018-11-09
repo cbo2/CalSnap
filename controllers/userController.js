@@ -35,24 +35,25 @@ module.exports = {
       })
       .then(dbFood => {
         console.log("This is dbFood:", dbFood);
+        res.json(res)
 
       })
       .catch(err => res.status(422).json(err));
 
     console.log("The function is getting this far")
     // Deletes user from Auth0
-    const settings = {
-      "async": true,
-      "crossDomain": true,
-      "url": `https://calsnap.auth0.com/api/v2/users/${req.params.id}`,
-      "method": "GET",
-      "headers": {
-        "authorization": `Bearer =${process.env.AUHT0_API_TOKENID}`
-      }
-    }
+    // const settings = {
+    //   "async": true,
+    //   "crossDomain": true,
+    //   "url": `https://calsnap.auth0.com/api/v2/users/${req.params.id}`,
+    //   "method": "GET",
+    //   "headers": {
+    //     "authorization": `Bearer =${process.env.AUHT0_API_TOKENID}`
+    //   }
+    // }
 
-    axios(settings)
-      .then(res => res.json(res))
-      .catch(err => res.status(422).json(err));
+    // axios(settings)
+    //   .then(res => res.json(res))
+    //   .catch(err => res.status(422).json(err));
   }
 };

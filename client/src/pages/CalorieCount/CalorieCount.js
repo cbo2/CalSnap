@@ -19,7 +19,7 @@ class CalorieCount extends Component {
         super(props);
 
         this.state = {
-            dailyGoal: 0,
+            dailyGoal: 2000,
             actual: 0,
             remaining: 0,
             progress: 0,

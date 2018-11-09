@@ -40,7 +40,7 @@ class UserProfile extends Component {
 
     // This will delete user completely
     deleteUser = (username, id) => {
-        API.deleteFoodsbyUser(username, id)
+        API.deleteUser(username, id)
             .then(res => {
                 console.log(res)
                 this.props.auth.logout();
@@ -95,7 +95,7 @@ class UserProfile extends Component {
                     <Container className="border border-dark mt-3">
                         <Row className="mt-3">
                             <Col>
-                                <strong>Danager Zone</strong>
+                                <strong>Danger Zone</strong>
                             </Col>
                         </Row>
                         <Row>
