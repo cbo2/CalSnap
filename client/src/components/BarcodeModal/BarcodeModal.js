@@ -50,22 +50,19 @@ class BarcodeModal extends React.Component {
         } else {
             this.setState({ selectedMeal: "Snack" })
         }
-        this.setState({ secondDisplay: "reveal" })
+        // this.setState({ secondDisplay: "reveal" })
         if (response.code != "000") {
             alert(`Image is not identifyable!`)
             this.resetModal();
         } else {
-            this.setState({ results: response.data })
+            this.setState({ results: response.data, secondDisplay: "reveal" })
             console.log("this is from nutritionix: ", this.state.results)
             this.setState({ firstDisplay: "d-none" })
         }
     }
 
     resetModal = () => {
-        this.toggle();
-        this.setState({ firstDisplay: "reveal" });
-        this.setState({ secondDisplay: "d-none" });
-        this.toggle();
+        this.video.play();
     }
 
     initMedia = () => {
