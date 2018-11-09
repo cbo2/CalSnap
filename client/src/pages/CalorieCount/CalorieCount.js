@@ -19,7 +19,7 @@ class CalorieCount extends Component {
         super(props);
 
         this.state = {
-            dailyGoal: 2200,
+            dailyGoal: 2000,
             actual: 0,
             remaining: 0,
             progress: 0,
@@ -39,7 +39,7 @@ class CalorieCount extends Component {
     componentDidMount() {
         // calculates remaining calories for day 
         if (this.props.auth.isAuthenticated()) {
-            this.loadFood();
+            // this.loadFood();
         }
 
         API.getUser({
@@ -57,19 +57,11 @@ class CalorieCount extends Component {
                     this.setState({ dailyGoal: res.data.calorieGoal })
                 }
             })
+            .then(this.loadFood())
             .catch(err => console.log(err));
 
     }
 
-
-    // temporary location to call nutritionix API
-    // API.nutritionixNutritionSearch({})
-    // this.nutritionixInstantSearch()
-    // this.nutritionixBarcode()
-    // API.nutritionixInstantSearch({
-    //     searchItem: this.state.searchItem
-    // })
-    // API.nutritionixBarcodeSearch({})
 
     loadFood = () => {
         let tomorrow = new Date();
@@ -153,32 +145,6 @@ class CalorieCount extends Component {
         });
     };
 
-    // handleIRresponse = response => {
-    //     // TODO - first check for an error ERR-100
-    //     if (response.code.startsWith("ERR-100")) {
-    //         alert(`Image is not identifyable!`)
-    //     } else {
-    //         // destructure the response 
-    //         let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
-    //             let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
-    //             return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
-    //         }).join('')         // use join with null to avoid commas in-between each item
-    //         // alert(`<ul>${all}</ul`)
-    //     }
-    // }
-
-    // handleBarcodeResponse = response => {
-    //     // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
-    //     console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
-    //     if (response.code !== "000") {
-    //         alert(`something went wrong with the barcode reader.  Try again!`)
-    //     } else {
-    //         // destructure the response 
-    //         // for now, backend is returning ONLY 1 response 
-    //         const { food_name, nf_calories } = response.data
-    //         alert(`Item identified as: ${food_name}  ${nf_calories}`)
-    //     }
-    // }
 
     handleSearchResponse = response => {
         console.log(`*** inside callback from Search and about to reload state from the Mongo ***`)
@@ -311,7 +277,7 @@ class CalorieCount extends Component {
             </Wrapper>
             )
         } else {
-            return (<LaunchPage></LaunchPage>)
+            return (<LaunchPage {...this.props}></LaunchPage>)
         }
     }
 };
