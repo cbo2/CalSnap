@@ -3,25 +3,15 @@ import { Button, Modal, Row, Col, Container, Progress, Jumbotron, Card, ModalHea
 import "./Caldisplay.css";
 
 class Caldisplay extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      remainingStatus: "cal-green"
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.remaining > 1500) {
-      this.setState({ remainingStatus: "cal-orange"})
-    } 
-  }
 
 
 
   render() {
+
+    
     return (
 
-      <Container fluid>
+        
         <Row className="row cal-display">
           <Col xs="4">
             <div className="cal-title">Goal:</div>
@@ -33,12 +23,11 @@ class Caldisplay extends React.Component {
           </Col>
           <Col xs="4">
             <div className="cal-title">Remaining: </div>
-            <div className="cal-tile" id={this.state.remainingStatus}><b>{this.props.remaining}</b></div>
-            
+            <div className="cal-tile" id={this.props.remainingStatus}><b>{this.props.remaining}</b></div>
           </Col>
         </Row>
 
-      </Container>
+   
 
     )
 
