@@ -95,7 +95,7 @@ class UserProfile extends Component {
                     <Container className="border border-dark mt-3">
                         <Row className="mt-3">
                             <Col>
-                                <strong>Danager Zone</strong>
+                                <strong>Danger Zone</strong>
                             </Col>
                         </Row>
                         <Row>

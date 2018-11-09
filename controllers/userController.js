@@ -1,4 +1,5 @@
 const db = require("../models");
+const axios = require("axios")
 
 // Defining methods for the userController
 module.exports = {
@@ -41,18 +42,39 @@ module.exports = {
 
     console.log("The function is getting this far")
     // Deletes user from Auth0
-    const settings = {
-      "async": true,
-      "crossDomain": true,
-      "url": `https://calsnap.auth0.com/api/v2/users/${req.params.id}`,
-      "method": "GET",
-      "headers": {
-        "authorization": `Bearer =${process.env.AUHT0_API_TOKENID}`
-      }
-    }
+  //   const settings = {
+  //     "async": true,
+  //     "crossDomain": true,
+  //     "url": `https://calsnap.auth0.com/api/v2/users/${req.params.id}`,
+  //     "method": "GET",
+  //     "headers": {
+  //       "authorization": `Bearer =${process.env.AUHT0_API_TOKENID}`
+  //     }
+  //   }
 
-    axios(settings)
-      .then(res => res.json(res))
-      .catch(err => res.status(422).json(err));
+  //   axios(settings)
+  //     .then(res => res.json(res))
+  //     .catch(err => res.status(422).json(err));
+
+  axios.get(`https://calsnap.auth0.com/api/v2/users/${req.params.id}`,
+  {
+    "async": true,
+    "crossDomain": true,
+    "headers": {
+      "Authorization": `Bearer =${process.env.AUHT0_API_TOKENID}`
+    }
   }
+)
+  // axios(settings)
+  .then(res => {
+    console.log(`--> just successfully completed removing the user from auth0`)
+    res.json(res)
+  })
+  .catch(err => {
+    console.log(`** ERROR caught is ${err}`)
+    res.status(422)//.json(err)
+  });
+  }
+
+
 };

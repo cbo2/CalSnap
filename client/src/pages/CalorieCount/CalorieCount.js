@@ -17,6 +17,7 @@ import API from "../../utils/API";
 class CalorieCount extends Component {
     constructor(props) {
         super(props);
+        this.loadFood = this.loadFood.bind(this);
 
         this.state = {
             dailyGoal: 2200,
@@ -32,15 +33,20 @@ class CalorieCount extends Component {
             quantity: 0,
             remainingStatus: "cal-green",
             meal: "",
-            // toDate: new Date().getDate(),
-            // fromDate: new Date().getDate()
+            fromDate: new Date(),
+            toDate: new Date()
         }
     }
     componentDidMount() {
+        // let tomorrow = new Date();
+        // tomorrow = tomorrow.setDate(tomorrow.getDate() + 1);
+        // console.log(`** inside componentDidMount with a todate of: ${tomorrow}`)
+        // this.setState({ toDate: tomorrow }, () => {
         // calculates remaining calories for day 
         if (this.props.auth.isAuthenticated()) {
             this.loadFood();
         }
+        // })
 
         API.getUser({
             username: this.props.username
@@ -72,11 +78,17 @@ class CalorieCount extends Component {
     // API.nutritionixBarcodeSearch({})
 
     loadFood = () => {
-        let tomorrow = new Date();
-        let today = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
+        // let tomorrow = new Date();
+        // let today = new Date();
+        console.log(`=> initially when inside loadFood and fromDate is: ${this.state.fromDate}`)
+        console.log(`=> initially when inside loadFood and toDate is: ${this.state.toDate}`)
+        let today = this.state.fromDate
+        let tomorrow = this.state.toDate
+        // tomorrow.setDate(tomorrow.getDate() + 1);
         today.setHours(0, 0, 0, 0);
+        tomorrow.setHours(23, 59, 59, 999);
+        // tomorrow.setHours(0, 0, 0, 0);
+        console.log(`**** fromDate: ${today}  toDate: ${tomorrow}`)
         API.getFoodsbyUserAndDateRange({
             username: this.props.username,
             today,
@@ -101,7 +113,7 @@ class CalorieCount extends Component {
         const sum = (this.state.calValues).reduce(add)
         this.setState({ actual: Math.round(sum) })
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
-        this.setState({ progress: (this.state.actual / this.state.dailyGoal)*100 })
+        this.setState({ progress: (this.state.actual / this.state.dailyGoal) * 100 })
         console.log("this is the progress percent: ", this.state.progress)
         if (this.state.remaining > 1500) {
             this.setState({ remainingStatus: "cal-green" })
@@ -146,11 +158,15 @@ class CalorieCount extends Component {
     // }
 
     // Generic component state handler when the user types into the input field
-    handleInputChange = event => {
+    handleDateChange = event => {
         const { name, value } = event.target;
+        console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
+        let newdate = new Date(value)
+        console.log(`=> should be changing it to: ${newdate}`)
         this.setState({
-            [name]: value
-        });
+            [name]: newdate
+        }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
+
     };
 
     // handleIRresponse = response => {
@@ -202,8 +218,8 @@ class CalorieCount extends Component {
 
                         <Col xl="12">
                             <div className="bar-row">
-                            {/* <div className="text-center">{this.state.progress}%</div> */}
-                            <Progress value={this.state.progress} />
+                                {/* <div className="text-center">{this.state.progress}%</div> */}
+                                <Progress value={this.state.progress} />
                             </div>
                         </Col>
                     </Row>
@@ -252,11 +268,11 @@ class CalorieCount extends Component {
                             <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
-                                name="fromDateSelect"
+                                name="fromDate"
                                 id="from-date-select"
                                 className="form-control form-control-sm selector"
                                 value={this.state.fromDate}
-                                onChange={e => this.setState({ fromDate: e.target.value })}
+                                onChange={this.handleDateChange}
                             >
                             </Input>
                         </Col>
@@ -267,11 +283,11 @@ class CalorieCount extends Component {
                             <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
-                                name="toDateSelect"
+                                name="toDate"
                                 id="to-date-select"
                                 className="form-control form-control-sm selector"
                                 value={this.state.toDate}
-                                onChange={e => this.setState({ toDate: e.target.value })}
+                                // onChange={this.handleDateChange}
                             >
                             </Input>
                         </Col>
