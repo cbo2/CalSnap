@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Row, Col, Input, Label } from 'reactstrap';
+import { Table, Row, Col, Input, Label, Progress } from 'reactstrap';
 import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
@@ -186,15 +186,25 @@ class CalorieCount extends Component {
         const loggedIn = this.props.auth.isAuthenticated();
         if (loggedIn) {
             return (<Wrapper>
-                <Container fluid>
+                <Container className="container-fluid">
+                    <Row className="scoreboard-row">
+                        <Col xl="12">
+                            <Caldisplay
+                                dailyGoal={this.state.dailyGoal}
+                                actual={this.state.actual}
+                                remaining={this.state.remaining}
+                                remainingStatus={this.state.remainingStatus}
 
-                    <Caldisplay
-                        dailyGoal={this.state.dailyGoal}
-                        actual={this.state.actual}
-                        remaining={this.state.remaining}
-                        remainingStatus={this.state.remainingStatus}
+                            />
+                        </Col>
 
-                    />
+                        <Col xl="12">
+
+                            <div className="text-center">75%</div>
+                            <Progress value={75} />
+
+                        </Col>
+                    </Row>
                     {console.log("this is the remaining in render on parent ", this.state.remaining)}
                     <Row className="button-row">
 
@@ -212,11 +222,11 @@ class CalorieCount extends Component {
                         </TextInputModal>
 
                     </Row>
-                    <Row>
-                    <Col>
-                            <Label for="meal-select" class="col-sm-2 col-form-label">Meal: </Label>
-                        </Col>
-                        <Col className="mb-3">
+                    <Row className="selector-row"> 
+                        {/* <Col xs="1" className="label">
+                            <Label for="meal-select" className="col-form-label">Meal: </Label>
+                        </Col> */}
+                        <Col xs="3"className="mb-3 selector">
                             <Input
                                 type="select"
                                 name="mealSelect"
@@ -232,10 +242,10 @@ class CalorieCount extends Component {
                                 <option>Snack</option>
                             </Input>
                         </Col>
-                        <Col>
-                            <Label for="from-date-select" class="col-sm-2 col-form-label">From: </Label>
+                        <Col xs="1">
+                            <Label for="from-date-select" className="col-form-label label" >From: </Label>
                         </Col>
-                        <Col>
+                        <Col xs="3" className="selector">
                             <Input
                                 type="date"
                                 name="fromDateSelect"
@@ -246,10 +256,10 @@ class CalorieCount extends Component {
                             >
                             </Input>
                         </Col>
-                        <Col>
-                            <Label for="to-date-select" class="col-sm-2 col-form-label">To: </Label>
+                        <Col xs="1">
+                            <Label for="to-date-select" className="col-form-label label">To: </Label>
                         </Col>
-                        <Col>
+                        <Col xs="3" className="selector">
                             <Input
                                 type="date"
                                 name="toDateSelect"

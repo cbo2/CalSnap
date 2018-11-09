@@ -28,3 +28,22 @@ body {
 .results-table {
   width: 100%;
 }
+
+.form-control {
+  font-size: 9px;
+  /* width: 100% */
+}
+
+.selector-row {
+  margin-top:10px;
+}
+
+.label  {
+  font-size: 8;
+}
+
+/* @media screen and (max-width: 600px) {
+  .label {
+    display: none;
+  }
+} */
