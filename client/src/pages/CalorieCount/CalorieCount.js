@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from 'reactstrap';
+import { Table, Row } from 'reactstrap';
 import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
@@ -15,7 +15,10 @@ import UpdateModal from "../../components/UpdateModal";
 import API from "../../utils/API";
 
 class CalorieCount extends Component {
-    state = {
+    constructor(props) {
+        super(props);
+    
+    this.state = {
         dailyGoal: 2200,
         actual: 0,
         remaining: 0,
@@ -25,9 +28,10 @@ class CalorieCount extends Component {
         calValues: [],
         item_name: "",
         nf_calories: 0,
-        quantity: 0
-    };
-
+        quantity: 0,
+        remainingStatus: "cal-green"
+    }
+    }
     componentDidMount() {
         // calculates remaining calories for day 
         if (this.props.auth.isAuthenticated()) {
@@ -50,7 +54,10 @@ class CalorieCount extends Component {
                 }
             })
             .catch(err => console.log(err));
+
         }     
+
+        
         // temporary location to call nutritionix API
         // API.nutritionixNutritionSearch({})
         // this.nutritionixInstantSearch()
@@ -90,9 +97,13 @@ class CalorieCount extends Component {
         const sum = (this.state.calValues).reduce(add)
         this.setState({ actual: Math.round(sum) })
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
-        // console.log("here are the cal values: ", this.state.calValues)
-        // console.log("this is the sum: ", sum)
-        // console.log("this is the actual: ", this.state.actual)
+        if (this.state.remaining > 1500) {
+            this.setState({ remainingStatus: "cal-green" })
+          } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
+            this.setState({ remainingStatus: "cal-orange" })   
+          } else if (this.state.remaining <500) {
+            this.setState({ remainingStatus: "cal-red" })
+          }
     }
 
     deleteFood = id => {
@@ -172,15 +183,18 @@ class CalorieCount extends Component {
         const loggedIn = this.props.auth.isAuthenticated();
         if (loggedIn) {
             return (<Wrapper>
-                <Container>
+                <Container fluid>
+                
                     <Caldisplay
                         dailyGoal={this.state.dailyGoal}
                         actual={this.state.actual}
                         remaining={this.state.remaining}
-
+                        remainingStatus={this.state.remainingStatus}
+                        
                     />
-                    <div className="row button-row">
-                        {/* <div className="col" > */}
+                    {console.log("this is the remaining in render on parent ", this.state.remaining)}
+                    <Row className="button-row">
+                       
                         <VideoModal isOpen={this.state.isVideoModalOpen}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
@@ -193,8 +207,8 @@ class CalorieCount extends Component {
 
                         <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
                         </TextInputModal>
-                        {/* </div> */}
-                    </div>
+                     
+                    </Row>
                     {this.state.food.length ? (
                         <Table className="results-table">
 
@@ -223,7 +237,7 @@ class CalorieCount extends Component {
                             <h3>Start Snapping to see results!</h3>
                         )}
                 </Container>
-            </Wrapper>
+                </Wrapper>         
             )
         } else {
             return (<LaunchPage></LaunchPage>)

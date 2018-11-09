@@ -153,6 +153,7 @@ class VideoModal extends React.Component {
       modal: new_modal_state,
       firstDisplay: "reveal",
       secondDisplay: "d-none",
+      quantity: 1
     });
     if (new_modal_state) {
       this.start()
