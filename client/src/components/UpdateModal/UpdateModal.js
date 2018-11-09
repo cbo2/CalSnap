@@ -172,8 +172,8 @@ class UpdateModal extends React.Component {
                                 <Col>
                                     <Input 
                                     type="select" 
-                                    name="meal-select" 
-                                    id="mealSelect" 
+                                    name="mealSelect" 
+                                    id="meal-select" 
                                     className="form-control form-control-sm" 
                                     value={this.state.meal} 
                                     onChange={e => this.setState({ meal: e.target.value })}

@@ -27,9 +27,20 @@ export default class Example extends React.Component {
     let message = "";
 
     if (this.props.auth.isAuthenticated()) {
-      const messages = [`Welcome, ${this.props.name}`]
-
-      // , `You got this, ${this.props.name}`, `You can do it, ${this.props.name}`, `Slow And Steady Wins The Race, ${this.props.name}`, `Like Your Money, Food Should Be Working For You, ${this.props.name}`, `It’s Not A Diet, It’s A Lifestyle Change!`, `Doubt Kills More Dreams Than Failure Ever Will`, `Will Is A Skill, ${this.props.name}`, `Stressed Spelled Backwards Is Desserts. Coincidence? I think not!`, `Strive For Progress, Not Perfection`, `Success Is Never Certain, Failure Is Never Final`, `A Goal Without A Plan Is Just A Wish, ${this.props.name}`, `Success Is The Sum Of Small Efforts, Repeated Day In And Day Out`];
+      const messages = [
+        `Welcome, ${this.props.name}`,
+        `You got this, ${this.props.name}`, 
+        `You can do it, ${this.props.name}`, 
+        `Slow And Steady Wins The Race, ${this.props.name}`, 
+        `Like Your Money, Food Should Be Working For You, ${this.props.name}`, 
+        `It’s Not A Diet, It’s A Lifestyle Change!`, 
+        `Doubt Kills More Dreams Than Failure Ever Will`, 
+        `Will Is A Skill, ${this.props.name}`, 
+        `Stressed Spelled Backwards Is Desserts. Coincidence? I think not!`, 
+        `Strive For Progress, Not Perfection`, `Success Is Never Certain, Failure Is Never Final`, 
+        `A Goal Without A Plan Is Just A Wish, ${this.props.name}`, 
+        `Success Is The Sum Of Small Efforts, Repeated Day In And Day Out`
+      ];
 
       message = messages[(Math.floor(Math.random() * messages.length))];
     } else {

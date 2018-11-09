@@ -28,3 +28,9 @@ body {
 .results-table {
   width: 100%;
 }
+
+@media screen and (max-width: 600px) {
+  .label {
+    display: none;
+  }
+}

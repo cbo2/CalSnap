@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Row, Col, Progress } from 'reactstrap';
+import { Table, Row, Col, Input, Label, Progress } from 'reactstrap';
 import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
@@ -29,7 +29,10 @@ class CalorieCount extends Component {
             item_name: "",
             nf_calories: 0,
             quantity: 0,
-            remainingStatus: "cal-green"
+            remainingStatus: "cal-green",
+            meal: "",
+            toDate: "",
+            fromDate: ""
         }
     }
     componentDidMount() {
@@ -194,17 +197,17 @@ class CalorieCount extends Component {
 
                             />
                         </Col>
-                    
+
                         <Col xl="12">
-                         
+
                             <div className="text-center">75%</div>
                             <Progress value={75} />
-                        
+
                         </Col>
                     </Row>
                     {console.log("this is the remaining in render on parent ", this.state.remaining)}
                     <Row className="button-row">
-                        
+
                         <VideoModal isOpen={this.state.isVideoModalOpen}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
@@ -218,6 +221,55 @@ class CalorieCount extends Component {
                         <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
                         </TextInputModal>
 
+                    </Row>
+                    <Row>
+                        <Col xs="1">
+                            <Label for="meal-select" className="col-form-label label">Meal: </Label>
+                        </Col>
+                        <Col xs="3"className="mb-3">
+                            <Input
+                                type="select"
+                                name="mealSelect"
+                                id="meal-select"
+                                className="form-control form-control-sm"
+                                value={this.state.meal}
+                                onChange={e => this.setState({ meal: e.target.value })}
+                            >
+                                <option>All</option>
+                                <option>BreakFast</option>
+                                <option>Lunch</option>
+                                <option>Dinner</option>
+                                <option>Snack</option>
+                            </Input>
+                        </Col>
+                        <Col xs="1">
+                            <Label for="from-date-select" className="col-form-label label" >From: </Label>
+                        </Col>
+                        <Col xs="3">
+                            <Input
+                                type="date"
+                                name="fromDateSelect"
+                                id="from-date-select"
+                                className="form-control form-control-sm"
+                                value={this.state.fromDate}
+                                onChange={e => this.setState({ fromDate: e.target.value })}
+                            >
+                            </Input>
+                        </Col>
+                        <Col xs="1">
+                            <Label for="to-date-select" className="col-form-label label">To: </Label>
+                        </Col>
+                        <Col xs="3">
+                            <Input
+                                type="date"
+                                name="toDateSelect"
+                                id="to-date-select"
+                                className="form-control form-control-sm"
+                                value={this.state.toDate}
+                                onChange={e => this.setState({ toDate: e.target.value })}
+                            >
+                            </Input>
+                        </Col>
                     </Row>
                     {this.state.food.length ? (
                         <Table className="results-table">
@@ -247,7 +299,7 @@ class CalorieCount extends Component {
                             <h3>Start Snapping to see results!</h3>
                         )}
                 </Container>
-                </Wrapper>
+            </Wrapper>
             )
         } else {
             return (<LaunchPage></LaunchPage>)
