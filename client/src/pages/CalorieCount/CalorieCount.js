@@ -13,6 +13,7 @@ import LaunchPage from "../../components/LaunchPage";
 import UpdateModal from "../../components/UpdateModal";
 // import ResultsModal from "../../components/ResultsModal";
 import API from "../../utils/API";
+import moment from "moment"
 
 class CalorieCount extends Component {
     constructor(props) {
@@ -33,20 +34,14 @@ class CalorieCount extends Component {
             quantity: 0,
             remainingStatus: "cal-green",
             meal: "",
-            fromDate: new Date(),
-            toDate: new Date()
+            fromDateDisplay: moment().format("YYYY-MM-DD"),
+            toDateDisplay: moment().format("YYYY-MM-DD")
         }
     }
     componentDidMount() {
-        // let tomorrow = new Date();
-        // tomorrow = tomorrow.setDate(tomorrow.getDate() + 1);
-        // console.log(`** inside componentDidMount with a todate of: ${tomorrow}`)
-        // this.setState({ toDate: tomorrow }, () => {
-        // calculates remaining calories for day 
         if (this.props.auth.isAuthenticated()) {
             this.loadFood();
         }
-        // })
 
         API.getUser({
             username: this.props.username
@@ -67,27 +62,11 @@ class CalorieCount extends Component {
 
     }
 
-
-    // temporary location to call nutritionix API
-    // API.nutritionixNutritionSearch({})
-    // this.nutritionixInstantSearch()
-    // this.nutritionixBarcode()
-    // API.nutritionixInstantSearch({
-    //     searchItem: this.state.searchItem
-    // })
-    // API.nutritionixBarcodeSearch({})
-
     loadFood = () => {
-        // let tomorrow = new Date();
-        // let today = new Date();
-        console.log(`=> initially when inside loadFood and fromDate is: ${this.state.fromDate}`)
-        console.log(`=> initially when inside loadFood and toDate is: ${this.state.toDate}`)
-        let today = this.state.fromDate
-        let tomorrow = this.state.toDate
-        // tomorrow.setDate(tomorrow.getDate() + 1);
-        today.setHours(0, 0, 0, 0);
-        tomorrow.setHours(23, 59, 59, 999);
-        // tomorrow.setHours(0, 0, 0, 0);
+        console.log(`=> initially when inside loadFood and fromDate is: [${this.state.fromDateDisplay} 00:00:00.999`)
+        console.log(`=> initially when inside loadFood and toDate is: ${this.state.toDateDisplay}`)
+        let today = moment(this.state.fromDateDisplay + " 00:00:00.000-0600").format("YYYY-MM-DD HH:mm:ss.SSS")
+        let tomorrow = moment(this.state.toDateDisplay + " 23:59:59.999-0600").format("YYYY-MM-DD HH:mm:ss.SSS")
         console.log(`**** fromDate: ${today}  toDate: ${tomorrow}`)
         API.getFoodsbyUserAndDateRange({
             username: this.props.username,
@@ -98,7 +77,6 @@ class CalorieCount extends Component {
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
             ).then(res => this.doDashboardCalculation())
             .catch(err => console.log(err));
-        // console.log("here are the foods: " + JSON.stringify(this.state.food));
     };
 
     // finds sum of total calories in food array and subtracts from daily goal
@@ -106,6 +84,11 @@ class CalorieCount extends Component {
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
+        console.log(`in dashboard for foods=> ${JSON.stringify(this.state.food)}`)
+        if (this.state.food.length === 0) {   // if null then return
+            console.log(`NO FOOD for date!`)
+            return;
+        }
         this.state.food.map(food => (
             this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
         ))
@@ -161,12 +144,25 @@ class CalorieCount extends Component {
     handleDateChange = event => {
         const { name, value } = event.target;
         console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
-        let newdate = new Date(value)
-        console.log(`=> should be changing it to: ${newdate}`)
-        this.setState({
-            [name]: newdate
-        }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
+        let fromDate = ""
+        let toDate = ""
+        if (name === "fromDateDisplay") {
+            toDate = fromDate = value
+        } else {
+            fromDate = this.state.fromDateDisplay
+            toDate = value
+        }
 
+        if (fromDate > toDate) {
+            alert("Invalid Date Selection! Try again...")
+        } else {
+            console.log(`should be changing fromDateDisplay to ${fromDate} and toDateDisplay to ${toDate}`)
+            this.setState({
+                // [name]: value
+                fromDateDisplay: fromDate,
+                toDateDisplay: toDate
+            }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
+        }
     };
 
     // handleIRresponse = response => {
@@ -268,10 +264,10 @@ class CalorieCount extends Component {
                             <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
-                                name="fromDate"
+                                name="fromDateDisplay"
                                 id="from-date-select"
                                 className="form-control form-control-sm selector"
-                                value={this.state.fromDate}
+                                value={this.state.fromDateDisplay}
                                 onChange={this.handleDateChange}
                             >
                             </Input>
@@ -283,11 +279,11 @@ class CalorieCount extends Component {
                             <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
-                                name="toDate"
+                                name="toDateDisplay"
                                 id="to-date-select"
                                 className="form-control form-control-sm selector"
-                                value={this.state.toDate}
-                                // onChange={this.handleDateChange}
+                                value={this.state.toDateDisplay}
+                                onChange={this.handleDateChange}
                             >
                             </Input>
                         </Col>
