@@ -126,7 +126,7 @@ class TextInputModal extends React.Component {
     render() {
         return (
             <div>
-                <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}Search Item!!</Button>
+                <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}<i class="fas fa-search"></i></Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Search for a specific item!</ModalHeader>
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Choose an Item to Eat:</ModalHeader>

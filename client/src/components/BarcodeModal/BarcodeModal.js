@@ -227,7 +227,7 @@ class BarcodeModal extends React.Component {
     render() {
         return (
             <div>
-                <Button color="danger" className="snap-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+                <Button color="danger" className="snap-button" onClick={this.toggle}><i class="fas fa-barcode"></i></Button>
                 <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
                     <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
