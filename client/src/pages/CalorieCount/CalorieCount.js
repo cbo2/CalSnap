@@ -205,7 +205,7 @@ class CalorieCount extends Component {
 
                         </Col>
                     </Row>
-                    {console.log("this is the remaining in render on parent ", this.state.remaining)}
+                    
                     <Row className="button-row">
 
                         <VideoModal isOpen={this.state.isVideoModalOpen}
@@ -222,16 +222,17 @@ class CalorieCount extends Component {
                         </TextInputModal>
 
                     </Row>
-                    <Row className="selector-row"> 
+                    <Row className="row selector-row">
                         {/* <Col xs="1" className="label">
-                            <Label for="meal-select" className="col-form-label">Meal: </Label>
+                            
                         </Col> */}
-                        <Col xs="3"className="mb-3 selector">
+                        <Col className="col-xs-4 p-1">
+                        <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
                                 name="mealSelect"
                                 id="meal-select"
-                                className="form-control form-control-sm"
+                                className="form-control form-control-sm selector"
                                 value={this.state.meal}
                                 onChange={e => this.setState({ meal: e.target.value })}
                             >
@@ -242,29 +243,31 @@ class CalorieCount extends Component {
                                 <option>Snack</option>
                             </Input>
                         </Col>
-                        <Col xs="1">
-                            <Label for="from-date-select" className="col-form-label label" >From: </Label>
-                        </Col>
-                        <Col xs="3" className="selector">
+                        {/* <Col xs="1">
+                            
+                        </Col> */}
+                        <Col className="col-xs-4 p-1">
+                        <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
                                 name="fromDateSelect"
                                 id="from-date-select"
-                                className="form-control form-control-sm"
+                                className="form-control form-control-sm selector"
                                 value={this.state.fromDate}
                                 onChange={e => this.setState({ fromDate: e.target.value })}
                             >
                             </Input>
                         </Col>
-                        <Col xs="1">
-                            <Label for="to-date-select" className="col-form-label label">To: </Label>
-                        </Col>
-                        <Col xs="3" className="selector">
+                        {/* <Col xs="1">
+                            
+                        </Col> */}
+                        <Col className="col-xs-4 p-1">
+                        <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
                                 name="toDateSelect"
                                 id="to-date-select"
-                                className="form-control form-control-sm"
+                                className="form-control form-control-sm selector"
                                 value={this.state.toDate}
                                 onChange={e => this.setState({ toDate: e.target.value })}
                             >
