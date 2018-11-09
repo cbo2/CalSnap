@@ -32,8 +32,8 @@ class CalorieCount extends Component {
             quantity: 0,
             remainingStatus: "cal-green",
             meal: "",
-            toDate: "",
-            fromDate: ""
+            // toDate: new Date().getDate(),
+            // fromDate: new Date().getDate()
         }
     }
     componentDidMount() {
@@ -197,7 +197,6 @@ class CalorieCount extends Component {
                                 actual={this.state.actual}
                                 remaining={this.state.remaining}
                                 remainingStatus={this.state.remainingStatus}
-
                             />
                         </Col>
 
@@ -229,7 +228,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1" className="label">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-xl-4 p-1">
                             <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
@@ -249,7 +248,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-xl-4 p-1">
                             <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
@@ -264,7 +263,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-xl-4 p-1">
                             <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
@@ -301,8 +300,8 @@ class CalorieCount extends Component {
                             </tbody>
                         </Table>
                     ) : (
-                            <Row>
-                                <Col xl="12" className="mt-2">
+                            <Row className="d-block">
+                                <Col className="mt-2">
                                     <h3>Start Snapping for results!</h3>
                                 </Col>
                             </Row>
