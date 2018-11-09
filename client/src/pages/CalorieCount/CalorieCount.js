@@ -21,10 +21,11 @@ class CalorieCount extends Component {
         this.loadFood = this.loadFood.bind(this);
 
         this.state = {
-            dailyGoal: 2200,
+            dailyGoal: 2000,
             actual: 0,
             remaining: 0,
             progress: 0,
+            progressColor: "success",
             isVideoModalOpen: false,
             searchItem: "orange",
             food: [],
@@ -32,7 +33,7 @@ class CalorieCount extends Component {
             item_name: "",
             nf_calories: 0,
             quantity: 0,
-            remainingStatus: "cal-green",
+            remainingStatus: "cal-actual",
             meal: "",
             fromDateDisplay: moment().format("YYYY-MM-DD"),
             toDateDisplay: moment().format("YYYY-MM-DD")
@@ -40,7 +41,7 @@ class CalorieCount extends Component {
     }
     componentDidMount() {
         if (this.props.auth.isAuthenticated()) {
-            this.loadFood();
+            // this.loadFood();
         }
 
         API.getUser({
@@ -58,6 +59,7 @@ class CalorieCount extends Component {
                     this.setState({ dailyGoal: res.data.calorieGoal })
                 }
             })
+            .then(this.loadFood())
             .catch(err => console.log(err));
 
     }
@@ -98,12 +100,20 @@ class CalorieCount extends Component {
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
         this.setState({ progress: (this.state.actual / this.state.dailyGoal) * 100 })
         console.log("this is the progress percent: ", this.state.progress)
-        if (this.state.remaining > 1500) {
-            this.setState({ remainingStatus: "cal-green" })
-        } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
-            this.setState({ remainingStatus: "cal-orange" })
-        } else if (this.state.remaining < 500) {
+        // this updates remaining color based on value
+        if (this.state.progress > 75) {
             this.setState({ remainingStatus: "cal-red" })
+        } else {
+            this.setState({ remainingStatus: "cal-goal" })
+        }
+
+        // this updates progress bar color base on value
+        if (this.state.progress > 75) {
+            this.setState({ progressColor: "danger"})
+        } else if (this.state.progress < 75 && this.state.progress > 60) {
+            this.setState({ progressColor: "warning"})
+        } else if (this.state.progress < 60) {
+            this.setState({ progressColor: "success" })
         }
     }
 
@@ -165,32 +175,6 @@ class CalorieCount extends Component {
         }
     };
 
-    // handleIRresponse = response => {
-    //     // TODO - first check for an error ERR-100
-    //     if (response.code.startsWith("ERR-100")) {
-    //         alert(`Image is not identifyable!`)
-    //     } else {
-    //         // destructure the response 
-    //         let all = response.data.hits.map((oneitem, index) => {   // map over the 5 responses
-    //             let { item_name, nf_calories } = oneitem.fields   // example of destructuring on one item/row
-    //             return (`<li>${item_name} ${nf_calories}</li>`)   // use html list items instead of regular text as an example.  These actaully work in a modal but not here in alert!
-    //         }).join('')         // use join with null to avoid commas in-between each item
-    //         // alert(`<ul>${all}</ul`)
-    //     }
-    // }
-
-    // handleBarcodeResponse = response => {
-    //     // NOTE:  there is nothing to iterate over here!  Barcode is exact and returns exactly 1 item!!!
-    //     console.log(`the response in the callback for barcode is: ${JSON.stringify(response)}`)
-    //     if (response.code !== "000") {
-    //         alert(`something went wrong with the barcode reader.  Try again!`)
-    //     } else {
-    //         // destructure the response 
-    //         // for now, backend is returning ONLY 1 response 
-    //         const { food_name, nf_calories } = response.data
-    //         alert(`Item identified as: ${food_name}  ${nf_calories}`)
-    //     }
-    // }
 
     handleSearchResponse = response => {
         console.log(`*** inside callback from Search and about to reload state from the Mongo ***`)
@@ -214,8 +198,8 @@ class CalorieCount extends Component {
 
                         <Col xl="12">
                             <div className="bar-row">
-                                {/* <div className="text-center">{this.state.progress}%</div> */}
-                                <Progress value={this.state.progress} />
+                            {/* <div className="text-center">{this.state.progress}%</div> */}
+                            <Progress color={this.state.progressColor}value={this.state.progress} />
                             </div>
                         </Col>
                     </Row>
@@ -240,7 +224,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1" className="label">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-4 p-1">
                             <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
@@ -260,7 +244,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-4 p-1">
                             <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
@@ -275,7 +259,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-4 p-1">
                             <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
@@ -323,7 +307,7 @@ class CalorieCount extends Component {
             </Wrapper>
             )
         } else {
-            return (<LaunchPage></LaunchPage>)
+            return (<LaunchPage {...this.props}></LaunchPage>)
         }
     }
 };

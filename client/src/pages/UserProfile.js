@@ -40,7 +40,7 @@ class UserProfile extends Component {
 
     // This will delete user completely
     deleteUser = (username, id) => {
-        API.deleteFoodsbyUser(username, id)
+        API.deleteUser(username, id)
             .then(res => {
                 console.log(res)
                 this.props.auth.logout();

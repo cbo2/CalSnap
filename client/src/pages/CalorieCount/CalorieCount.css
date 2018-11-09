@@ -34,13 +34,14 @@ body {
 }
 
 .selector {
-  font-size: 13px;
+  font-size: 11px;
   width: 100%
 }
 
 .selector-row {
   margin-top:5px;
-  margin-bottom: 5px
+  margin-bottom: 5px;
+  width: 100%
 }
 
 /* .selector-label  {
