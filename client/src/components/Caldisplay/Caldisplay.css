@@ -37,15 +37,6 @@
     color: white;
   }
 
-  /* .cal-green {
-    width: 200px;
-    height: auto;
-    border-radius: 8px;
-    font-size: 55px;
-    text-align: center;
-    color: white;
-  } */
-
   .cal {
     text-align: center
   }
@@ -59,14 +50,6 @@
     /* color: rgb(2, 102, 2);  */
     background-color: rgb(78, 114, 126);
   }
-
-  #cal-green {
-     background-color: rgb(0, 68, 0);
-  }
-
-  #cal-orange {
-    background-color: rgb(192, 106, 2);
- }
 
   #cal-red {
    background-color: #dc3545;
