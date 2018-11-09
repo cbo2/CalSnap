@@ -257,7 +257,7 @@ class BarcodeModal extends React.Component {
                                         <Input
                                             type="select"
                                             name="mealSelect"
-                                            id="mealSelect"
+                                            id="meal-select"
                                             className="form-control form-control-sm"
                                             value={this.state.selectedMeal}
                                             onChange={e => this.setState({ selectedMeal: e.target.value })}
