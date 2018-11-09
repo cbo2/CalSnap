@@ -29,6 +29,10 @@ body {
   width: 100%;
 }
 
+.bar-row {
+  margin-top: 10px
+}
+
 .selector {
   font-size: 13px;
   width: 100%
