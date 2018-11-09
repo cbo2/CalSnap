@@ -277,7 +277,7 @@ class CalorieCount extends Component {
             </Wrapper>
             )
         } else {
-            return (<LaunchPage></LaunchPage>)
+            return (<LaunchPage {...this.props}></LaunchPage>)
         }
     }
 };
