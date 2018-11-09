@@ -228,7 +228,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1" className="label">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-4 p-1">
                             <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
@@ -248,7 +248,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-4 p-1">
                             <Label for="from-date-select" className="col-form-label" id="label">From: </Label>
                             <Input
                                 type="date"
@@ -263,7 +263,7 @@ class CalorieCount extends Component {
                         {/* <Col xs="1">
                             
                         </Col> */}
-                        <Col className="col-xs-4 p-1">
+                        <Col className="col-4 p-1">
                             <Label for="to-date-select" className="col-form-label" id="label">To: </Label>
                             <Input
                                 type="date"
