@@ -22,6 +22,7 @@ class CalorieCount extends Component {
             dailyGoal: 2200,
             actual: 0,
             remaining: 0,
+            progress: 0,
             isVideoModalOpen: false,
             searchItem: "orange",
             food: [],
@@ -100,6 +101,8 @@ class CalorieCount extends Component {
         const sum = (this.state.calValues).reduce(add)
         this.setState({ actual: Math.round(sum) })
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
+        this.setState({ progress: (this.state.actual / this.state.dailyGoal)*100 })
+        console.log("this is the progress percent: ", this.state.progress)
         if (this.state.remaining > 1500) {
             this.setState({ remainingStatus: "cal-green" })
         } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
@@ -199,10 +202,10 @@ class CalorieCount extends Component {
                         </Col>
 
                         <Col xl="12">
-
-                            <div className="text-center">75%</div>
-                            <Progress value={75} />
-
+                            <div className="bar-row">
+                            {/* <div className="text-center">{this.state.progress}%</div> */}
+                            <Progress value={this.state.progress} />
+                            </div>
                         </Col>
                     </Row>
 
