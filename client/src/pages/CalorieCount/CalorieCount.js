@@ -32,8 +32,8 @@ class CalorieCount extends Component {
             quantity: 0,
             remainingStatus: "cal-green",
             meal: "",
-            toDate: "",
-            fromDate: ""
+            // toDate: new Date().getDate(),
+            // fromDate: new Date().getDate()
         }
     }
     componentDidMount() {
@@ -197,7 +197,6 @@ class CalorieCount extends Component {
                                 actual={this.state.actual}
                                 remaining={this.state.remaining}
                                 remainingStatus={this.state.remainingStatus}
-
                             />
                         </Col>
 

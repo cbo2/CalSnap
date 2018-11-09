@@ -58,14 +58,14 @@ export default class Example extends React.Component {
             <Collapse isOpen={!this.state.collapsed} navbar>
               <Nav navbar>
                 <NavItem>
-                  <Link to="/" className="btn text-white mr-3 mb-xs-3">Home</Link>
+                  <Link to="/" onClick={this.toggleNavbar} className="btn text-white mr-3 mb-xs-3">Home</Link>
                 </NavItem>
                 <NavItem>
                   {/* <CalPal {...props}>CalBud</CalPal> */}
-                  <Link to="/userprofile" className="btn text-white mr-3 mb-xs-3">Profile</Link>
+                  <Link to="/userprofile" onClick={this.toggleNavbar} className="btn text-white mr-3 mb-xs-3">Profile</Link>
                 </NavItem>
                 <NavItem>
-                  <Link to="/about" className="btn text-white mr-3 mb-xs-3">About</Link>
+                  <Link to="/about" onClick={this.toggleNavbar} className="btn text-white mr-3 mb-xs-3">About</Link>
                 </NavItem>
                 <NavItem>
                   <AuthButton {...this.props} />
@@ -88,7 +88,7 @@ export default class Example extends React.Component {
                   <AuthButton {...this.props} />
                 </NavItem>
                 <NavItem>
-                  <Link to="/about" className="btn text-white mr-3 mb-xs-3">About</Link>
+                  <Link to="/about" onClick={this.toggleNavbar} className="btn text-white mr-3 mb-xs-3">About</Link>
                 </NavItem>
               </Nav>
             </Collapse>

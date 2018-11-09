@@ -24,9 +24,9 @@ class UserProfile extends Component {
             })
     }
 
-    // This will delete users data
+    // This will update users data
     updateUser = () => {
-        API.updateUser(this.state.id, {calorieGoal: this.state.calorieGoal })
+        API.updateUser(this.state.id, { calorieGoal: this.state.calorieGoal })
             .then(res => console.log(res))
             .catch(err => console.log(err));
     };
@@ -38,6 +38,7 @@ class UserProfile extends Component {
             .catch(err => console.log(err));
     };
 
+    // This will delete user completely
     deleteUser = (username, id) => {
         API.deleteFoodsbyUser(username, id)
             .then(res => {
@@ -46,40 +47,80 @@ class UserProfile extends Component {
             })
             .catch(err => console.log(err));
     };
-
+    // <img src={this.props.profileImage} alt={this.props.name} className="img-fluid h-50"></img>
     render() {
         const loggedIn = this.props.auth.isAuthenticated();
         if (loggedIn) {
             return (
-                // <Link to="/">Home</Link>
-                <Container>
+                <Container className="mt-3">
                     <Row>
                         <Col>
-                            <strong>Daily Calorie Goal:</strong>
+                            <Row>
+                                <Col>
+                                    <strong>Name:</strong>
+                                </Col>
+                                <Col>
+                                    {this.props.name}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <strong>Username:</strong>
+                                </Col>
+                                <Col>
+                                    {this.props.username}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <strong>Daily Calorie Goal:</strong>
+                                </Col>
+                                <Col>
+                                    <Input
+                                        type="number"
+                                        name="caloriegoal"
+                                        id="calorieGoal"
+                                        className="form-control form-control-sm"
+                                        value={this.state.calorieGoal}
+                                        onChange={e => this.setState({ calorieGoal: e.target.value })}
+                                    >
+                                    </Input>
+                                </Col>
+                                <Col>
+                                    <button className="btn btn-success" onClick={() => this.updateUser()}>Update</button>
+                                </Col>
+                            </Row>
                         </Col>
-                        <Col>
-                            <Input
-                                type="number"
-                                name="caloriegoal"
-                                id="calorieGoal"
-                                className="form-control form-control-sm"
-                                value={this.state.calorieGoal}
-                                onChange={e => this.setState({ calorieGoal: e.target.value })}
-                            >
-                            </Input>
-                        </Col>
-                        <Col>
-                            <button className="btn btn-success mt-3" onClick={() => this.updateUser()}>Update</button>
-                        </Col>
+                    </Row>
+                    <Container className="border border-dark mt-3">
+                        <Row className="mt-3">
+                            <Col>
+                                <strong>Danager Zone</strong>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Row>
+                                    <Col xl="12" className="mt-3">
+                                        This button will delete ALL of your data!
+                                    </Col>
+                                    <Col xl="12">
+                                        <button className="btn btn-danger" onClick={() => this.deleteFoodsbyUser(this.props.username)}>DELETE ALL DATA</button>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xl="12" className="mt-3">
+                                This button will delete ALL of your data and your profile!
+                            </Col>
+                            <Col xl="12" className="mb-3">
+                                <button className="btn btn-danger" onClick={() => this.deleteUser(this.props.username, this.props.auth0UserId)}>DELETE ALL DATA AND PROFILE</button>
+                            </Col>
+                        </Row>
 
-                    </Row>
-                    <Row>
-                        <button className="btn btn-danger mt-3" onClick={() => this.deleteFoodsbyUser(this.props.username)}>DELETE ALL DATA</button>
-                    </Row>
-                    <br></br>
-                    <Row>
-                        <button className="btn btn-danger" onClick={() => this.deleteUser(this.props.username, this.props.auth0UserId)}>DELETE ALL DATA AND PROFILE</button>
-                    </Row>
+                    </Container>
+
                 </Container>
             )
         } else {
