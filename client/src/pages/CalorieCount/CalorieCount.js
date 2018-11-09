@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Row } from 'reactstrap';
+import { Table, Row, Col, Input, Label, Progress } from 'reactstrap';
 import './CalorieCount.css';
 import Caldisplay from "../../components/Caldisplay";
 import Wrapper from "../../components/Wrapper";
@@ -17,27 +17,30 @@ import API from "../../utils/API";
 class CalorieCount extends Component {
     constructor(props) {
         super(props);
-    
-    this.state = {
-        dailyGoal: 2200,
-        actual: 0,
-        remaining: 0,
-        isVideoModalOpen: false,
-        searchItem: "orange",
-        food: [],
-        calValues: [],
-        item_name: "",
-        nf_calories: 0,
-        quantity: 0,
-        remainingStatus: "cal-green"
-    }
+
+        this.state = {
+            dailyGoal: 2200,
+            actual: 0,
+            remaining: 0,
+            isVideoModalOpen: false,
+            searchItem: "orange",
+            food: [],
+            calValues: [],
+            item_name: "",
+            nf_calories: 0,
+            quantity: 0,
+            remainingStatus: "cal-green",
+            meal: "",
+            toDate: "",
+            fromDate: ""
+        }
     }
     componentDidMount() {
         // calculates remaining calories for day 
         if (this.props.auth.isAuthenticated()) {
             this.loadFood();
         }
-  
+
         API.getUser({
             username: this.props.username
         })
@@ -55,17 +58,17 @@ class CalorieCount extends Component {
             })
             .catch(err => console.log(err));
 
-        }     
+    }
 
-        
-        // temporary location to call nutritionix API
-        // API.nutritionixNutritionSearch({})
-        // this.nutritionixInstantSearch()
-        // this.nutritionixBarcode()
-        // API.nutritionixInstantSearch({
-        //     searchItem: this.state.searchItem
-        // })
-        // API.nutritionixBarcodeSearch({})
+
+    // temporary location to call nutritionix API
+    // API.nutritionixNutritionSearch({})
+    // this.nutritionixInstantSearch()
+    // this.nutritionixBarcode()
+    // API.nutritionixInstantSearch({
+    //     searchItem: this.state.searchItem
+    // })
+    // API.nutritionixBarcodeSearch({})
 
     loadFood = () => {
         let tomorrow = new Date();
@@ -99,11 +102,11 @@ class CalorieCount extends Component {
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
         if (this.state.remaining > 1500) {
             this.setState({ remainingStatus: "cal-green" })
-          } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
-            this.setState({ remainingStatus: "cal-orange" })   
-          } else if (this.state.remaining <500) {
+        } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
+            this.setState({ remainingStatus: "cal-orange" })
+        } else if (this.state.remaining < 500) {
             this.setState({ remainingStatus: "cal-red" })
-          }
+        }
     }
 
     deleteFood = id => {
@@ -183,18 +186,28 @@ class CalorieCount extends Component {
         const loggedIn = this.props.auth.isAuthenticated();
         if (loggedIn) {
             return (<Wrapper>
-                <Container fluid>
-                
-                    <Caldisplay
-                        dailyGoal={this.state.dailyGoal}
-                        actual={this.state.actual}
-                        remaining={this.state.remaining}
-                        remainingStatus={this.state.remainingStatus}
-                        
-                    />
+                <Container className="container-fluid">
+                    <Row className="scoreboard-row">
+                        <Col xl="12">
+                            <Caldisplay
+                                dailyGoal={this.state.dailyGoal}
+                                actual={this.state.actual}
+                                remaining={this.state.remaining}
+                                remainingStatus={this.state.remainingStatus}
+
+                            />
+                        </Col>
+
+                        <Col xl="12">
+
+                            <div className="text-center">75%</div>
+                            <Progress value={75} />
+
+                        </Col>
+                    </Row>
                     {console.log("this is the remaining in render on parent ", this.state.remaining)}
                     <Row className="button-row">
-                       
+
                         <VideoModal isOpen={this.state.isVideoModalOpen}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
@@ -207,7 +220,56 @@ class CalorieCount extends Component {
 
                         <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
                         </TextInputModal>
-                     
+
+                    </Row>
+                    <Row className="selector-row"> 
+                        {/* <Col xs="1" className="label">
+                            <Label for="meal-select" className="col-form-label">Meal: </Label>
+                        </Col> */}
+                        <Col xs="3"className="mb-3 selector">
+                            <Input
+                                type="select"
+                                name="mealSelect"
+                                id="meal-select"
+                                className="form-control form-control-sm"
+                                value={this.state.meal}
+                                onChange={e => this.setState({ meal: e.target.value })}
+                            >
+                                <option>All</option>
+                                <option>BreakFast</option>
+                                <option>Lunch</option>
+                                <option>Dinner</option>
+                                <option>Snack</option>
+                            </Input>
+                        </Col>
+                        <Col xs="1">
+                            <Label for="from-date-select" className="col-form-label label" >From: </Label>
+                        </Col>
+                        <Col xs="3" className="selector">
+                            <Input
+                                type="date"
+                                name="fromDateSelect"
+                                id="from-date-select"
+                                className="form-control form-control-sm"
+                                value={this.state.fromDate}
+                                onChange={e => this.setState({ fromDate: e.target.value })}
+                            >
+                            </Input>
+                        </Col>
+                        <Col xs="1">
+                            <Label for="to-date-select" className="col-form-label label">To: </Label>
+                        </Col>
+                        <Col xs="3" className="selector">
+                            <Input
+                                type="date"
+                                name="toDateSelect"
+                                id="to-date-select"
+                                className="form-control form-control-sm"
+                                value={this.state.toDate}
+                                onChange={e => this.setState({ toDate: e.target.value })}
+                            >
+                            </Input>
+                        </Col>
                     </Row>
                     {this.state.food.length ? (
                         <Table className="results-table">
@@ -237,7 +299,7 @@ class CalorieCount extends Component {
                             <h3>Start Snapping to see results!</h3>
                         )}
                 </Container>
-                </Wrapper>         
+            </Wrapper>
             )
         } else {
             return (<LaunchPage></LaunchPage>)

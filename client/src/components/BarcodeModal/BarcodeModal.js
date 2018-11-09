@@ -50,22 +50,19 @@ class BarcodeModal extends React.Component {
         } else {
             this.setState({ selectedMeal: "Snack" })
         }
-        this.setState({ secondDisplay: "reveal" })
+        // this.setState({ secondDisplay: "reveal" })
         if (response.code != "000") {
             alert(`Image is not identifyable!`)
             this.resetModal();
         } else {
-            this.setState({ results: response.data })
+            this.setState({ results: response.data, secondDisplay: "reveal" })
             console.log("this is from nutritionix: ", this.state.results)
             this.setState({ firstDisplay: "d-none" })
         }
     }
 
     resetModal = () => {
-        this.toggle();
-        this.setState({ firstDisplay: "reveal" });
-        this.setState({ secondDisplay: "d-none" });
-        this.toggle();
+        this.video.play();
     }
 
     initMedia = () => {
@@ -213,7 +210,7 @@ class BarcodeModal extends React.Component {
             quantity: quantity,
             nf_calories: results.nf_calories * quantity,
             nf_protein: results.nf_protein * quantity,
-            nf_serving_size_unit: results.serving_qty,
+            nf_serving_size_unit: results.serving_unit,
             nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
             username: this.props.username,
             meal: selectedMeal,
@@ -249,7 +246,7 @@ class BarcodeModal extends React.Component {
                                 </Row>
                                 <Row className="mt-1">
                                     <Col>
-                                        Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_qty}
+                                        Calories: {this.state.results.nf_calories} | Serving: {this.state.results.serving_unit}
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
@@ -257,7 +254,7 @@ class BarcodeModal extends React.Component {
                                         <Input
                                             type="select"
                                             name="mealSelect"
-                                            id="mealSelect"
+                                            id="meal-select"
                                             className="form-control form-control-sm"
                                             value={this.state.selectedMeal}
                                             onChange={e => this.setState({ selectedMeal: e.target.value })}
