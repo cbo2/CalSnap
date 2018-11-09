@@ -1,7 +1,40 @@
 import React from "react";
 
 const About = () => (
-  <h1>TO BE CREATED</h1>
+
+  <div>
+
+  <p>Calsnap is a caloric tracking app developed to assist health conscious users understand
+     the caloric value of foods they have consumed or plan to consume. With customizable goals,
+     reactive caloric tracking and integrated technologies, tracking what you eat is now as easy as a Snap.
+     Powered by IBM’s Watson in conjunction with Nutritionix’s nutritional database, CalSnap’s user friendly
+     search capabilities eliminates the laborious process of searching through endless list of foods and
+    drop-down menus to acurately track what one is eating.</p>
+
+  <p>Simple. Clean. Easy. Just like eating needs to be.</p>
+
+  <b>Search Modes</b>
+  <ul>
+    <li>Natural Language search bar</li>
+    <li>Barcode scanning</li>
+    <li>Image capture powered by IBM’s Watson</li>
+  </ul>
+  <b>Highlights and Key Functionalities</b>
+  <ul>
+    <li>Multi-option search capability</li>
+    <li>Historic record of daily consumption</li>
+    <li>Customizable goals</li>
+    <li>Dynamic daily progress bar</li>
+  </ul>
+
+  <b>Development Team</b>
+  <ul>
+    <li>Joshua Gallaway</li>
+    <li>Justin Gerow</li>
+    <li>Craig "CBO" Bomba</li>
+    <li>Don Vincent</li>
+  </ul>
+  </div>
 );
 
 export default About;
