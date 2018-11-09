@@ -16,8 +16,8 @@ class UserProfile extends Component {
     componentDidMount() {
         API.getUser({ username: this.props.username })
             .then(res => {
-                console.log(`got the user's id as: ${res.data._id}`)
-                this.setState({ id: res.data._id })
+                console.log(`got the user's id as: ${res.data._id} and calorieGoal: ${JSON.stringify(res.data)}`)
+                this.setState({ id: res.data._id, calorieGoal: res.data.calorieGoal })
             })
             .catch(err => {
                 console.log(`ERROR on call to API.getUser for user: ${this.props.username}`)
