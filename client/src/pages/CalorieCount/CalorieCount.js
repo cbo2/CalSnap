@@ -23,6 +23,7 @@ class CalorieCount extends Component {
             actual: 0,
             remaining: 0,
             progress: 0,
+            progressColor: "success",
             isVideoModalOpen: false,
             searchItem: "orange",
             food: [],
@@ -30,7 +31,7 @@ class CalorieCount extends Component {
             item_name: "",
             nf_calories: 0,
             quantity: 0,
-            remainingStatus: "cal-green",
+            remainingStatus: "cal-actual",
             meal: "",
             // toDate: new Date().getDate(),
             // fromDate: new Date().getDate()
@@ -95,12 +96,20 @@ class CalorieCount extends Component {
         this.setState({ remaining: this.state.dailyGoal - this.state.actual });
         this.setState({ progress: (this.state.actual / this.state.dailyGoal)*100 })
         console.log("this is the progress percent: ", this.state.progress)
-        if (this.state.remaining > 1500) {
-            this.setState({ remainingStatus: "cal-green" })
-        } else if (this.state.remaining < 1500 && this.state.remaining > 500) {
-            this.setState({ remainingStatus: "cal-orange" })
-        } else if (this.state.remaining < 500) {
+        // this updates remaining color based on value
+        if (this.state.progress > 75) {
             this.setState({ remainingStatus: "cal-red" })
+        } else {
+            this.setState({ remainingStatus: "cal-goal" })
+        }
+
+        // this updates progress bar color base on value
+        if (this.state.progress > 75) {
+            this.setState({ progressColor: "danger"})
+        } else if (this.state.progress < 75 && this.state.progress > 60) {
+            this.setState({ progressColor: "warning"})
+        } else if (this.state.progress < 60) {
+            this.setState({ progressColor: "success" })
         }
     }
 
@@ -169,7 +178,7 @@ class CalorieCount extends Component {
                         <Col xl="12">
                             <div className="bar-row">
                             {/* <div className="text-center">{this.state.progress}%</div> */}
-                            <Progress value={this.state.progress} />
+                            <Progress color={this.state.progressColor}value={this.state.progress} />
                             </div>
                         </Col>
                     </Row>

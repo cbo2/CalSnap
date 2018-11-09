@@ -69,7 +69,7 @@
  }
 
   #cal-red {
-   background-color: rgb(99, 1, 1);
+   background-color: #dc3545;
  }
 
   @media screen and (max-width: 640px) {
