@@ -301,7 +301,7 @@ class CalorieCount extends Component {
                         </Table>
                     ) : (
                             <Row>
-                                <Col className="mt-2">
+                                <Col xl="12" className="mt-2">
                                     <h3>Start Snapping for results!</h3>
                                 </Col>
                             </Row>
