@@ -88,6 +88,19 @@ class UpdateModal extends React.Component {
             .catch(err => console.log(err))
     }
 
+    handleMealChange = event => {
+        const { name, value } = event.target;
+        console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
+        let date = ""
+        if (name === "date") {
+            date = value
+        }
+        this.setState({
+            // [name]: value
+            date_consumed: moment(date).format("YYYY-MM-DD")
+        }, () => {this.handleUpdateSubmit()})   // call to loadFood only AFTER setState is finished!
+    };
+
     render() {
         return (
             <div>
@@ -153,11 +166,11 @@ class UpdateModal extends React.Component {
                                 <Col>
                                     <Input
                                         type="date"
-                                        name="date_consumed"
+                                        name="date"
                                         id="date"
                                         className="form-control form-control-sm"
-                                        value={this.state.date_consumed}
-                                        onChange={e => this.setState({ date_consumed: e.target.date_consumed })}
+                                        value={this.state.date}
+                                        onChange={() => this.handleDateChange}
                                     >
                                     </Input>
                                 </Col>
