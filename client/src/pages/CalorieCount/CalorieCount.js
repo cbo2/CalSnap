@@ -22,6 +22,7 @@ class CalorieCount extends Component {
 
         this.state = {
             dailyGoal: 2000,
+            goal: 2000,
             actual: 0,
             remaining: 0,
             progress: 0,
@@ -55,12 +56,10 @@ class CalorieCount extends Component {
                         .then(res => console.log("User created: ", res.data))
                         .catch(err => console.log(err));
                 } else {
-                    console.log("This is dates subtracted: ", moment(this.state.fromDateDisplay).unix() - moment(this.state.toDateDisplay).unix() + 1)
                     // console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
-                    let dailyGoal = res.data.calorieGoal * (moment(this.state.fromDateDisplay).unix() - moment(this.state.toDateDisplay).unix() + 1)
-                    this.setState({ dailyGoal }, () => {
+                    this.setState({ dailyGoal: res.data.calorieGoal }, () => {
                         this.loadFood()
-                    }).then(() => console.log("This is calorie goal: ", this.state.dailyGoal))
+                    })
                 }
             })
             // .then(this.loadFood())
@@ -104,6 +103,10 @@ class CalorieCount extends Component {
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
+        // Calculate daily goal base on number of days
+        console.log("This is the # of days: ", Math.round(moment(this.state.toDateDisplay).unix() - moment(this.state.fromDateDisplay).unix() + 1)/(1000*60*60*24));
+        let goal = Math.round(moment(this.state.toDateDisplay).unix() - moment(this.state.fromDateDisplay).unix())/(1000*60*60*24);
+        this.setState({ goal });
         // console.log(`in dashboard for foods=> ${JSON.stringify(this.state.food)}`)
         if (this.state.allFood.length === 0) {   // if null then return
             console.log(`NO FOOD for date!`)
