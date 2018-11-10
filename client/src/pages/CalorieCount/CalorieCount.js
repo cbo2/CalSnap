@@ -22,6 +22,7 @@ class CalorieCount extends Component {
 
         this.state = {
             dailyGoal: 2000,
+            calorieGoal: 2000,
             actual: 0,
             remaining: 0,
             progress: 0,
@@ -56,7 +57,7 @@ class CalorieCount extends Component {
                         .catch(err => console.log(err));
                 } else {
                     // console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
-                    this.setState({ dailyGoal: res.data.calorieGoal }, () => {
+                    this.setState({ dailyGoal: res.data.calorieGoal , calorieGoal: res.data.calorieGoal }, () => {
                         this.loadFood()
                     })
                 }
@@ -69,7 +70,7 @@ class CalorieCount extends Component {
     loadFood = () => {
         // Calculate daily goal base on number of days
         // console.log("This is the # of days: ", Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24));
-        let dailyGoal = this.state.dailyGoal * (Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24))
+        let dailyGoal = this.state.calorieGoal * (Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24))
         this.setState({ dailyGoal });
         // console.log("This is the dailyGoal: ", dailyGoal);
         // console.log(`=> initially when inside loadFood and fromDate is: [${this.state.fromDateDisplay} 00:00:00.999`)
