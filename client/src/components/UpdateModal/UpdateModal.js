@@ -72,6 +72,7 @@ class UpdateModal extends React.Component {
         this.toggle()
         this.setState({ firstDisplay: "reveal" })
         this.toggle()
+        console.log(moment(date_consumed).format("YYYY-MM-DD HH:mm:ss.SSS"));
         this.setState({ secondDisplay: "d-none" })
         const { quantity, nf_calories, nf_protein, nf_serving_size_unit, nf_total_carbohydrate, meal, date_consumed } = this.state
         API.updateFood(this.props.id, {
@@ -81,8 +82,8 @@ class UpdateModal extends React.Component {
             nf_serving_size_unit,
             nf_total_carbohydrate,
             meal,
-            date_consumed,
-            date_modified: new Date()
+            date_consumed: moment(date_consumed).format("YYYY-MM-DD HH:mm:ss.SSS"),
+            date_modified: moment(new Date()).format("YYYY-MM-DD HH:mm:ss.SSS")
         })
             .then(this.onResponseFromUpdateSubmit)
             .catch(err => console.log(err))
