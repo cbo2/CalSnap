@@ -29,6 +29,7 @@ class CalorieCount extends Component {
             isVideoModalOpen: false,
             searchItem: "orange",
             food: [],
+            allFood: [],
             calValues: [],
             item_name: "",
             nf_calories: 0,
@@ -43,7 +44,6 @@ class CalorieCount extends Component {
         if (this.props.auth.isAuthenticated()) {
             // this.loadFood();
         }
-
         API.getUser({
             username: this.props.username
         })
@@ -75,10 +75,15 @@ class CalorieCount extends Component {
         API.getFoodsbyUserAndDateRange({
             username: this.props.username,
             today,
-            tomorrow
+            tomorrow,
+            meal: this.state.meal
         })
             .then(res =>
-                this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
+                {this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
+                if (this.state.meal === "") {
+                {this.setState({ allFood: res.data })}
+                }
+            }
             ).then(res => this.doDashboardCalculation())
             .catch(err => console.log(err));
     };
@@ -88,13 +93,13 @@ class CalorieCount extends Component {
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
-        console.log(`in dashboard for foods=> ${JSON.stringify(this.state.food)}`)
-        if (this.state.food.length === 0) {   // if null then return
+        console.log(`in dashboard for foods=> ${JSON.stringify(this.state.allFood)}`)
+        if (this.state.allFood.length === 0) {   // if null then return
             console.log(`NO FOOD for date!`)
             return;
         }
-        this.state.food.map(food => (
-            this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
+        this.state.allFood.map(allFood => (
+            this.setState({ calValues: this.state.calValues.concat(allFood.nf_calories) })
         ))
         const add = (a, b) => a + b
         const sum = (this.state.calValues).reduce(add)
@@ -111,9 +116,9 @@ class CalorieCount extends Component {
 
         // this updates progress bar color base on value
         if (this.state.progress > 75) {
-            this.setState({ progressColor: "danger"})
+            this.setState({ progressColor: "danger" })
         } else if (this.state.progress < 75 && this.state.progress > 60) {
-            this.setState({ progressColor: "warning"})
+            this.setState({ progressColor: "warning" })
         } else if (this.state.progress < 60) {
             this.setState({ progressColor: "success" })
         }
@@ -164,7 +169,6 @@ class CalorieCount extends Component {
             fromDate = this.state.fromDateDisplay
             toDate = value
         }
-
         if (fromDate > toDate) {
             alert("Invalid Date Selection! Try again...")
         } else {
@@ -177,6 +181,22 @@ class CalorieCount extends Component {
         }
     };
 
+
+    handleMealChange = event => {
+        const { name, value } = event.target;
+        console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
+        let meal = ""
+        if (name === "meal") {
+            meal = value
+        }
+        if (meal === "All") {
+            meal = ""
+        }
+        this.setState({
+            // [name]: value
+            meal: meal
+        }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
+    };
 
     handleSearchResponse = response => {
         console.log(`*** inside callback from Search and about to reload state from the Mongo ***`)
@@ -200,25 +220,25 @@ class CalorieCount extends Component {
 
                         <Col xl="12">
                             <div className="bar-row">
-                            {/* <div className="text-center">{this.state.progress}%</div> */}
-                            <Progress color={this.state.progressColor}value={this.state.progress} />
+                                {/* <div className="text-center">{this.state.progress}%</div> */}
+                                <Progress color={this.state.progressColor} value={this.state.progress} />
                             </div>
                         </Col>
                     </Row>
 
                     <Row className="button-row justify-content-center">
 
-                        <VideoModal isOpen={this.state.isVideoModalOpen}
+                        <VideoModal isOpen={this.state.isVideoModalOpen} date={this.state.fromDateDisplay}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                         </VideoModal>
 
                         <BarcodeModal
-                            onResponseFromSearch={this.handleSearchResponse} {...this.props}
+                            onResponseFromSearch={this.handleSearchResponse} date={this.state.fromDateDisplay} {...this.props}
                             buttonLabel="Scan Barcode!!">
                         </BarcodeModal>
 
-                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
+                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} date={this.state.fromDateDisplay} {...this.props}>
                         </TextInputModal>
 
                     </Row>
@@ -230,11 +250,11 @@ class CalorieCount extends Component {
                             <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
-                                name="mealSelect"
+                                name="meal"
                                 id="meal-select"
                                 className="form-control form-control-sm selector"
                                 value={this.state.meal}
-                                onChange={e => this.setState({ meal: e.target.value })}
+                                onChange={this.handleMealChange}
                             >
                                 <option>All</option>
                                 <option>BreakFast</option>
@@ -287,7 +307,7 @@ class CalorieCount extends Component {
                             <tbody>
                                 {this.state.food.map(food => (
                                     <tr key={food._id}>
-                                        <td><UpdateModal onResponseFromSearch={this.handleSearchResponse} inputVal={food.item_name} id={food._id}></UpdateModal></td>
+                                        <td><UpdateModal onResponseFromSearch={this.handleSearchResponse} date={this.state.fromDateDisplay} inputVal={food.item_name} id={food._id}></UpdateModal></td>
                                         {/* <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>        */}
                                         <td>{Math.round(food.nf_calories)}</td>
                                         <td>{food.quantity}</td>

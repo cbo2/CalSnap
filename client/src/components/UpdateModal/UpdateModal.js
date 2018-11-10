@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, Row, Col, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./UpdateModal.css";
+import moment from "moment"
 
 class UpdateModal extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class UpdateModal extends React.Component {
             nf_serving_size_unit: "",
             nf_total_carbohydrate: 0,
             quantity: 0,
+            date_consumed: ""
         };
 
         this.toggle = this.toggle.bind(this);
@@ -43,9 +45,10 @@ class UpdateModal extends React.Component {
                     nf_protein: this.state.food[0].nf_protein,
                     nf_serving_size_unit: this.state.food[0].nf_serving_size_unit,
                     nf_total_carbohydrate: this.state.food[0].nf_total_carbohydrate,
-                    quantity: this.state.food[0].quantity
+                    quantity: this.state.food[0].quantity,
+                    date_consumed: this.state.food[0].date_consumed
                 })).then(res => {
-                    if ((this.state.quantity > 1) && (`${this.state.nf_serving_size_unit}`.charAt(`${this.state.nf_serving_size_unit}`.length-1) !== "s")) {
+                    if ((this.state.quantity > 1) && (`${this.state.nf_serving_size_unit}`.charAt(`${this.state.nf_serving_size_unit}`.length - 1) !== "s")) {
                         let pluralServingSize = this.state.nf_serving_size_unit + "s"
                         this.setState({ nf_serving_size_unit: pluralServingSize })
                     }
@@ -70,18 +73,34 @@ class UpdateModal extends React.Component {
         this.setState({ firstDisplay: "reveal" })
         this.toggle()
         this.setState({ secondDisplay: "d-none" })
-        const { quantity, nf_calories, nf_protein, nf_serving_size_unit, nf_total_carbohydrate, meal } = this.state
+        const { quantity, nf_calories, nf_protein, nf_serving_size_unit, nf_total_carbohydrate, meal, date_consumed } = this.state
+        let dateConsumed = moment(date_consumed).format("YYYY-MM-DD")
         API.updateFood(this.props.id, {
             quantity,
             nf_calories,
             nf_protein,
             nf_serving_size_unit,
             nf_total_carbohydrate,
-            meal
+            meal,
+            date_consumed: dateConsumed,
+            date_modified: new Date()
         })
-        .then(this.onResponseFromUpdateSubmit)
-        .catch(err => console.log(err))
+            .then(this.onResponseFromUpdateSubmit)
+            .catch(err => console.log(err))
     }
+
+    handleMealChange = event => {
+        const { name, value } = event.target;
+        console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
+        let date = ""
+        if (name === "date") {
+            date = value
+        }
+        this.setState({
+            // [name]: value
+            date_consumed: moment(date).format("YYYY-MM-DD")
+        }, () => {this.handleUpdateSubmit()})   // call to loadFood only AFTER setState is finished!
+    };
 
     render() {
         return (
@@ -91,6 +110,14 @@ class UpdateModal extends React.Component {
                     <ModalHeader toggle={this.toggle}>{this.props.inputVal}</ModalHeader>
                     <ModalBody>
                         <div className={this.state.firstDisplay}>
+                            <Row>
+                                <Col>
+                                    <strong>Date:</strong>
+                                </Col>
+                                <Col>
+                                    {moment(this.state.date_consumed).format("YYYY-MM-DD")}
+                                </Col>
+                            </Row>
                             <Row>
                                 <Col>
                                     <strong>Calories:</strong>
@@ -135,6 +162,22 @@ class UpdateModal extends React.Component {
                         <div className={this.state.secondDisplay}>
                             <Row>
                                 <Col>
+                                    <strong>Date:</strong>
+                                </Col>
+                                <Col>
+                                    <Input
+                                        type="date"
+                                        name="date"
+                                        id="date"
+                                        className="form-control form-control-sm"
+                                        value={this.state.date}
+                                        onChange={() => this.handleDateChange}
+                                    >
+                                    </Input>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
                                     <strong>Calories:</strong>
                                 </Col>
                                 <Col>
@@ -170,13 +213,13 @@ class UpdateModal extends React.Component {
                                     <strong>Meal:</strong>
                                 </Col>
                                 <Col>
-                                    <Input 
-                                    type="select" 
-                                    name="mealSelect" 
-                                    id="meal-select" 
-                                    className="form-control form-control-sm" 
-                                    value={this.state.meal} 
-                                    onChange={e => this.setState({ meal: e.target.value })}
+                                    <Input
+                                        type="select"
+                                        name="mealSelect"
+                                        id="meal-select"
+                                        className="form-control form-control-sm"
+                                        value={this.state.meal}
+                                        onChange={e => this.setState({ meal: e.target.value })}
                                     >
                                         <option>BreakFast</option>
                                         <option>Lunch</option>
@@ -230,7 +273,7 @@ class UpdateModal extends React.Component {
                         </div>
                     </ModalFooter>
                 </Modal>
-            </div>
+            </div >
         )
     }
 }
