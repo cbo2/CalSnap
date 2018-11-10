@@ -35,8 +35,7 @@ module.exports = {
       })
       .then(dbFood => {
         console.log("This is dbFood:", dbFood);
-        res.json(res)
-
+        res.json(dbFood)
       })
       .catch(err => res.status(422).json(err));
 
