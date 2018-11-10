@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, Row, Col, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./UpdateModal.css";
+import moment from "moment"
 
 class UpdateModal extends React.Component {
     constructor(props) {
@@ -100,7 +101,7 @@ class UpdateModal extends React.Component {
                                     <strong>Date:</strong>
                                 </Col>
                                 <Col>
-                                    {this.state.date_consumed}
+                                    {moment(this.state.date_consumed).format("YYYY-MM-DD")}
                                 </Col>
                             </Row>
                             <Row>
