@@ -1,7 +1,7 @@
 .jumbotron {
     background-image: url("launch-back.jpg");
     background-size: cover;
-    height: 450px;
+    height: 500px;
     /* position: absolute; */
     /* clip: rect(100px,100px,100px,100px); */
     -ms-background-position-x: center;
@@ -13,5 +13,8 @@
 
 .launch-page-login {
    color: white;
-   text-decoration: none;
 }
+
+.launch-page-login:hover {
+    color: white;  
+ }
