@@ -135,7 +135,7 @@ class TextInputModal extends React.Component {
                             <FormGroup>
                                 <Input type="textarea" name="text" id="foodText" value={this.state.searchedFood} onChange={e => this.setState({ searchedFood: e.target.value })} />
                             </FormGroup>
-                            <Button color="primary" onClick={this.handleSearch} className="foodSearch">Search</Button>
+                            <Button  onClick={this.handleSearch} className="foodSearch">Search</Button>
                         </Form>
                         <div className={this.state.secondDisplay}>
                             <div>
