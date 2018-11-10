@@ -4,6 +4,7 @@
     border: none;
     user-select: none;
     outline: 0;
+    text-align: left;
    }
 
  .btn-no-style:hover {
@@ -12,6 +13,7 @@
     border: none;
     user-select: none;
     outline: 0;
+    text-align: left;
  }
 
  .btn-no-style:visited {
@@ -21,6 +23,7 @@
      user-select: none;
      outline: 0;
      box-shadow: none;
+     text-align: left;
  }
 
  .btn-no-style:focus {
@@ -30,6 +33,7 @@
     user-select: none;
     outline: 0;
     box-shadow: none;
+    text-align: left;
 }
 
 .btn-no-style:active {
@@ -39,6 +43,7 @@
     user-select: none;
     outline: 0;
     box-shadow: none;
+    text-align: left;
 }
 
 
