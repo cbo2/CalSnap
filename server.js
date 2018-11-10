@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === "production") {
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/CalSnap"
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI);
-mongoose.set('debug', true)
+
 // Get Auth0 Management API Token
 auth0.clientCredentialsGrant(
     {
