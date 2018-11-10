@@ -206,17 +206,17 @@ class CalorieCount extends Component {
 
                     <Row className="button-row justify-content-center">
 
-                        <VideoModal isOpen={this.state.isVideoModalOpen}
+                        <VideoModal isOpen={this.state.isVideoModalOpen} date={this.state.fromDateDisplay}
                             onResponseFromSearch={this.handleSearchResponse} {...this.props}
                             onClose={this.toggleModal} buttonLabel="Snap Food!">
                         </VideoModal>
 
                         <BarcodeModal
-                            onResponseFromSearch={this.handleSearchResponse} {...this.props}
+                            onResponseFromSearch={this.handleSearchResponse} date={this.state.fromDateDisplay} {...this.props}
                             buttonLabel="Scan Barcode!!">
                         </BarcodeModal>
 
-                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} {...this.props}>
+                        <TextInputModal onResponseFromSearch={this.handleSearchResponse} date={this.state.fromDateDisplay} {...this.props}>
                         </TextInputModal>
 
                     </Row>
