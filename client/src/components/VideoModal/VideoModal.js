@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Modal, Row, Col, ModalHeader, ModalBody, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./VideoModal.css";
 
@@ -274,7 +274,6 @@ class VideoModal extends React.Component {
                           value={this.state.quantity}
                           id="quantityText"
                           className="form-control form-control-sm modal-quantity-selector"
-                          value={this.state.quantity}
                           onChange={e => this.setState({ quantity: e.target.value })}
                         >
                         </Input>

@@ -47,7 +47,7 @@ class TextInputModal extends React.Component {
             this.setState({ selectedMeal: "Snack" })
         }
         this.setState({ secondDisplay: "reveal" })
-        if (response.code != "000") {
+        if (response.code !== "000") {
             alert(`something went wrong with the search.  Try again!`)
         } else {
             this.setState({ results: response.data.hits })
