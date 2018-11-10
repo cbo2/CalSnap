@@ -67,6 +67,11 @@ class CalorieCount extends Component {
     }
 
     loadFood = () => {
+        // Calculate daily goal base on number of days
+        console.log("This is the # of days: ", Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24));
+        let dailyGoal = this.state.dailyGoal * (Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24))
+        this.setState({ dailyGoal });
+        console.log("This is the dailyGoal: ", dailyGoal);
         console.log(`=> initially when inside loadFood and fromDate is: [${this.state.fromDateDisplay} 00:00:00.999`)
         console.log(`=> initially when inside loadFood and toDate is: ${this.state.toDateDisplay}`)
         let today = moment(this.state.fromDateDisplay + " 00:00:00.000-0600").format("YYYY-MM-DD HH:mm:ss.SSS")
@@ -99,10 +104,6 @@ class CalorieCount extends Component {
 
     // finds sum of total calories in food array and subtracts from daily goal
     doDashboardCalculation = () => {
-        // Calculate daily goal base on number of days
-        console.log("This is the # of days: ", Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24));
-        let dailyGoal = this.state.dailyGoal * (Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24))
-        this.setState({ dailyGoal });
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
