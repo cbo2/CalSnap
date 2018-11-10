@@ -221,7 +221,7 @@ class UpdateModal extends React.Component {
                                         value={this.state.meal}
                                         onChange={e => this.setState({ meal: e.target.value })}
                                     >
-                                        <option>BreakFast</option>
+                                        <option>Breakfast</option>
                                         <option>Lunch</option>
                                         <option>Dinner</option>
                                         <option>Snack</option>
