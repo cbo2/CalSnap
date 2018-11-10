@@ -198,8 +198,8 @@ module.exports = {
   },
   findAllbyUserAndDateRange: function (req, res) {
     db.Food
-      .find({ username: req.params.username, date: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
-      .sort({ date: -1 })
+      .find({ username: req.params.username, meal: req.params.meal, date_consumed: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
+      .sort({ date_added: -1 })
       .then(dbModel => {
         return res.json(dbModel)
       })

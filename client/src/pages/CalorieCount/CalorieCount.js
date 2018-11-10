@@ -75,7 +75,8 @@ class CalorieCount extends Component {
         API.getFoodsbyUserAndDateRange({
             username: this.props.username,
             today,
-            tomorrow
+            tomorrow,
+            meal: this.state.meal
         })
             .then(res =>
                 this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
@@ -158,6 +159,20 @@ class CalorieCount extends Component {
         console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
         let fromDate = ""
         let toDate = ""
+        let meal =""
+        if ( name === "meal") {
+            meal = value
+        }
+        if (meal === "All") {
+            meal = "*"
+            this.setState({
+                meal
+            })
+        } else {
+            this.setState({
+                meal
+            })
+        }
         if (name === "fromDateDisplay") {
             toDate = fromDate = value
         } else {
@@ -171,6 +186,7 @@ class CalorieCount extends Component {
             console.log(`should be changing fromDateDisplay to ${fromDate} and toDateDisplay to ${toDate}`)
             this.setState({
                 // [name]: value
+                meal,
                 fromDateDisplay: fromDate,
                 toDateDisplay: toDate
             }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
@@ -234,7 +250,7 @@ class CalorieCount extends Component {
                                 id="meal-select"
                                 className="form-control form-control-sm selector"
                                 value={this.state.meal}
-                                onChange={e => this.setState({ meal: e.target.value })}
+                                onChange={this.handleDateChange}
                             >
                                 <option>All</option>
                                 <option>BreakFast</option>
@@ -287,7 +303,7 @@ class CalorieCount extends Component {
                             <tbody>
                                 {this.state.food.map(food => (
                                     <tr key={food._id}>
-                                        <td><UpdateModal onResponseFromSearch={this.handleSearchResponse} inputVal={food.item_name} id={food._id}></UpdateModal></td>
+                                        <td><UpdateModal onResponseFromSearch={this.handleSearchResponse} date={this.state.fromDateDisplay} inputVal={food.item_name} id={food._id}></UpdateModal></td>
                                         {/* <td className="item-name" onClick={() => this.updateFood()}><a>{food.item_name}</a></td>        */}
                                         <td>{Math.round(food.nf_calories)}</td>
                                         <td>{food.quantity}</td>

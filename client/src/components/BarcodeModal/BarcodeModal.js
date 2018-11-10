@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./BarcodeModal.css";
+import moment from "moment"
 
 class BarcodeModal extends React.Component {
     constructor(props) {
@@ -214,7 +215,9 @@ class BarcodeModal extends React.Component {
             nf_total_carbohydrate: results.nf_total_carbohydrate * quantity,
             username: this.props.username,
             meal: selectedMeal,
-            date: new Date()
+            date_consumed: moment(this.props.date + " 00:00:00.000-0600").format("YYYY-MM-DD HH:mm:ss.SSS"),
+            date_added: new Date(),
+            date_modified: new Date()
         })
             .then(this.onResponseFromSearch)
             .catch(err => console.log(err));

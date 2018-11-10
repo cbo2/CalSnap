@@ -21,7 +21,7 @@ router.route("/deleteallfoods/:username")
   .delete(foodController.removeAllbyUser)
 
 // Matches with "/api/food/:today/:tomorrow/:username
-router.route("/:username/:today/:tomorrow")
+router.route("/:username/:today/:tomorrow/:meal")
   .get(foodController.findAllbyUserAndDateRange)
 
 // Matches with "/api/food/identify"

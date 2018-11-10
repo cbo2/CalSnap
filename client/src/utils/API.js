@@ -7,7 +7,8 @@ export default {
   },
   // Gets all food for user by date range
   getFoodsbyUserAndDateRange: function (params) {
-    return axios.get(`/api/food/${params.username}/${params.today}/${params.tomorrow}`)
+    console.log(params);
+    return axios.get(`/api/food/${params.username}/${params.today}/${params.tomorrow}/${params.meal}`)
   },
   getFoodbyId: function (id) {
     return axios.get(`/api/food/${id}`)
