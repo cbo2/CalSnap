@@ -1,4 +1,4 @@
-![Logo](ReadmeAssets/logo-01.png =250x "Title")
+![Logo](ReadmeAssets/logo-01.png)
 
 
 # CalSnap
