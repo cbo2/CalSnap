@@ -1,9 +1,25 @@
+![Logo](/ReadmeAssets/logo-01.png?raw=true "Title")
+
+
 # CalSnap
-This application will allow users to easily track calorie intake on a daily basis.  This can be tedious with other 
-apps and the intention of CalSnap is to make it easy.  If it isn't easy, you won't use it.  So, it allows the user
-to simply take a picture of the item with their phone camera and it determines calories.  Another click to consume it 
-and it is added to your daily caloric total.  The app will also allow the user to snap a barcode or enter the name
-of the item with keyboard entry.
+Calsnap is a caloric tracking app developed to assist health conscious users understand the caloric value of foods they have consumed or plan to consume. With customizable goals, reactive caloric tracking and integrated technologies, tracking what you eat is now as easy as a Snap. Powered by IBM’s Watson in conjunction with Nutritionix’s nutritional database, CalSnap’s user friendly search capabilities eliminates the laborious process of searching through endless list of foods and drop-down menus to acurately track what one is eating.
+
+Simple. Clean. Easy. Just like eating needs to be.
+
+
+## Search Modes
+  * Natural Language search bar
+  * Barcode scanning
+  * Image capture powered by IBM’s Watson
+
+
+## Highlights and Key Functionalities
+  * Multi-option search capability
+  * Historic record of daily consumption
+  * Customizable goals
+  * Dynamic daily progress bar
+
+
 
 ## APIs
   * IBM's Watson Image Recognition
@@ -20,3 +36,10 @@ of the item with keyboard entry.
 * Mongoose
 * yarn (with scripting)
 * deployed to heroku
+
+
+## Development Team
+ * Joshua Gallaway
+ * Justin Gerow
+ * Craig "CBO" Bomba
+ * Don Vincent
