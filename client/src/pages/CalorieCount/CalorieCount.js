@@ -43,11 +43,6 @@ class CalorieCount extends Component {
         if (this.props.auth.isAuthenticated()) {
             // this.loadFood();
         }
-        if (this.state.meal === "") {
-            this.setState({
-                meal: "Dinner"
-            })
-        }
         API.getUser({
             username: this.props.username
         })
@@ -188,9 +183,6 @@ class CalorieCount extends Component {
         let meal = ""
         if (name === "meal") {
             meal = value
-        }
-        if (meal === "All") {
-            meal = "*"
         }
         this.setState({
             // [name]: value
