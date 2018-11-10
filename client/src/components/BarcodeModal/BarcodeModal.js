@@ -31,8 +31,7 @@ class BarcodeModal extends React.Component {
     }
 
     onResponseFromBarcode = response => {
-        // this.props.onResponseFromBarcode(response);
-        console.log("this is the responseFromIR: ", response.data)
+        // console.log("this is the responseFromIR: ", response.data)
         let now = new Date().getTime();
         let today = new Date();
         let breakfastStartTime = today.setHours(6, 0, 0, 0);
@@ -56,7 +55,7 @@ class BarcodeModal extends React.Component {
             this.resetModal();
         } else {
             this.setState({ results: response.data, secondDisplay: "reveal" })
-            console.log("this is from nutritionix: ", this.state.results)
+            // console.log("this is from nutritionix: ", this.state.results)
             this.setState({ firstDisplay: "d-none" })
         }
     }
@@ -66,8 +65,6 @@ class BarcodeModal extends React.Component {
     }
 
     initMedia = () => {
-        console.log(`********* initMedia *******`)
-
         navigator.mediaDevices.enumerateDevices().then(devices => {
             this.gotDevices(devices)
             this.setState({ constraints: { video: { deviceId: { exact: this.state.preferredDevice.deviceId } } } })
@@ -80,17 +77,17 @@ class BarcodeModal extends React.Component {
 
     gotDevices = (deviceInfos) => {
         // Handles being called several times to update labels. Preserve values.
-        console.log(`"===> the device infoS are: ${JSON.stringify(deviceInfos)}`)
+        // console.log(`"===> the device infoS are: ${JSON.stringify(deviceInfos)}`)
 
         let device_names = this.state.deviceNames
         let preferred_device = null
         for (let i = 0; i !== deviceInfos.length; ++i) {
             const deviceInfo = deviceInfos[i]
-            console.log(`"===> the device info is: ${JSON.stringify(deviceInfo)}`)
+            // console.log(`"===> the device info is: ${JSON.stringify(deviceInfo)}`)
             const option = document.createElement('option')
             option.value = deviceInfo.deviceId
             if (deviceInfo.kind === 'videoinput') {
-                console.log("==> now appending the vidoeselection of: " + deviceInfo.label)
+                // console.log("==> now appending the vidoeselection of: " + deviceInfo.label)
 
                 device_names.push(deviceInfo.label);
                 if (!this.state.preferredDevice) {
@@ -110,14 +107,13 @@ class BarcodeModal extends React.Component {
 
     gotStream = (stream) => {
         window.stream = stream; // make stream available to console
-        console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
+        // console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
         this.video.srcObject = stream;
         // Refresh button list in case labels have become available
         return navigator.mediaDevices.enumerateDevices();
     }
 
     stopUsingCamera = () => {
-        console.log(`******* stop using camera!!! **************`)
         if (window.stream) {
             window.stream.getTracks().forEach(track => {
                 track.stop();
@@ -134,7 +130,7 @@ class BarcodeModal extends React.Component {
         if (this.state.preferredDevice) {
             console.log(`the preferred Device id is: ${this.state.preferredDevice.deviceId}`)
         }
-        console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
+        // console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
         navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).catch(this.handleError)
     }
 
@@ -163,9 +159,8 @@ class BarcodeModal extends React.Component {
         this.image.setAttribute('src', snap);
         this.image.classList.add("visible");
         console.log(`going to hit the watson backend route now.....`)
-        // console.log(`about to send image.src of: ${this.image.src}`)
         API.callScanBarcode(this.image.src).then(response => {
-            console.log(`the response back from the image recognition is: ${JSON.stringify(response.data)}`)
+            // console.log(`the response back from the image recognition is: ${JSON.stringify(response.data)}`)
             this.onResponseFromBarcode(response.data)
         })
         this.video.pause();
@@ -193,7 +188,7 @@ class BarcodeModal extends React.Component {
     }
 
     handleConsume = () => {
-        console.log(JSON.stringify(this.state.results))
+        // console.log(JSON.stringify(this.state.results))
         this.setState({ secondDisplay: "d-none" })
         console.log("quantity: " + this.state.quantity)
         this.toggle()

@@ -50,14 +50,6 @@ class TextInputModal extends React.Component {
         if (response.code != "000") {
             alert(`something went wrong with the search.  Try again!`)
         } else {
-            // destructure the response 
-            // for now, backend is returning the top 5 responses in an array of hits
-            // let all = response.data.hits.map((oneitem, index) => {
-            //     let { item_name, nf_calories } = oneitem.fields  // example of destructuring on one item/row
-            // return (`<button>${index + 1}: ${item_name} ${nf_calories}</button>`)
-            // }).join('')         // use join with null to avoid commas in-between each item
-            // console.log(`the value for all is ${all}`)
-            // this.setState ({results: all})
             this.setState({ results: response.data.hits })
         }
     }
@@ -79,7 +71,7 @@ class TextInputModal extends React.Component {
         // this.toggle();
         event.preventDefault();
         API.nutritionixInstantSearch(this.state.searchedFood).then(response => {
-            console.log(`the response back from the search is: ${JSON.stringify(response.data)}`)
+            // console.log(`the response back from the search is: ${JSON.stringify(response.data)}`)
 
             this.onResponseFromNutritionix(response.data)
             // const { item_name, nf_calories } = response.data.hits[0].fields
@@ -90,7 +82,7 @@ class TextInputModal extends React.Component {
 
     // handles selection of food and calls API to place in database.   
     handleConsume = (index) => {
-        console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
+        // console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
         this.setState({ secondDisplay: "d-none" })
         console.log("quantity: " + this.state.quantity);
         console.log("meal: " + this.state.selectedMeal);

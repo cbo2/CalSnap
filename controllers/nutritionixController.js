@@ -23,7 +23,7 @@ module.exports = {
             const key = `&appKey=${appKey}`
             return axios.get(`https://api.nutritionix.com/v1_1/search/${searchTerm}${fields}${id}${key}`
             ).then(response => {
-                console.log(`got this from nutritionix: ${JSON.stringify(response.data)}`)
+                // console.log(`got this from nutritionix: ${JSON.stringify(response.data)}`)
                 return resolve(response.data)
             })
                 .catch(err => {
@@ -33,10 +33,10 @@ module.exports = {
         })
     },
     nutritionixInstantSearch: function (req, res) {
-        console.log(`** inside nutritionixInstantSearch and will search for: ${JSON.stringify(req.body.searchItem)}`)
+        // console.log(`** inside nutritionixInstantSearch and will search for: ${JSON.stringify(req.body.searchItem)}`)
         module.exports.nutritionixInstantSearchDirect(req.body.searchItem)
             .then(response => {
-                console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
+                // console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
                 res.send({ code: "000", data: response })
             })
             .catch(err => {
@@ -74,7 +74,7 @@ module.exports = {
                     "x-app-key": appKey
                 }
             }).then(response => {
-                console.log(`got this from nutritionix barcode.  Item is: ${response.data.foods[0].food_name} and calories are: ${response.data.foods[0].nf_calories}  ${JSON.stringify(response.data)}`)
+                // console.log(`got this from nutritionix barcode.  Item is: ${response.data.foods[0].food_name} and calories are: ${response.data.foods[0].nf_calories}  ${JSON.stringify(response.data)}`)
                 return resolve(response.data.foods[0])
             })
                 .catch(err => {
@@ -89,7 +89,7 @@ module.exports = {
         console.log(`** inside nutritionixBarcode and will search for: ${JSON.stringify(req.body.searchItem)}`)
         module.exports.nutritionixBarcodeDirect(req.body.searchItem)
             .then(response => {
-                console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
+                // console.log(`--> got a response back from nutritionix with: ${JSON.stringify(response)}`)
                 res.send({ code: "000", data: response })
             })
             .catch(err => {
