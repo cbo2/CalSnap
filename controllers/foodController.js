@@ -83,7 +83,7 @@ module.exports = {
           if (err) console.log(`ERROR:  could not remove file: ${temp}`)
         })
         const labelsvr = response.images[0].classifiers[0].classes[0].class;
-        console.log("===> got this from watson: " + JSON.stringify(labelsvr));
+        // console.log("===> got this from watson: " + JSON.stringify(labelsvr));
         if (labelsvr === "non-food") {
           console.log(`going to respond back to the front end that the item could not be identified`)
           res.send({ code: "ERR-100: Could not identify item!" })
@@ -99,7 +99,7 @@ module.exports = {
         console.log(`....going to call nutritionix now....`)
         nutritionixController.nutritionixInstantSearchDirect(response)
           .then(nutritionresponse => {
-            console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
+            // console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
             res.send({ code: "000", data: nutritionresponse })
           })
       })
@@ -165,7 +165,7 @@ module.exports = {
 
           nutritionixController.nutritionixBarcodeDirect(result.codeResult.code)
             .then(nutritionresponse => {
-              console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
+              // console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
               res.send({ code: "000", data: nutritionresponse })
             })
             .catch(error => {
