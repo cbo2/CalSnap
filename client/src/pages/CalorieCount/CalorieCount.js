@@ -67,6 +67,11 @@ class CalorieCount extends Component {
     }
 
     loadFood = () => {
+        // Calculate daily goal base on number of days
+        console.log("This is the # of days: ", Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24));
+        let dailyGoal = this.state.dailyGoal * (Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24))
+        this.setState({ dailyGoal });
+        console.log("This is the dailyGoal: ", dailyGoal);
         console.log(`=> initially when inside loadFood and fromDate is: [${this.state.fromDateDisplay} 00:00:00.999`)
         console.log(`=> initially when inside loadFood and toDate is: ${this.state.toDateDisplay}`)
         let today = moment(this.state.fromDateDisplay + " 00:00:00.000-0600").format("YYYY-MM-DD HH:mm:ss.SSS")
@@ -75,17 +80,26 @@ class CalorieCount extends Component {
         API.getFoodsbyUserAndDateRange({
             username: this.props.username,
             today,
-            tomorrow,
-            meal: this.state.meal
+            tomorrow
         })
-            .then(res =>
-                {this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
-                if (this.state.meal === "") {
-                {this.setState({ allFood: res.data })}
-                }
+            .then(res => {
+                this.setState({ food: res.data, allFood: res.data, item_name: "", nf_calories: "", quantity: "" })
             }
             ).then(res => this.doDashboardCalculation())
             .catch(err => console.log(err));
+        if (this.state.meal === "Breakfast" || "Lunch" || "Dinner" || "Snack") {
+            API.getFoodsbyUserAndDateRangeAndMeal({
+                username: this.props.username,
+                today,
+                tomorrow,
+                meal: this.state.meal
+            })
+                .then(res => {
+                    this.setState({ food: res.data })
+                }
+                ).then(res => this.doDashboardCalculation())
+                .catch(err => console.log(err));
+        }
     };
 
     // finds sum of total calories in food array and subtracts from daily goal
@@ -94,7 +108,7 @@ class CalorieCount extends Component {
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
         // console.log(`in dashboard for foods=> ${JSON.stringify(this.state.food)}`)
-        if (this.state.food.length === 0) {   // if null then return
+        if (this.state.allFood.length === 0) {   // if null then return
             console.log(`NO FOOD for date!`)
             return;
         }
