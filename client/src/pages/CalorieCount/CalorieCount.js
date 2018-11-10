@@ -88,9 +88,9 @@ class CalorieCount extends Component {
         })
             .then(res => {
                 this.setState({ food: res.data, allFood: res.data, item_name: "", nf_calories: "", quantity: "" })
+                this.doDashboardCalculation()
             }
             ).then(res => {
-                this.doDashboardCalculation()
                 if (this.state.meal === "Breakfast" || "Lunch" || "Dinner" || "Snack") {
                     API.getFoodsbyUserAndDateRangeAndMeal({
                         username: this.props.username,

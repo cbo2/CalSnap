@@ -261,7 +261,7 @@ class VideoModal extends React.Component {
                           value={this.state.selectedMeal}
                           onChange={e => this.setState({ selectedMeal: e.target.value })}
                         >
-                          <option>BreakFast</option>
+                          <option>Breakfast</option>
                           <option>Lunch</option>
                           <option>Dinner</option>
                           <option>Snack</option>
