@@ -85,21 +85,21 @@ class CalorieCount extends Component {
             .then(res => {
                 this.setState({ food: res.data, allFood: res.data, item_name: "", nf_calories: "", quantity: "" })
             }
-            ).then(res => this.doDashboardCalculation())
-            .catch(err => console.log(err));
-        if (this.state.meal === "Breakfast" || "Lunch" || "Dinner" || "Snack") {
-            API.getFoodsbyUserAndDateRangeAndMeal({
-                username: this.props.username,
-                today,
-                tomorrow,
-                meal: this.state.meal
-            })
-                .then(res => {
-                    this.setState({ food: res.data })
+            ).then(res => {
+                this.doDashboardCalculation()
+                if (this.state.meal === "Breakfast" || "Lunch" || "Dinner" || "Snack") {
+                    API.getFoodsbyUserAndDateRangeAndMeal({
+                        username: this.props.username,
+                        today,
+                        tomorrow,
+                        meal: this.state.meal
+                    })
+                    .then(res => {
+                        this.setState({ food: res.data })
+                    }).then(res => this.doDashboardCalculation())
                 }
-                ).then(res => this.doDashboardCalculation())
-                .catch(err => console.log(err));
-        }
+            })
+            .catch(err => console.log(err));
     };
 
     // finds sum of total calories in food array and subtracts from daily goal
