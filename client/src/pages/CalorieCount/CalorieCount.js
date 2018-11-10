@@ -43,7 +43,11 @@ class CalorieCount extends Component {
         if (this.props.auth.isAuthenticated()) {
             // this.loadFood();
         }
-
+        if (this.state.meal === "") {
+            this.setState({
+                meal: "Dinner"
+            })
+        }
         API.getUser({
             username: this.props.username
         })
@@ -112,9 +116,9 @@ class CalorieCount extends Component {
 
         // this updates progress bar color base on value
         if (this.state.progress > 75) {
-            this.setState({ progressColor: "danger"})
+            this.setState({ progressColor: "danger" })
         } else if (this.state.progress < 75 && this.state.progress > 60) {
-            this.setState({ progressColor: "warning"})
+            this.setState({ progressColor: "warning" })
         } else if (this.state.progress < 60) {
             this.setState({ progressColor: "success" })
         }
@@ -159,40 +163,40 @@ class CalorieCount extends Component {
         console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
         let fromDate = ""
         let toDate = ""
-        let meal =""
-        if ( name === "meal") {
-            meal = value
-        }
-        if (meal === "All") {
-            meal = "*"
-            this.setState({
-                meal
-            })
-        } else {
-            this.setState({
-                meal
-            })
-        }
         if (name === "fromDateDisplay") {
             toDate = fromDate = value
         } else {
             fromDate = this.state.fromDateDisplay
             toDate = value
         }
-
         if (fromDate > toDate) {
             alert("Invalid Date Selection! Try again...")
         } else {
             console.log(`should be changing fromDateDisplay to ${fromDate} and toDateDisplay to ${toDate}`)
             this.setState({
                 // [name]: value
-                meal,
                 fromDateDisplay: fromDate,
                 toDateDisplay: toDate
             }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
         }
     };
 
+
+    handleMealChange = event => {
+        const { name, value } = event.target;
+        console.log(`=> should be changing ${name} in handleDateChange to: ${value}`)
+        let meal = ""
+        if (name === "meal") {
+            meal = value
+        }
+        if (meal === "All") {
+            meal = "*"
+        }
+        this.setState({
+            // [name]: value
+            meal: meal
+        }, () => { this.loadFood() })   // call to loadFood only AFTER setState is finished!
+    };
 
     handleSearchResponse = response => {
         console.log(`*** inside callback from Search and about to reload state from the Mongo ***`)
@@ -216,8 +220,8 @@ class CalorieCount extends Component {
 
                         <Col xl="12">
                             <div className="bar-row">
-                            {/* <div className="text-center">{this.state.progress}%</div> */}
-                            <Progress color={this.state.progressColor}value={this.state.progress} />
+                                {/* <div className="text-center">{this.state.progress}%</div> */}
+                                <Progress color={this.state.progressColor} value={this.state.progress} />
                             </div>
                         </Col>
                     </Row>
@@ -246,11 +250,11 @@ class CalorieCount extends Component {
                             <Label for="meal-select" className="col-form-label" id="label">Meal: </Label>
                             <Input
                                 type="select"
-                                name="mealSelect"
+                                name="meal"
                                 id="meal-select"
                                 className="form-control form-control-sm selector"
                                 value={this.state.meal}
-                                onChange={this.handleDateChange}
+                                onChange={this.handleMealChange}
                             >
                                 <option>All</option>
                                 <option>BreakFast</option>

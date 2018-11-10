@@ -152,9 +152,9 @@ class UpdateModal extends React.Component {
                                 <Col>
                                     <Input
                                         type="date"
-                                        name="date"
+                                        name="date_consumed"
                                         id="date"
-                                        className="form-control-sm"
+                                        className="form-control form-control-sm"
                                         value={this.state.date_consumed}
                                         onChange={e => this.setState({ date_consumed: e.target.date_consumed })}
                                     >
