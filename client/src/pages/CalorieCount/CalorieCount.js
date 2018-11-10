@@ -55,7 +55,7 @@ class CalorieCount extends Component {
                         .then(res => console.log("User created: ", res.data))
                         .catch(err => console.log(err));
                 } else {
-                    console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
+                    // console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
                     this.setState({ dailyGoal: res.data.calorieGoal }, () => {
                         this.loadFood()
                     })
@@ -93,8 +93,8 @@ class CalorieCount extends Component {
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
-        console.log(`in dashboard for foods=> ${JSON.stringify(this.state.allFood)}`)
-        if (this.state.allFood.length === 0) {   // if null then return
+        // console.log(`in dashboard for foods=> ${JSON.stringify(this.state.food)}`)
+        if (this.state.food.length === 0) {   // if null then return
             console.log(`NO FOOD for date!`)
             return;
         }

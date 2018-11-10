@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Modal, Row, Col, ModalHeader, ModalBody, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./BarcodeModal.css";
 import moment from "moment"
@@ -51,7 +51,7 @@ class BarcodeModal extends React.Component {
             this.setState({ selectedMeal: "Snack" })
         }
         // this.setState({ secondDisplay: "reveal" })
-        if (response.code != "000") {
+        if (response.code !== "000") {
             alert(`Image is not identifyable!`)
             this.resetModal();
         } else {
@@ -272,7 +272,6 @@ class BarcodeModal extends React.Component {
                                             value={this.state.quantity}
                                             id="quantityText"
                                             className="form-control form-control-sm modal-quantity-selector"
-                                            value={this.state.quantity}
                                             onChange={e => this.setState({ quantity: e.target.value })}
                                         >
                                         </Input>
