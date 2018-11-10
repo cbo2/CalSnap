@@ -56,10 +56,12 @@ class CalorieCount extends Component {
                         .catch(err => console.log(err));
                 } else {
                     console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)
-                    this.setState({ dailyGoal: res.data.calorieGoal })
+                    this.setState({ dailyGoal: res.data.calorieGoal }, () => {
+                        this.loadFood()
+                    })
                 }
             })
-            .then(this.loadFood())
+            // .then(this.loadFood())
             .catch(err => console.log(err));
 
     }
