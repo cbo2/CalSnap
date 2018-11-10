@@ -22,7 +22,6 @@ class CalorieCount extends Component {
 
         this.state = {
             dailyGoal: 2000,
-            goal: 2000,
             actual: 0,
             remaining: 0,
             progress: 0,
@@ -102,7 +101,7 @@ class CalorieCount extends Component {
     doDashboardCalculation = () => {
         // Calculate daily goal base on number of days
         console.log("This is the # of days: ", Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24));
-        let dailyGoal = this.state.dailyGoal * Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24);
+        let dailyGoal = this.state.dailyGoal * (Math.round(moment(this.state.toDateDisplay).add(1, "d").unix() - moment(this.state.fromDateDisplay).unix()) / (60 * 60 * 24))
         this.setState({ dailyGoal });
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
