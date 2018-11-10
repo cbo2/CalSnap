@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from 'reactstrap';
 import "./About.css";
 import photo from "../pages/assets/logo-01.png"
+import tech from "../pages/assets/tech.png"
 
 const About = () => (
 
@@ -43,6 +44,11 @@ const About = () => (
         <li>Craig "CBO" Bomba</li>
         <li>Don Vincent</li>
       </ul>
+      <Row>
+        <Col>
+          <img src={tech} alt="CalSnap" className="tech-photo"></img>
+        </Col>
+      </Row>
 
     </Container>
   </div>
