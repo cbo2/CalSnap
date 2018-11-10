@@ -53,7 +53,10 @@ class CalorieCount extends Component {
                     API.createUser({
                         username: this.props.username
                     })
-                        .then(res => console.log("User created: ", res.data))
+                        .then(res => 
+                            {console.log("User created: ", res.data)
+                            this.loadFood();
+                        })
                         .catch(err => console.log(err));
                 } else {
                     // console.log(`===> the response from getting the user on mouting is: ${JSON.stringify(res.data)}`)

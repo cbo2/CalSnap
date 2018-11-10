@@ -9,7 +9,7 @@ const About = () => (
     <Container>
       <Row>
         <Col>
-          <img src={photo} className="logo-photo"></img>
+          <img src={photo} alt="CalSnap" className="logo-photo"></img>
         </Col>
       </Row>
       
