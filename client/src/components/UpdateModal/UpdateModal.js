@@ -105,7 +105,7 @@ class UpdateModal extends React.Component {
     render() {
         return (
             <div>
-                <a onClick={this.toggle}>{this.props.buttonLabel}{this.props.inputVal}</a>
+                <button className="btn btn-link btn-no-style" onClick={this.toggle}>{this.props.buttonLabel}{this.props.inputVal}</button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>{this.props.inputVal}</ModalHeader>
                     <ModalBody>
