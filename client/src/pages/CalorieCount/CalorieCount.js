@@ -29,6 +29,7 @@ class CalorieCount extends Component {
             isVideoModalOpen: false,
             searchItem: "orange",
             food: [],
+            allFood: [],
             calValues: [],
             item_name: "",
             nf_calories: 0,
@@ -78,7 +79,11 @@ class CalorieCount extends Component {
             meal: this.state.meal
         })
             .then(res =>
-                this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
+                {this.setState({ food: res.data, item_name: "", nf_calories: "", quantity: "" })
+                if (this.state.meal === "") {
+                {this.setState({ allFood: res.data })}
+                }
+            }
             ).then(res => this.doDashboardCalculation())
             .catch(err => console.log(err));
     };
@@ -88,13 +93,13 @@ class CalorieCount extends Component {
         this.setState({ calValues: [] })
         this.setState({ actual: 0 })
         this.setState({ remaining: this.state.dailyGoal })
-        console.log(`in dashboard for foods=> ${JSON.stringify(this.state.food)}`)
-        if (this.state.food.length === 0) {   // if null then return
+        console.log(`in dashboard for foods=> ${JSON.stringify(this.state.allFood)}`)
+        if (this.state.allFood.length === 0) {   // if null then return
             console.log(`NO FOOD for date!`)
             return;
         }
-        this.state.food.map(food => (
-            this.setState({ calValues: this.state.calValues.concat(food.nf_calories) })
+        this.state.allFood.map(allFood => (
+            this.setState({ calValues: this.state.calValues.concat(allFood.nf_calories) })
         ))
         const add = (a, b) => a + b
         const sum = (this.state.calValues).reduce(add)
@@ -183,6 +188,9 @@ class CalorieCount extends Component {
         let meal = ""
         if (name === "meal") {
             meal = value
+        }
+        if (meal === "All") {
+            meal = ""
         }
         this.setState({
             // [name]: value
