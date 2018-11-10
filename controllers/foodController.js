@@ -83,7 +83,7 @@ module.exports = {
           if (err) console.log(`ERROR:  could not remove file: ${temp}`)
         })
         const labelsvr = response.images[0].classifiers[0].classes[0].class;
-        console.log("===> got this from watson: " + JSON.stringify(labelsvr));
+        // console.log("===> got this from watson: " + JSON.stringify(labelsvr));
         if (labelsvr === "non-food") {
           console.log(`going to respond back to the front end that the item could not be identified`)
           res.send({ code: "ERR-100: Could not identify item!" })
@@ -99,7 +99,7 @@ module.exports = {
         console.log(`....going to call nutritionix now....`)
         nutritionixController.nutritionixInstantSearchDirect(response)
           .then(nutritionresponse => {
-            console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
+            // console.log(`==> got this back from nutritiionix and going back to the front: ${nutritionresponse}`)
             res.send({ code: "000", data: nutritionresponse })
           })
       })
@@ -165,7 +165,7 @@ module.exports = {
 
           nutritionixController.nutritionixBarcodeDirect(result.codeResult.code)
             .then(nutritionresponse => {
-              console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
+              // console.log(`==> got this back from nutritiionix and going back to the front: ${JSON.stringify(nutritionresponse)}`)
               res.send({ code: "000", data: nutritionresponse })
             })
             .catch(error => {
@@ -181,11 +181,11 @@ module.exports = {
   },
   findbyId: function (req, res) {
     db.Food
-    .find({ _id: req.params.id })
-    .then(dbModel => {
-      return res.json(dbModel)
-    })
-    .catch(err => res.status(422).json(err));
+      .find({ _id: req.params.id })
+      .then(dbModel => {
+        return res.json(dbModel)
+      })
+      .catch(err => res.status(422).json(err));
   },
   findAllbyUser: function (req, res) {
     db.Food
@@ -198,8 +198,17 @@ module.exports = {
   },
   findAllbyUserAndDateRange: function (req, res) {
     db.Food
-      .find({ username: req.params.username, date: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
-      .sort({ date: -1 })
+      .find({ username: req.params.username, date_consumed: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
+      .sort({ date_added: -1 })
+      .then(dbModel => {
+        return res.json(dbModel)
+      })
+      .catch(err => res.status(422).json(err));
+  },
+  findAllbyUserAndDateRangeAndMeal: function (req, res) {
+    db.Food
+      .find({ username: req.params.username, meal: req.params.meal, date_consumed: { "$gte": new Date(req.params.today), "$lt": new Date(req.params.tomorrow) } })
+      .sort({ date_added: -1 })
       .then(dbModel => {
         return res.json(dbModel)
       })
@@ -214,14 +223,14 @@ module.exports = {
       .then(dbUser => res.json(dbUser))
       .catch(err => res.status(422).json(err));
   },
-    update: function(req, res) {
-      console.log(req.params.id);
-      console.log(req.body);
-      db.Food
-        .findOneAndUpdate({ _id: req.params.id }, req.body)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-    },
+  update: function (req, res) {
+    console.log(req.params.id);
+    console.log(req.body);
+    db.Food
+      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   // Remove Food from User
   remove: function (req, res) {
     db.Food

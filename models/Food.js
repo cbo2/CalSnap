@@ -11,7 +11,9 @@ var FoodSchema = new Schema({
   nf_total_carbohydrate: Number,
   username: String,
   meal: String,
-  date: Date
+  date_consumed: Date,
+  date_added: Date,
+  date_modified: Date
 });
 
 // This creates our model from the above schema, using mongoose's model method

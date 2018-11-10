@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Modal, Row, Col, ModalHeader, ModalBody, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Modal, Row, Col, ModalHeader, ModalBody, Input } from 'reactstrap';
 import API from "../../utils/API";
 import "./VideoModal.css";
-
+import moment from "moment"
 
 class VideoModal extends React.Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class VideoModal extends React.Component {
       this.resetModal();
     } else {
       this.setState({ results: response.data.hits, secondDisplay: "reveal" })
-      console.log("this is from nutritionix: ", this.state.results)
+      // console.log("this is from nutritionix: ", this.state.results)
       this.setState({ firstDisplay: "d-none" })
     }
   }
@@ -67,7 +67,6 @@ class VideoModal extends React.Component {
   }
 
   initMedia = () => {
-    console.log(`********* initMedia *******`)
 
     navigator.mediaDevices.enumerateDevices().then(devices => {
       this.gotDevices(devices)
@@ -81,17 +80,17 @@ class VideoModal extends React.Component {
 
   gotDevices = (deviceInfos) => {
     // Handles being called several times to update labels. Preserve values.
-    console.log(`"===> the device infoS are: ${JSON.stringify(deviceInfos)}`)
+    // console.log(`"===> the device infoS are: ${JSON.stringify(deviceInfos)}`)
 
     let device_names = this.state.deviceNames
     let preferred_device = null
     for (let i = 0; i !== deviceInfos.length; ++i) {
       const deviceInfo = deviceInfos[i]
-      console.log(`"===> the device info is: ${JSON.stringify(deviceInfo)}`)
+      // console.log(`"===> the device info is: ${JSON.stringify(deviceInfo)}`)
       const option = document.createElement('option')
       option.value = deviceInfo.deviceId
       if (deviceInfo.kind === 'videoinput') {
-        console.log("==> now appending the vidoeselection of: " + deviceInfo.label)
+        // console.log("==> now appending the vidoeselection of: " + deviceInfo.label)
 
         device_names.push(deviceInfo.label);
         if (!this.state.preferredDevice) {
@@ -111,14 +110,14 @@ class VideoModal extends React.Component {
 
   gotStream = (stream) => {
     window.stream = stream; // make stream available to console
-    console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
+    // console.log(`=== now setting the window stream to: ${JSON.stringify(stream)}`)
     this.video.srcObject = stream;
     // Refresh button list in case labels have become available
     return navigator.mediaDevices.enumerateDevices();
   }
 
   stopUsingCamera = () => {
-    console.log(`******* stop using camera!!! **************`)
+    // console.log(`******* stop using camera!!! **************`)
     if (window.stream) {
       window.stream.getTracks().forEach(track => {
         track.stop();
@@ -135,7 +134,7 @@ class VideoModal extends React.Component {
     if (this.state.preferredDevice) {
       console.log(`the preferred Device id is: ${this.state.preferredDevice.deviceId}`)
     }
-    console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
+    // console.log(`the constraints is: ${JSON.stringify(this.state.constraints)}`)
     navigator.mediaDevices.getUserMedia(this.state.constraints).then(this.gotStream).then(this.gotDevices).catch(this.handleError)
   }
 
@@ -164,9 +163,8 @@ class VideoModal extends React.Component {
     this.image.setAttribute('src', snap);
     this.image.classList.add("visible");
     console.log(`going to hit the watson backend route now.....`)
-    // console.log(`about to send image.src of: ${this.image.src}`)
     API.callImageRecognition(this.image.src).then(response => {
-      console.log(`the response back from the image recognition is: ${JSON.stringify(response.data)}`)
+      // console.log(`the response back from the image recognition is: ${JSON.stringify(response.data)}`)
       this.onResponseFromIR(response.data)
     })
     this.video.pause();
@@ -195,7 +193,6 @@ class VideoModal extends React.Component {
 
   // handles selection of food and calls API to place in database.   
   handleConsume = (index) => {
-    console.log(`This is the selected item: ${JSON.stringify(this.state.results[index])}`)
     this.setState({ secondDisplay: "d-none" })
     console.log("quantity: " + this.state.quantity);
     console.log("meal: " + this.state.selectedMeal);
@@ -214,7 +211,9 @@ class VideoModal extends React.Component {
       nf_total_carbohydrate: results[index].fields.nf_total_carbohydrate * quantity,
       username: this.props.username,
       meal: selectedMeal,
-      date: new Date()
+      date_consumed: moment(this.props.date + " 00:00:00.000-0600").format("YYYY-MM-DD HH:mm:ss.SSS"),
+      date_added: new Date(),
+      date_modified: new Date()
     })
       .then(this.onResponseFromSearch)
       .catch(err => console.log(err))
@@ -277,7 +276,6 @@ class VideoModal extends React.Component {
                           value={this.state.quantity}
                           id="quantityText"
                           className="form-control form-control-sm modal-quantity-selector"
-                          value={this.state.quantity}
                           onChange={e => this.setState({ quantity: e.target.value })}
                         >
                         </Input>
