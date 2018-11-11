@@ -62,11 +62,11 @@ app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 
     // keep app alive on heroku -- since heroku sleeps all apps with 1 hour of inactivity!
-    var http = require("http");
-    setInterval(function () {
-        console.log(`pinging ourselves now on: ${BASE_URL}`)
-        http.get(BASE_URL);
-    }, 300000); // every 5 minutes (300000)
+    // var http = require("http");
+    // setInterval(function () {
+    //     console.log(`pinging ourselves now on: ${BASE_URL}`)
+    //     http.get(BASE_URL);
+    // }, 300000); // every 5 minutes (300000)
 });
 
 module.exports = app;
