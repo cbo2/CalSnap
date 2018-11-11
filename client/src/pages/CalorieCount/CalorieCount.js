@@ -277,7 +277,7 @@ class CalorieCount extends Component {
                                 onChange={this.handleMealChange}
                             >
                                 <option>All</option>
-                                <option>BreakFast</option>
+                                <option>Breakfast</option>
                                 <option>Lunch</option>
                                 <option>Dinner</option>
                                 <option>Snack</option>
