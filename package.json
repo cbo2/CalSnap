@@ -35,6 +35,7 @@
     "node": "^10.8.0",
     "path": "^0.12.7",
     "quagga": "^0.12.1",
+    "event-stream": "3.3.4",
     "uuid": "^3.3.2",
     "watson-developer-cloud": "^3.12.0"
   }
