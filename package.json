@@ -19,6 +19,9 @@
     "concurrently": "^3.5.0",
     "nodemon": "^1.11.0"
   },
+  "engines": {
+    "node": "10.8.0"
+  },
   "dependencies": {
     "auth0": "^2.13.0",
     "axios": "^0.16.2",
