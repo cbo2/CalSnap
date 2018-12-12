@@ -20,7 +20,7 @@
     "nodemon": "^1.11.0"
   },
   "engines": {
-    "node": "10.8.0"
+    "node": "10.9.0"
   },
   "dependencies": {
     "auth0": "^2.13.0",
@@ -32,7 +32,7 @@
     "if-env": "^1.0.4",
     "inquirer": "^6.2.0",
     "mongoose": "^5.0.17",
-    "node": "^10.8.0",
+    "node": "^10.9.0",
     "path": "^0.12.7",
     "quagga": "^0.12.1",
     "event-stream": "3.3.4",
