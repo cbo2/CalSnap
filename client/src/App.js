@@ -11,7 +11,7 @@ import './App.css';
 const App = (props) => (
   <Router>
     <div>
-      <Nav {...props}/>
+      <Nav {...props} />
       <Switch>
         <Route exact path="/" render={() => <CalorieCount {...props} />} />
         <Route path="/callback" render={() => <Callback {...props} />} />
