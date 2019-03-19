@@ -1,4 +1,4 @@
-![Logo](ReadmeAssets/logo-01.png)
+<!-- ![Logo](ReadmeAssets/logo-01.png) -->
 
 
 # CalSnap
