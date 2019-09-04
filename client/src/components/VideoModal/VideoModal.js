@@ -12,11 +12,12 @@ class VideoModal extends React.Component {
     this.state = {
       modal: false,
       constraints: {
-        video: {
-          deviceId: { exact: undefined },
-          height: { ideal: 1080 },
-          width: { ideal: 1920 }
-        }
+        video: true
+        // video: {
+        //   deviceId: { exact: undefined },
+        //   height: { ideal: 1080 },
+        //   width: { ideal: 1920 }
+        // }
       },
       deviceNames: [],
       preferredDevice: null,
@@ -98,9 +99,8 @@ class VideoModal extends React.Component {
           preferred_device = deviceInfo    // take a camera of some kind
         } else {
           // if (deviceInfo.label === "Back Camera") {
-          if (deviceInfo.label.match('rear|environment')) {     // regex to match for back/Back camera
-              // if (deviceInfo.label.match('[Bb]ack|rear|environment')) {     // regex to match for back/Back camera
-                console.log(`now setting the preffered device to back camera: ${JSON.stringify(deviceInfo)}`)
+          if (deviceInfo.label.match('[Bb]ack')) {     // regex to match for back/Back camera
+            console.log(`now setting the preffered device to back camera: ${JSON.stringify(deviceInfo)}`)
             preferred_device = deviceInfo   // prefer the back camera!
           }
         }
