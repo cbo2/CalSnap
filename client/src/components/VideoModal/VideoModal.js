@@ -77,7 +77,7 @@ class VideoModal extends React.Component {
         return devices;
       }).then(stream => {
       }).catch(this.handleError);
-    }
+    })
   }
 
   gotDevices = (deviceInfos) => {
