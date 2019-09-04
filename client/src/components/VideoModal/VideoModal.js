@@ -67,6 +67,7 @@ class VideoModal extends React.Component {
   }
 
   initMedia = () => {
+    navigator.mediaDevices.getUserMedia({video:true}).then(stream => {
       navigator.mediaDevices.enumerateDevices().then(devices => {
         this.gotDevices(devices)
         this.setState({ constraints: { video: { deviceId: { exact: this.state.preferredDevice.deviceId } } } })
@@ -74,6 +75,7 @@ class VideoModal extends React.Component {
         return devices;
       }).then(stream => {
       }).catch(this.handleError);
+    })   
   }
 
   gotDevices = (deviceInfos) => {
