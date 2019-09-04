@@ -68,14 +68,16 @@ class VideoModal extends React.Component {
 
   initMedia = () => {
 
-    navigator.mediaDevices.enumerateDevices().then(devices => {
-      this.gotDevices(devices)
-      this.setState({ constraints: { video: { deviceId: { exact: this.state.preferredDevice.deviceId } } } })
-      console.log(`*** the preferred deviceid now set to: ${this.state.constraints.video.deviceId.exact}`)
-      return devices;
-    }).then(stream => {
-    }).catch(this.handleError);
-
+    navigator.mediaDevices.getUserMedia({video:true}).then(stream => {
+      navigator.mediaDevices.enumerateDevices().then(devices => {
+        this.gotDevices(devices)
+        this.setState({ constraints: { video: { deviceId: { exact: this.state.preferredDevice.deviceId } } } })
+        console.log(`*** the preferred deviceid now set to: ${this.state.constraints.video.deviceId.exact}`)
+        return devices;
+      }).then(stream => {
+      }).catch(this.handleError);
+    })
+    
   }
 
   gotDevices = (deviceInfos) => {
@@ -98,7 +100,7 @@ class VideoModal extends React.Component {
           preferred_device = deviceInfo    // take a camera of some kind
         } else {
           // if (deviceInfo.label === "Back Camera") {
-          if (deviceInfo.label.match('[Bb]ack')) {     // regex to match for back/Back camera
+          if (deviceInfo.label.match('[Bb]ack|rear|environment')) {     // regex to match for back/Back camera
             console.log(`now setting the preffered device to back camera: ${JSON.stringify(deviceInfo)}`)
             preferred_device = deviceInfo   // prefer the back camera!
           }
