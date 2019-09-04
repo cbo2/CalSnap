@@ -13,7 +13,7 @@ class VideoModal extends React.Component {
       modal: false,
       constraints: {
         video: {
-          deviceId: { exact: "environment" },
+          deviceId: { exact: undefined },
           height: { ideal: 1080 },
           width: { ideal: 1920 }
         }
