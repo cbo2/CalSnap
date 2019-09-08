@@ -66,6 +66,7 @@ app.listen(PORT, function () {
     setInterval(function () {
         console.log(`pinging ourselves now on: ${BASE_URL}`)
         https.get(BASE_URL);
+        https.get("whetherornot.herokuapp.com");
     }, 300000); // every 5 minutes (300000)
 });
 
