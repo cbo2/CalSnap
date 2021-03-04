@@ -23,7 +23,7 @@
     "node": "12.6.0"
   },
   "dependencies": {
-    "auth0": "^2.13.0",
+    "auth0": "^2.27.1",
     "axios": "^0.21.1",
     "bluebird": "^3.5.2",
     "dotenv": "^6.1.0",
