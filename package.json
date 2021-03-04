@@ -20,23 +20,23 @@
     "nodemon": "^1.11.0"
   },
   "engines": {
-    "node": "12.6.0"
+    "node": "15.9.0"
   },
   "dependencies": {
     "auth0": "^2.13.0",
     "axios": "^0.16.2",
     "bluebird": "^3.5.2",
     "dotenv": "^6.1.0",
+    "event-stream": "3.3.4",
     "express": "^4.16.3",
     "fs": "^0.0.1-security",
+    "https": "1.0.0",
     "if-env": "^1.0.4",
     "inquirer": "^6.2.0",
     "mongoose": "^5.0.17",
     "node": "^10.9.0",
-    "https": "1.0.0",
     "path": "^0.12.7",
     "quagga": "^0.12.1",
-    "event-stream": "3.3.4",
     "uuid": "^3.3.2",
     "watson-developer-cloud": "^3.12.0"
   }
