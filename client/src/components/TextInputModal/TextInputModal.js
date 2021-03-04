@@ -16,7 +16,6 @@ class TextInputModal extends React.Component {
             firstDisplay: "reveal",
             secondDisplay: "d-none",
             results: [],
-            selectedItem: [],
             quantity: 1,
             selectedMeal: ""
         };
@@ -60,8 +59,7 @@ class TextInputModal extends React.Component {
             modal: !this.state.modal,
             firstDisplay: "reveal",
             secondDisplay: "d-none",
-            searchedFood: "",
-            quantity: 1
+            searchedFood: ""
         });
     }
 

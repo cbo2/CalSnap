@@ -145,8 +145,7 @@ class BarcodeModal extends React.Component {
         this.setState({
             modal: new_modal_state,
             firstDisplay: "reveal",
-            secondDisplay: "d-none",
-            quantity: 1
+            secondDisplay: "d-none"
         });
         if (new_modal_state) {
             this.start()
@@ -204,7 +203,7 @@ class BarcodeModal extends React.Component {
 
         API.createFood({
             item_name: results.food_name,
-            quantity: quantity,
+            quantity,
             nf_calories: results.nf_calories * quantity,
             nf_protein: results.nf_protein * quantity,
             nf_serving_size_unit: results.serving_unit,
@@ -216,7 +215,7 @@ class BarcodeModal extends React.Component {
             date_modified: new Date()
         })
             .then(this.onResponseFromSearch)
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
     }
 
     onResponseFromSearch = () => {
@@ -229,7 +228,7 @@ class BarcodeModal extends React.Component {
                 <Button color="danger" className="snap-button" onClick={this.toggle}><i className="fas fa-barcode"></i></Button>
                 <Modal isOpen={this.state.modal} id="video-modal" toggle={this.toggle} className={this.props.className}>
                     <ModalHeader className={this.state.firstDisplay} toggle={this.toggle}>Touch image to snap barcode!</ModalHeader>
-                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings to eat:</ModalHeader>
+                    <ModalHeader className={this.state.secondDisplay} toggle={this.toggle}>Enter number of servings:</ModalHeader>
                     <ModalBody>
                         <div id="videoimage" className={this.state.firstDisplay}>
                             <video ref={video => { this.video = video }} onClick={this.videoOnClick} className="videoInsert img-fluid" playsInline autoPlay />
