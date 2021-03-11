@@ -20,7 +20,7 @@
     "nodemon": "^1.11.0"
   },
   "engines": {
-    "node": "15.9.0"
+    "node": "15.11.0"
   },
   "dependencies": {
     "auth0": "^2.13.0",
